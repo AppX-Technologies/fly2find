@@ -167,6 +167,20 @@ const registerPilotFormRows = [
         default: 12,
         xs: 12,
         field: {
+          id: 'phoneNumber',
+          title: 'Phone (Required for Beta Testers)',
+          type: 'text',
+          required: true
+        }
+      }
+    ]
+  },
+  {
+    columns: [
+      {
+        default: 12,
+        xs: 12,
+        field: {
           id: 'heard',
           title: 'How did you hear of us?',
           type: 'text-area',

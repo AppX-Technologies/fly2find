@@ -25,7 +25,7 @@ const Registration = () => {
     );
   };
   return (
-    <div className="bg-gradient">
+    <div className="bg-gradient-light">
       <NavBar />
       <Container fluid className="px-2 px-lg-5">
         {getActivePage()}

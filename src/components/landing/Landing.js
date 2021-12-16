@@ -26,7 +26,7 @@ const section2Texts = [
 
 const LandingPage = () => {
   const onLearnMoreClick = () => {
-    const section = document.getElementById('section1');
+    const section = document.getElementById('joinUsSection');
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }

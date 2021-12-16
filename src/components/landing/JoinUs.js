@@ -12,7 +12,7 @@ const finalPoints = [
 
 const JoinUs = () => {
   return (
-    <Row>
+    <Row id='joinUsSection'>
       <Col xs={12} md={8} className="align-self-center p-4">
         <Alert variant="primary" className="mb-0 text-white">
           <ul className="mb-0" style={{ listStyleType: 'none' }}>

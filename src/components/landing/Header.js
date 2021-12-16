@@ -13,7 +13,7 @@ const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
         </h1>
         <h6>{headerSubtitle}</h6>
         <Button variant="dark" className=" mt-4" onClick={onLearnMoreClick}>
-          Learn more
+          Join Now
           <ArrowDownCircle className="ml-2" size={16} />
         </Button>
       </Col>
