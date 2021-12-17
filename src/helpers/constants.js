@@ -6,7 +6,7 @@ export const LOGIN_PATH =
 export const TOKEN_INFO_PATH = 'https://oauth2.googleapis.com/tokeninfo?id_token=';
 export const API_KEY = 'fkajshd^*@#&$(ajshdfuaiwe#(@)*$&@(*faksdjfiwekajdsfwaj8923288(*8HF(H*fa273HF&^';
 export const SCRIPT_PROD_URL =
-  'https://script.google.com/macros/s/AKfycbxOGfksYsWMlgSfDNJ2P-arlT_4Gd8QpWcMVC8Yh7owxv_lK6FMYcmnCcZxp4_pqFwm/exec';
+  'https://script.google.com/macros/s/AKfycbzOKqZEPn2RVjMPulS-rliMOdmkKfk0YIsK5XkfQvh2Znh3RBZD_5iHWNerjg66VysoqA/exec';
 export const BRAND_NAME = 'Fly2Find';
 
 export const labelToKeyMap = {

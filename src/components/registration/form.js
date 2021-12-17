@@ -89,7 +89,7 @@ const registerPilotFormRows = [
         default: 12,
         field: {
           id: 'whereToSend',
-          title: 'Where to send it?',
+          title: 'How would you like to get notified?',
           type: 'block-select',
           options: ['Text', 'Email', 'Voice Call'],
           required: true,
@@ -108,7 +108,8 @@ const registerPilotFormRows = [
           id: 'homeAirportCode',
           title: 'Home Airport Code',
           type: 'text',
-          required: true
+          required: true,
+          maxLength: 4
         }
       },
       {
@@ -143,32 +144,20 @@ const registerPilotFormRows = [
         default: 6,
         xs: 12,
         field: {
-          id: 'taleNumber',
-          title: 'Tale Number',
+          id: 'tailNumber',
+          title: 'Tail Number',
           type: 'text',
-          required: true
+          required: true,
+          maxLength: '6',
+          onChange: 'capitalizeTailNumber'
         }
       },
       {
         default: 6,
         xs: 12,
         field: {
-          id: 'textNumber',
-          title: 'Text Number',
-          type: 'text',
-          required: true
-        }
-      }
-    ]
-  },
-  {
-    columns: [
-      {
-        default: 12,
-        xs: 12,
-        field: {
-          id: 'phoneNumber',
-          title: 'Phone (Required for Beta Testers)',
+          id: 'cellNumber',
+          title: 'Cell Number (Required for Beta Testers)',
           type: 'text',
           required: true
         }

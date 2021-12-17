@@ -5,8 +5,9 @@ import { normalizeId, getFormattedDate } from '../helpers/utility';
 const TextInput = ({
   id,
   title,
-  onChange,
+  onChangeFunction,
   onFormChange,
+  onChange,
   value,
   preValue,
   className = '',
@@ -20,7 +21,8 @@ const TextInput = ({
   compact = false,
   size,
   min,
-  max
+  max,
+  maxLength
 }) => {
   let defaultValue = value || preValue;
   if (variant === 'date') {
@@ -44,7 +46,7 @@ const TextInput = ({
       id={id || normalizeId(title)}
       type={variant}
       onChange={e => {
-        if (onChange) onChange(e);
+        if (onChange && window[onChange]) window[onChange](e);
         if (onFormChange) onFormChange(e);
       }}
       defaultValue={defaultValue}
@@ -58,6 +60,7 @@ const TextInput = ({
       size={size}
       min={min}
       max={max}
+      maxLength={maxLength}
     ></FormControl>
   );
 };
