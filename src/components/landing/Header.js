@@ -18,7 +18,7 @@ const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
         </Button>
       </Col>
       <Col xs={12} md={6} lg={8} className="px-md-0 mt-4 mt-md-0 text-center text-md-right align-self-center">
-        <img loading="eager" src={process.env.PUBLIC_URL + '/airplane_2.png'} height={'100%'} width={'100%'} />
+        <img loading="eager" src={process.env.PUBLIC_URL + '/airplane.png'} height={'100%'} width={'100%'} />
       </Col>
     </Row>
   );
