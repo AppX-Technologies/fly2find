@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container } from 'react-bootstrap';
 import Header from './Header';
 import JoinUs from './JoinUs';
@@ -25,24 +25,14 @@ const section2Texts = [
 ];
 
 const LandingPage = () => {
-  const [imageIsReady, setImageReady] = useState(false);
-
-  useEffect(() => {
-    const img = new Image();
-    img.onload = () => {
-      // when it finishes loading, update the component state
-      setImageReady(true);
-    };
-    img.src = process.env.PUBLIC_URL + '/airplane.png';
-  }, []);
-
   const onLearnMoreClick = () => {
     const section = document.getElementById('joinUsSection');
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  return imageIsReady ? (
+
+  return (
     <Container fluid>
       <Header
         headerTitle="Where can we fly today?"
@@ -55,8 +45,6 @@ const LandingPage = () => {
       <Title title="Join us Now!" />
       <JoinUs />
     </Container>
-  ) : (
-    <></>
   );
 };
 

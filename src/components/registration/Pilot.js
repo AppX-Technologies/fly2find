@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Card, Row, Col } from 'react-bootstrap';
-import { CheckCircleFill } from 'react-bootstrap-icons';
+import { Card, Row, Col, Button } from 'react-bootstrap';
+import { ArrowRightCircle, CheckCircleFill } from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormGenerator from '../../form-generator/FormGenerator';
 import { highlightError } from '../../form-generator/helpers/utility';
@@ -8,12 +9,12 @@ import { makeApiRequests } from '../../helpers/api';
 import { pilotForm } from './form';
 
 const clientServerKey = {
-  'How many flight options would you like to see each week?': 'Flights per Week',
-  'Only fly Weekends?': 'Only Weekends',
+  'How many flight ops would you like to see each week?': 'Flights per Week',
+  'Only fly Jaunts on Weekends?': 'Only Weekends',
   'How would you like to get notified?': 'Notification Channels',
   'Your favorite destination': 'Favorite Destination',
   'Why was the destination the best so far?': 'Favorite Destination Comment',
-  'Cell Number (Required for Beta Testers)': 'Cell Number',
+  'TXT Cell Number (Required for Beta Testers)': 'Cell Number',
   'How did you hear of us?': 'About Us Comment'
 };
 
@@ -54,12 +55,12 @@ const Pilot = () => {
     toast.success('Request Submitted successfully');
   };
 
-  const capitalizeTailNumber = e => {
+  const capitalizeText = e => {
     e.target.value = e.target.value.toUpperCase();
   };
 
   window['onRegisterPilotFormSubmit'] = onRegisterPilotFormSubmit;
-  window['capitalizeTailNumber'] = capitalizeTailNumber;
+  window['capitalizeText'] = capitalizeText;
 
   return (
     <Row className={`${requestSubmitted ? 'vh-100' : 'h-100'} justify-content-center`}>
@@ -70,8 +71,19 @@ const Pilot = () => {
               <div className="text-center p-3">
                 <CheckCircleFill size={50} className="text-success" />
                 <h5 className="text-primary2 mt-3">
-                  Thank you! we have received your registeration request. We will get back to you shortly
+                  Thank you!
+                  <br />
+                  Your first Jaunt will arrive shortly!
                 </h5>
+                <hr />
+                <div>
+                  See the latest Jaunts your fellow pilots have completed
+                  <Link to={'/jaunt/recent'}>
+                    <Button size="sm" variant="dark" className="ml-2 rounded">
+                      HERE <ArrowRightCircle className="ml-2" />
+                    </Button>
+                  </Link>
+                </div>
               </div>
             ) : (
               <FormGenerator formJson={pilotForm} />

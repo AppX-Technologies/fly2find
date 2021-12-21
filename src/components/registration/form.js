@@ -31,7 +31,7 @@ const registerPilotFormRows = [
         xs: 12,
         field: {
           id: 'flightOptions',
-          title: 'How many flight options would you like to see each week?',
+          title: 'How many flight ops would you like to see each week?',
           type: 'block-select',
           options: [0, 1, 2, 3],
           required: true,
@@ -43,7 +43,7 @@ const registerPilotFormRows = [
         xs: 12,
         field: {
           id: 'onlyFlyWeekends',
-          title: 'Only fly Weekends?',
+          title: 'Only fly Jaunts on Weekends?',
           type: 'block-select',
           options: ['Yes', 'No'],
           required: true
@@ -109,7 +109,8 @@ const registerPilotFormRows = [
           title: 'Home Airport Code',
           type: 'text',
           required: true,
-          maxLength: 4
+          maxLength: 4,
+          onChange: 'capitalizeText'
         }
       },
       {
@@ -149,7 +150,7 @@ const registerPilotFormRows = [
           type: 'text',
           required: true,
           maxLength: '6',
-          onChange: 'capitalizeTailNumber'
+          onChange: 'capitalizeText'
         }
       },
       {
@@ -157,7 +158,7 @@ const registerPilotFormRows = [
         xs: 12,
         field: {
           id: 'cellNumber',
-          title: 'Cell Number (Required for Beta Testers)',
+          title: 'TXT Cell Number (Required for Beta Testers)',
           type: 'text',
           required: true
         }

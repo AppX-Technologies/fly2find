@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ScrollToTop from './components/ScrollToTop';
 import Registration from './components/registration/Registration';
 import LandingPage from './components/landing/Landing';
+import JauntRoute from './components/jaunt/JauntRoute';
 
 const App = () => {
   return (
@@ -16,6 +17,10 @@ const App = () => {
       <Switch>
         <Route path="/join">
           <Registration />
+        </Route>
+
+        <Route path="/jaunt">
+          <JauntRoute />
         </Route>
         <Route exact path="/">
           <LandingPage />

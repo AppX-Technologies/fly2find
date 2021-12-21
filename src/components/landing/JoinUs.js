@@ -41,7 +41,7 @@ const JoinUs = () => {
           <Link to={'/join/jaunt'}>
             <Button variant="dark" className="px-5 py-2">
               <h5 className="mb-0">
-                Join as a JAUNT <ArrowRightCircle className="ml-2" size={20} />
+                Add a JAUNT <ArrowRightCircle className="ml-2" size={20} />
               </h5>
             </Button>
           </Link>

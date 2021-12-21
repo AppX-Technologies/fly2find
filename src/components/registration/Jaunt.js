@@ -1,7 +1,8 @@
 import React from 'react';
+import RecentJaunts from '../jaunt/Recent';
 
 const Jaunt = () => {
-  return 'JAUNT REGSITER';
+  return <RecentJaunts />;
 };
 
 export default Jaunt;
