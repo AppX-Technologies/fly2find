@@ -246,3 +246,6 @@ export const indServiceMetas = [
   { key: 'survey', name: 'Survey', requiredFields: ['Assigned Processor', 'Surveyor Price', 'Processing Fee'] },
   { key: 'estoppel', name: 'Estoppel', requiredFields: ['Assigned Processor', 'Hard Cost', 'Processing Fee'] }
 ];
+
+export const LOGIN_MODE = 'login';
+export const REGISTER_MODE = 'register';

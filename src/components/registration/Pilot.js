@@ -38,7 +38,6 @@ const Pilot = () => {
       delete form[key];
     });
 
-    console.log(form);
 
     toast.info('Please wait, your request is being submitted!');
 

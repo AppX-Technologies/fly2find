@@ -7,6 +7,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Registration from './components/registration/Registration';
 import LandingPage from './components/landing/Landing';
 import JauntRoute from './components/jaunt/JauntRoute';
+import Auth from './pages/Auth';
 
 const App = () => {
   return (
@@ -17,6 +18,9 @@ const App = () => {
       <Switch>
         <Route path="/join">
           <Registration />
+        </Route>
+        <Route path="/login">
+          <Auth />
         </Route>
 
         <Route path="/jaunt">

@@ -17,6 +17,13 @@ export const highlightError = (field, msg = 'This field is required') => {
   setTimeout(() => field.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
 };
 
+export const removeHighlightedError = elementName => {
+  const elements = document.getElementsByName(elementName);
+  elements.forEach(element => {
+    element.parentNode.removeChild(element);
+  });
+};
+
 export const normalizeId = (id = '') => {
   return id
     .toLowerCase()
