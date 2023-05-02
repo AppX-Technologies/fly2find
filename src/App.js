@@ -8,6 +8,7 @@ import Registration from './components/registration/Registration';
 import LandingPage from './components/landing/Landing';
 import JauntRoute from './components/jaunt/JauntRoute';
 import Auth from './pages/Auth';
+import AuthenticatedApp from './pages/AuthenticatedApp';
 
 const App = () => {
   return (
@@ -26,8 +27,12 @@ const App = () => {
         <Route path="/jaunt">
           <JauntRoute />
         </Route>
+
         <Route exact path="/">
           <LandingPage />
+        </Route>
+        <Route path="/">
+          <AuthenticatedApp />
         </Route>
       </Switch>
       <ToastContainer />

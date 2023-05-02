@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch, useLocation, withRouter } from 'react-router';
-import Header from '../components/Header';
 import NotFound from '../components/NotFound';
-import Services from '../components/services/Services';
-import Tasks from '../components/tasks/Tasks';
+// import Services from '../components/services/Services';
+// import Tasks from '../components/tasks/Tasks';
 import { makeApiRequests } from '../helpers/api';
+import Dashboard from '../components/dashboard';
+import PrimaryHeader from '../components/dashboard/PrimaryHeader';
 
 const AuthenticatedApp = () => {
   const loggedInEmail = localStorage.getItem('user-email');
@@ -34,27 +35,30 @@ const AuthenticatedApp = () => {
     if (loggedInEmail) getAuth();
   }, []);
 
-  if (loggedInEmail) {
-    const newUser = localStorage.getItem('newUser');
-    if (newUser) return <Redirect from="/login" to="/complete-registration" />;
-  } else {
-    return <Redirect from="/" to="/login" />;
-  }
+  // if (loggedInEmail) {
+  //   const newUser = localStorage.getItem('newUser');
+  //   if (newUser) return <Redirect from="/login" to="/complete-registration" />;
+  // } else {
+  //   return <Redirect from="/" to="/login" />;
+  // }
 
-  if (location.pathname === '/') {
-    return <Redirect from="/" to="/services/search" />;
-  }
+  // if (location.pathname === '/') {
+  //   return <Redirect from="/" to="/services/search" />;
+  // }
 
   return (
     <>
-      <Header />
+      <PrimaryHeader />
       <Switch>
-        <Route path="/services">
+        <Route path="/dashboard" exact>
+          <Dashboard />
+        </Route>
+        {/* <Route path="/services">
           <Services />
-        </Route>
-        <Route path="/tasks">
+        </Route> */}
+        {/* <Route path="/tasks">
           <Tasks />
-        </Route>
+        </Route> */}
         <Route path="*">
           <NotFound />
         </Route>

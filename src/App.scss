@@ -9,13 +9,73 @@ $theme-colors: (
   whiteTrans: rgba(255, 255, 255, 0.411)
 );
 
-$border-radius: 4rem;
+$border-radius: 2rem;
+$border-radius-lg: 2rem;
+$border-radius-sm: 2rem;
 
 html,
 body,
 #root {
   height: 100%;
   font-family: 'Baloo 2', cursive;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.smallFont {
+  font-size: 12px;
+}
+
+.mid {
+  font-size: 13px;
+}
+
+.large {
+  font-size: 14px;
+}
+
+.xlarge {
+  font-size: 16px;
+}
+
+.xxlarge {
+  font-size: 18px;
+}
+.xxxlarge {
+  font-size: 24px;
+}
+
+.tiny {
+  font-size: 10px;
+}
+
+.xs {
+  font-size: 8px;
+}
+
+.xxxxlarge {
+  font-size: 28px;
+}
+.huge {
+  font-size: 80px;
+}
+.xmid {
+  font-size: 20px;
+}
+.fw-thin {
+  font-weight: 300;
+}
+
+.search-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 10%;
+  cursor: pointer;
 }
 
 .logo {
