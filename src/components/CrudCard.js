@@ -3,7 +3,7 @@ import React from 'react';
 import { Badge, Button, Card, ProgressBar } from 'react-bootstrap';
 import { Calendar2, CheckCircleFill, Circle, Pen, Trash } from 'react-bootstrap-icons/dist';
 
-const CrudCard = ({ updatingStatus, status = '', jaunt, fromDetails }) => {
+const CrudCard = ({ updatingStatus, status = '', jaunt, fromDetails, onDelete, onEdit }) => {
   return (
     <Card className="mb-3">
       <Card.Body className="px-2 py-1">
@@ -20,15 +20,10 @@ const CrudCard = ({ updatingStatus, status = '', jaunt, fromDetails }) => {
                 <i style={styles.smallestFont} className="text-secondary">
                   {moment('2023-05-02T08:08:51+0000').format('MMMM Do YYYY')}
                 </i>
-                <Button size="sm" variant="info" className="ml-2 py-0 px-1">
+                <Button size="sm" variant="info" className="ml-2 py-0 px-1" onClick={onEdit}>
                   <Pen style={{ verticalAlign: 'baseline' }} size={10} />
                 </Button>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  className="ml-1 py-0 px-1"
-                  //   onClick={() => setShowConfirmationModal({ type: 'delete' })}
-                >
+                <Button size="sm" variant="danger" className="ml-1 py-0 px-1" onClick={onDelete}>
                   <Trash style={{ verticalAlign: 'baseline' }} size={10} />
                 </Button>
               </div>

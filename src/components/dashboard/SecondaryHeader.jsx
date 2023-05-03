@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Col, Container, Dropdown, Form, Row } from 'react-bootstrap';
-import { DASHBOARD_SORT_BY_OPTIONS, SHOWING_OPTIONS } from '../../helpers/constants';
 import { ArrowDown, ArrowUp, Funnel, Search } from 'react-bootstrap-icons/dist';
+import { DASHBOARD_SORT_BY_OPTIONS, SHOWING_OPTIONS } from '../../helpers/constants';
 
 const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled }) => {
   return (
