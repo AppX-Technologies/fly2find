@@ -183,15 +183,14 @@ const Auth = () => {
         onFormSubmit={onForgotPasswordFormSubmit}
         sendingMail={sendingMail}
       />
-      <Container fluid className="h-100">
+      <Container fluid className="h-100 bg-gradient-light">
         <Row className="h-100">
-          <Col xs={1} className="bg-dark d-block"></Col>
-          <Col xs={11} className="p-4">
+          <Col xs={12} className="p-4">
             <Row className="justify-content-center h-100">
               <Col xs={10} md={6} className="align-self-center">
                 <div className="text-center mb-2">
-                  <h1 className="logo mb-4">
-                    F<span className="underline">ly2Find</span>
+                  <h1 className="logo mb-4 text-light">
+                    F<span className="underline ">ly2Find</span>
                   </h1>
                   {/* <Image className="mx-auto" src={`${process.env.PUBLIC_URL}/logo.png`} height={85} /> */}
                 </div>

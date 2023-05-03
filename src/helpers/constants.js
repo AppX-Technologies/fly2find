@@ -249,3 +249,30 @@ export const indServiceMetas = [
 
 export const LOGIN_MODE = 'login';
 export const REGISTER_MODE = 'register';
+
+export const DASHBOARD_SORT_BY_OPTIONS = ['Created Date', 'Updated Date'];
+
+export const SHOWING_OPTIONS = ['10', '20', '50', '100', 'All'];
+
+export const JAUNTS = [
+  {
+    name: 'Jaunt 1',
+    destination: 'abc',
+    description: 'kdljfkjk'
+  },
+  {
+    name: 'Jaunt 2',
+    destination: 'abkjdkjc',
+    description: 'kdlfgkljljfkjk'
+  },
+  {
+    name: 'Jaunt 3',
+    destination: 'abc',
+    description: 'kdljfkfdgkjljk'
+  },
+  {
+    name: 'Jaunt 4',
+    destination: 'abc',
+    description: 'kdljfdfkjkjk'
+  }
+];

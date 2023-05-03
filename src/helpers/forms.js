@@ -211,3 +211,21 @@ export const FORGOT_PASSWORD_FORM_FIELDS = [
     type: 'email'
   }
 ];
+
+export const ADD_JAUNT_FIELDS = [
+  {
+    key: 'name',
+    label: 'Name',
+    type: 'text'
+  },
+  {
+    key: 'destination',
+    label: 'Destination',
+    type: 'text'
+  },
+  {
+    key: 'description',
+    label: 'Description',
+    type: 'text'
+  }
+];

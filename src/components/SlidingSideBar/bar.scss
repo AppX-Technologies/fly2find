@@ -36,7 +36,6 @@
   }
 }
 
-
 .bar-visible {
   visibility: visible;
 }
@@ -55,3 +54,6 @@
   right: -100%;
 }
 
+.close_button {
+  z-index: 10000000 !important;
+}
