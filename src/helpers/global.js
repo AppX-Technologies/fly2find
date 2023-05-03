@@ -17,3 +17,11 @@ export const getErrorMessageFromFirebase = e => {
 export const isAdmin = role => role === 'Admin';
 export const isStaff = role => role === 'Admin' || role === 'Staff';
 export const isClient = role => role === 'Client';
+
+export const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};

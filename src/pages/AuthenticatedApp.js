@@ -50,7 +50,7 @@ const AuthenticatedApp = () => {
     <>
       <PrimaryHeader />
       <Switch>
-        <Route path="/dashboard" exact>
+        <Route path="/admin/jaunts" exact>
           <Dashboard />
         </Route>
         {/* <Route path="/services">

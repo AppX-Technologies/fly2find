@@ -256,23 +256,54 @@ export const SHOWING_OPTIONS = ['10', '20', '50', '100', 'All'];
 
 export const JAUNTS = [
   {
-    name: 'Jaunt 1',
-    destination: 'abc',
-    description: 'kdljfkjk'
+    id: 1,
+    title: 'Jaunt 1',
+    brief: 'abc',
+    description: 'kdljfkjk',
+    status: 'Draft',
+    steps: [
+      {
+        id: 1,
+        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?'
+      },
+      {
+        id: 2,
+        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh'
+      },
+      {
+        id: 3,
+        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      },
+      {
+        id: 4,
+        text: 'Lorem ipsum dolor sit amet consectetur '
+      }
+    ]
   },
   {
-    name: 'Jaunt 2',
-    destination: 'abkjdkjc',
-    description: 'kdlfgkljljfkjk'
+    id: 2,
+    title: 'Jaunt 2',
+    brief: 'abc',
+    description: 'kdljfkjk',
+    status: 'Draft',
+    steps: []
   },
   {
-    name: 'Jaunt 3',
-    destination: 'abc',
-    description: 'kdljfkfdgkjljk'
+    id: 3,
+    title: 'Jaunt 3',
+    brief: 'abc',
+    description: 'kdljfkjk',
+    status: 'Draft',
+    steps: []
   },
   {
-    name: 'Jaunt 4',
-    destination: 'abc',
-    description: 'kdljfdfkjkjk'
+    id: 4,
+    title: 'Jaunt 4',
+    brief: 'abc',
+    description: 'kdljfkjk',
+    status: 'Draft',
+    steps: []
   }
 ];
+
+export const STATUSES = ['Draft', 'Review', 'Published'];

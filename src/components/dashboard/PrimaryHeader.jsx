@@ -49,7 +49,7 @@ const PrimaryHeader = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-3 mr-auto">
-            <LinkItem path="/" title="Home" />
+            <LinkItem path="/admin/jaunts" title="Jaunts" />
           </Nav>
 
           <Dropdown className="d-none d-md-inline-block" drop="left">

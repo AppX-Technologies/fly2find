@@ -1,3 +1,5 @@
+import { STATUSES } from './constants';
+
 const loginFormRows = [
   {
     columns: [
@@ -214,18 +216,52 @@ export const FORGOT_PASSWORD_FORM_FIELDS = [
 
 export const ADD_JAUNT_FIELDS = [
   {
-    key: 'name',
-    label: 'Name',
-    type: 'text'
+    key: 'title',
+    label: 'Title',
+    type: 'text',
+    as: 'input'
   },
   {
-    key: 'destination',
-    label: 'Destination',
-    type: 'text'
+    key: 'brief',
+    label: 'Brief',
+    type: 'text',
+    as: 'input'
   },
   {
     key: 'description',
-    label: 'Description',
-    type: 'text'
+    label: 'Full Description',
+    type: 'textArea',
+    columns: 12,
+    as: 'textarea'
+  }
+];
+
+export const EDIT_JAUNT_FIELD = [
+  {
+    key: 'title',
+    label: 'Title',
+    type: 'text',
+    as: 'input'
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    type: 'dropDown',
+    as: 'select',
+    options: STATUSES,
+    columns: 3
+  },
+  {
+    key: 'brief',
+    label: 'Brief',
+    type: 'text',
+    as: 'input'
+  },
+
+  {
+    key: 'description',
+    label: 'Full Description',
+    type: 'textArea',
+    as: 'textarea'
   }
 ];

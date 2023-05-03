@@ -6,7 +6,7 @@ const FloatingButton = ({ text, variant = 'dark', disabled = false, icon, onClic
     <Button
       size={size}
       variant={variant}
-      style={{ position: 'fixed', bottom: 0, right: 0 }}
+      style={{ position: 'fixed', bottom: 0, right: 0, zIndex: 999 }}
       className="m-4"
       disabled={disabled}
       onClick={onClick}
