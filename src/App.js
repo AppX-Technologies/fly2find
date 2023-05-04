@@ -31,7 +31,7 @@ const App = () => {
         <Route exact path="/">
           <LandingPage />
         </Route>
-        <Route path="/admin">
+        <Route path="/">
           <AuthenticatedApp />
         </Route>
       </Switch>

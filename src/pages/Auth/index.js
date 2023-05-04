@@ -171,7 +171,7 @@ const Auth = () => {
   };
 
   if (loggedInEmail) {
-    return <Redirect from="/login" to={'/'} />;
+    return <Redirect from="/login" to={'/admin/jaunts'} />;
   }
 
   return (

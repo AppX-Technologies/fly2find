@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { cloneDeep } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { PlusCircleFill } from 'react-bootstrap-icons/dist';
+import { toast } from 'react-toastify';
 import { JAUNTS } from '../../helpers/constants';
+import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
 import AlertModal from '../AlertModal';
 import FloatingButton from '../FloatingButton';
 import SlidingSideBar from '../SlidingSideBar/SlidingSideBar';
 import AddOrEditJaunt from './AddOrEditJaunt';
+import Filter from './Filter';
 import Jaunts from './Jaunts';
 import SecondaryHeader from './SecondaryHeader';
-import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
-import { toast } from 'react-toastify';
-import { cloneDeep } from 'lodash';
-import { useEffect } from 'react';
 
 const Index = () => {
   const [addOrEditJauntMetadata, setAddOrEditJauntMetadata] = useState(null);
@@ -18,12 +18,24 @@ const Index = () => {
   const [allJaunts, setAllJaunts] = useState(JAUNTS);
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
   const [showSteps, setShowSteps] = useState([]);
+  const [numberOfFilesToBeUploaded, setNumberOfFilesToBeUploaded] = useState(0);
   const [globalFilterValues, setGlobalFilterValues] = useState({
     query: '',
     showing: 'All',
     sortBy: '',
     isAssessending: true
   });
+
+  const onNumberOfFilesToBeUploadedChange = value => setNumberOfFilesToBeUploaded(value);
+
+  const onThumbnailChange = file => {
+    onAddOrEditJauntFieldValueChange('thumbnail', file);
+  };
+
+  const onAlbumChange = file => {
+    addOrEditJauntMetadata.album.push(file);
+    setAddOrEditJauntMetadata(prevData => ({ ...prevData }));
+  };
 
   const onGlobalFilterValueChange = (key, value) => {
     globalFilterValues[key] = value;
@@ -61,7 +73,7 @@ const Index = () => {
   };
 
   const onJauntToBeEditedChange = value => {
-    setAddOrEditJauntMetadata(cloneDeep({ ...value }));
+    setAddOrEditJauntMetadata(cloneDeep({ ...value, album: value?.album || [] }));
   };
   const onFilterValueChange = value => {
     setShowFilter(value);
@@ -115,12 +127,20 @@ const Index = () => {
   };
 
   const onShowStepsChange = jauntId => {
-    setShowSteps([...showSteps.filter(jaunt => jaunt !== jauntId)]);
+    if (showSteps.includes(jauntId)) {
+      setShowSteps([...showSteps.filter(jaunt => jaunt !== jauntId)]);
+    } else {
+      setShowSteps([...showSteps, jauntId]);
+    }
   };
 
   useEffect(() => {
     setShowSteps([...allJaunts.map(({ id }) => id)]);
   }, [allJaunts]);
+
+  // if (!loggedInEmail) {
+  //   return <Redirect from="/admin/jaunts" to={'/login'} />;
+  // }
 
   return (
     <>
@@ -135,12 +155,14 @@ const Index = () => {
       />
 
       {/* Sidebar For Filter */}
-      <SlidingSideBar visible={showFilter} onClose={() => onFilterValueChange(false)} title="Filter"></SlidingSideBar>
+      <SlidingSideBar visible={showFilter} onClose={() => onFilterValueChange(false)} title="Filter">
+        <Filter />
+      </SlidingSideBar>
 
       <FloatingButton
         text="Add Jaunt"
         icon={<PlusCircleFill size={15} className="mr-1" />}
-        onClick={() => setAddOrEditJauntMetadata({})}
+        onClick={() => setAddOrEditJauntMetadata({ steps: [], album: [] })}
         variant="dark"
       />
       <SecondaryHeader
@@ -158,6 +180,10 @@ const Index = () => {
         onEditJauntClick={onEditJauntClick}
         handleStepToBeCompletedAddition={handleStepToBeCompletedAddition}
         handleStepToBeCompletedDeletion={handleStepToBeCompletedDeletion}
+        onThumbnailChange={onThumbnailChange}
+        onAlbumChange={onAlbumChange}
+        onNumberOfFilesToBeUploadedChange={onNumberOfFilesToBeUploadedChange}
+        numberOfFilesToBeUploaded={numberOfFilesToBeUploaded}
       />
       <Jaunts
         allJaunts={allJaunts}
@@ -165,6 +191,7 @@ const Index = () => {
         onJauntToBeEditedChange={onJauntToBeEditedChange}
         editJauntStatus={editJauntStatus}
         showSteps={showSteps}
+        onShowStepsChange={onShowStepsChange}
       />
     </>
   );

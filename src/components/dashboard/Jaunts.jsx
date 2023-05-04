@@ -2,7 +2,16 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import JauntCard from '../JauntCard';
 
-const Jaunts = ({ allJaunts, onJauntToBeDeletedChange, onJauntToBeEditedChange, editJauntStatus, showSteps }) => {
+const Jaunts = ({
+  allJaunts,
+  onJauntToBeDeletedChange,
+  onJauntToBeEditedChange,
+  editJauntStatus,
+  showSteps,
+  onShowStepsChange
+}) => {
+
+
   return (
     <>
       <Container fluid className="px-5 my-4">
@@ -15,6 +24,7 @@ const Jaunts = ({ allJaunts, onJauntToBeDeletedChange, onJauntToBeEditedChange, 
             onEdit={() => onJauntToBeEditedChange(jaunt)}
             editJauntStatus={editJauntStatus}
             showSteps={showSteps}
+            onShowStepsChange={onShowStepsChange}
           />
         ))}
       </Container>

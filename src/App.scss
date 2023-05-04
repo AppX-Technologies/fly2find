@@ -6,7 +6,8 @@ $theme-colors: (
   primary2: #4a569d,
   primary2Light: #0327fd59,
   dark: #000,
-  whiteTrans: rgba(255, 255, 255, 0.411)
+  whiteTrans: rgba(255, 255, 255, 0.411),
+  muted: #d3d3d3
 );
 
 $border-radius: 1.5rem;
@@ -71,6 +72,23 @@ body,
   cursor: pointer;
 }
 
+.uploading-image {
+  max-width: 140px;
+  max-height: 140px;
+  display: block;
+  margin: 0 auto;
+  opacity: 0.5;
+}
+
+.image-loading-spinner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  bottom: 50%;
+  margin: auto;
+}
+
 .dragging-box {
   background-color: rgba(244, 238, 238, 0.6) !important;
 }
@@ -78,6 +96,13 @@ body,
 .draggable-box {
   border-bottom: 1px solid lightgray;
   border-radius: 1px !important;
+}
+
+.drive-file-uploader {
+  border: 2px dotted rgb(210, 205, 205);
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 
 .search-icon {

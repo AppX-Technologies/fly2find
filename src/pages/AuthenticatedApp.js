@@ -6,34 +6,35 @@ import NotFound from '../components/NotFound';
 import { makeApiRequests } from '../helpers/api';
 import Dashboard from '../components/dashboard';
 import PrimaryHeader from '../components/dashboard/PrimaryHeader';
+import Profile from '../components/dashboard/Profile';
 
 const AuthenticatedApp = () => {
   const loggedInEmail = localStorage.getItem('user-email');
-  const location = useLocation();
+  // const location = useLocation();
 
-  const getAuth = async () => {
-    const { response: authResult, error } = await makeApiRequests({ requestType: 'auth' });
+  // const getAuth = async () => {
+  //   const { response: authResult, error } = await makeApiRequests({ requestType: 'auth' });
 
-    if (error) {
-      return;
-    }
+  //   if (error) {
+  //     return;
+  //   }
 
-    const role = authResult['role'];
+  //   const role = authResult['role'];
 
-    if (!authResult['newUser']) {
-      localStorage.setItem('user-name', authResult['userName']);
-      localStorage.setItem('user-role', role);
-      if (role === 'Client') {
-        localStorage.setItem('user-org-id', authResult['organizationId']);
-        localStorage.setItem('user-phone', authResult['phoneNumber']);
-        localStorage.setItem('user-org-name', authResult['organizationName']);
-      }
-    }
-  };
+  //   if (!authResult['newUser']) {
+  //     localStorage.setItem('user-name', authResult['userName']);
+  //     localStorage.setItem('user-role', role);
+  //     if (role === 'Client') {
+  //       localStorage.setItem('user-org-id', authResult['organizationId']);
+  //       localStorage.setItem('user-phone', authResult['phoneNumber']);
+  //       localStorage.setItem('user-org-name', authResult['organizationName']);
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    if (loggedInEmail) getAuth();
-  }, []);
+  // useEffect(() => {
+  //   if (loggedInEmail) getAuth();
+  // }, []);
 
   // if (loggedInEmail) {
   //   const newUser = localStorage.getItem('newUser');
@@ -53,12 +54,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/jaunts" exact>
           <Dashboard />
         </Route>
-        {/* <Route path="/services">
-          <Services />
-        </Route> */}
-        {/* <Route path="/tasks">
-          <Tasks />
-        </Route> */}
+        <Route path="/profile" exact>
+          <Profile />
+        </Route>
+
         <Route path="*">
           <NotFound />
         </Route>

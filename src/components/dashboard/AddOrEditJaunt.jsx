@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Image, ProgressBar, Row } from 'react-bootstrap';
 import SlidingSidebar from '../SlidingSideBar/SlidingSideBar';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { reorder } from '../../helpers/global';
 import { GripHorizontal, Trash2Fill } from 'react-bootstrap-icons';
+import DriveFileUploader from '../drive-file-uploader';
 
 const AddOrEditJaunt = ({
   modalMetaData,
@@ -14,7 +15,11 @@ const AddOrEditJaunt = ({
   onEditJauntClick,
   fields,
   handleStepToBeCompletedAddition,
-  handleStepToBeCompletedDeletion
+  handleStepToBeCompletedDeletion,
+  onThumbnailChange,
+  onAlbumChange,
+  onNumberOfFilesToBeUploadedChange,
+  numberOfFilesToBeUploaded
 }) => {
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -40,14 +45,18 @@ const AddOrEditJaunt = ({
         {/* Thumbnail and Input Field Row */}
 
         <Row>
-          <Col md={4} xs={12}>
+          <Col md={3} xs={12}>
             {/* Insert Thumbnail */}
-            <Form.Group controlId="formFile" className="mb-3">
-              <Form.Control type="file" />
-            </Form.Group>
+            <div className="d-flex justify-content-center align-items-center">
+              {!modalMetaData?.thumbnail?.length ? (
+                <DriveFileUploader onUploadedFilesChange={onThumbnailChange} multiple={false} id="thumbnail" />
+              ) : (
+                <Image src={modalMetaData?.thumbnail} style={{ width: '150px', height: '150px', margin: '0 auto' }} />
+              )}
+            </div>
           </Col>
 
-          <Col md={8} xs={12}>
+          <Col md={9} xs={12}>
             <Row>
               {fields.map(({ key, label, type, notRequired, as, options, columns }, index) => {
                 return (
@@ -95,24 +104,53 @@ const AddOrEditJaunt = ({
         </Row>
         <hr />
 
-        {/* Steps To Complete Row */}
-        <div className="d-flex justify-content-start align-items-center flex-wrap mb-2">
-          <h6 className="mt-1 xxlarge font-weight-bold">Steps To Complete</h6>
-          <div className="d-flex align-items-center flex-grow-1">
-            <Form.Group className="ml-2 w-100 mb-0">
-              <Form.Control
-                value={modalMetaData?.stepToBeCompleted}
-                placeholder="Enter A Step"
-                onChange={e => onAddOrEditJauntFieldValueChange('stepToBeCompleted', e.target.value)}
-              />
-            </Form.Group>
-            <Button variant="primary ml-2" onClick={handleStepToBeCompletedAddition}>
-              Add
-            </Button>
+        {/* Albums Row */}
+
+        <div className="mb-4 d-flex justify-content-between align-items-center">
+          <h6 className="xxlarge font-weight-bold">Albums</h6>
+          {numberOfFilesToBeUploaded > 0 &&
+            (numberOfFilesToBeUploaded !== modalMetaData?.album?.length && (
+              <h6 className="xxlarge font-weight-bold">
+                {numberOfFilesToBeUploaded &&
+                  `(${modalMetaData?.album?.length} / ${numberOfFilesToBeUploaded}) Completed`}
+              </h6>
+            ))}
+        </div>
+        <div className="d-flex justify-content-start my-3 w-100">
+          <DriveFileUploader
+            onUploadedFilesChange={onAlbumChange}
+            id="album"
+            numberOfFilesToBeUploaded={onNumberOfFilesToBeUploadedChange}
+          />
+          <div className="d-flex justify-content-start ml-4">
+            {modalMetaData?.album &&
+              modalMetaData?.album?.map(file => {
+                return (
+                  <Image src={file} alt="" srcset="" style={{ width: '150px', height: '150px' }} className="mx-2" />
+                );
+              })}
           </div>
         </div>
+        <hr />
+
+        {/* Steps To Complete Row */}
+        <div className="my-2">
+          <h6 className="mt-1 xxlarge font-weight-bold">Steps To Complete</h6>
+        </div>
+        <div className="d-flex align-items-center w-100">
+          <Form.Group className=" w-100 mb-0">
+            <Form.Control
+              value={modalMetaData?.stepToBeCompleted}
+              placeholder="Enter A Step"
+              onChange={e => onAddOrEditJauntFieldValueChange('stepToBeCompleted', e.target.value)}
+            />
+          </Form.Group>
+          <Button variant="primary ml-2" onClick={handleStepToBeCompletedAddition}>
+            Add
+          </Button>
+        </div>
         {/* Draggable Steps */}
-        {modalMetaData?.steps?.length === 0 && <h6 className="mb-1 ml-2 small">No Steps Added</h6>}
+        {modalMetaData?.steps?.length === 0 && <h6 className="my-1 ml-2 small">No Steps Added Yet</h6>}
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="droppable">
             {provided => {

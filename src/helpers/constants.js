@@ -307,3 +307,11 @@ export const JAUNTS = [
 ];
 
 export const STATUSES = ['Draft', 'Review', 'Published'];
+
+export const FILTER_JAUNTS = [
+  {
+    key: 'status',
+    label: 'Status',
+    children: STATUSES
+  }
+];
