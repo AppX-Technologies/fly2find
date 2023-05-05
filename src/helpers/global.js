@@ -25,3 +25,14 @@ export const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
+
+export const isFileUploadingInProcess = fileData => {
+  if (!fileData?.toBeUploaded && !fileData?.alreadyUploaded) {
+    return false;
+  }
+  return true;
+};
+
+export const findSpecificJaunt = (allJaunts, jauntId) => {
+  return allJaunts.find(jaunt => jaunt.id === jauntId);
+};

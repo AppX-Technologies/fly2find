@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { PlusCircleFill } from 'react-bootstrap-icons/dist';
 import { toast } from 'react-toastify';
-import { JAUNTS } from '../../helpers/constants';
+import { ADMIN_ROLE, DRAFT_STATUS, JAUNTS, PILOT_ROLE } from '../../helpers/constants';
 import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
 import AlertModal from '../AlertModal';
 import FloatingButton from '../FloatingButton';
@@ -11,6 +11,7 @@ import AddOrEditJaunt from './AddOrEditJaunt';
 import Filter from './Filter';
 import Jaunts from './Jaunts';
 import SecondaryHeader from './SecondaryHeader';
+import { findSpecificJaunt } from '../../helpers/global';
 
 const Index = () => {
   const [addOrEditJauntMetadata, setAddOrEditJauntMetadata] = useState(null);
@@ -18,7 +19,10 @@ const Index = () => {
   const [allJaunts, setAllJaunts] = useState(JAUNTS);
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
   const [showSteps, setShowSteps] = useState([]);
-  const [numberOfFilesToBeUploaded, setNumberOfFilesToBeUploaded] = useState(0);
+  const [numberOfFiles, setNumberOfFiles] = useState({
+    toBeUploaded: 0,
+    alreadyUploaded: 0
+  });
   const [globalFilterValues, setGlobalFilterValues] = useState({
     query: '',
     showing: 'All',
@@ -26,15 +30,36 @@ const Index = () => {
     isAssessending: true
   });
 
-  const onNumberOfFilesToBeUploadedChange = value => setNumberOfFilesToBeUploaded(value);
+  const { role, email } = JSON.parse(localStorage.getItem('user'));
+
+  const onNumberOfFilesChange = (key, value, reset = false) => {
+    if (reset) {
+      numberOfFiles.toBeUploaded = 0;
+      numberOfFiles.alreadyUploaded = 0;
+      setNumberOfFiles({ ...numberOfFiles });
+      return;
+    }
+
+    if (key === 'toBeUploaded') {
+      numberOfFiles[key] = value;
+    } else {
+      numberOfFiles[key] = numberOfFiles[key] + 1;
+    }
+    setNumberOfFiles({ ...numberOfFiles });
+  };
 
   const onThumbnailChange = file => {
     onAddOrEditJauntFieldValueChange('thumbnail', file);
   };
 
-  const onAlbumChange = file => {
-    addOrEditJauntMetadata.album.push(file);
-    setAddOrEditJauntMetadata(prevData => ({ ...prevData }));
+  const onAlbumChange = (file, add = true) => {
+    if (add) {
+      addOrEditJauntMetadata.album.push(file);
+      setAddOrEditJauntMetadata(prevData => ({ ...prevData }));
+    } else {
+      addOrEditJauntMetadata.album.splice(addOrEditJauntMetadata.album.indexOf(file), 1);
+      setAddOrEditJauntMetadata(prevData => ({ ...prevData }));
+    }
   };
 
   const onGlobalFilterValueChange = (key, value) => {
@@ -88,7 +113,7 @@ const Index = () => {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
 
-    setAllJaunts([...allJaunts, { ...addOrEditJauntMetadata, id: allJaunts?.length + 1 }]); // Use UUID instead
+    setAllJaunts([...allJaunts, { ...addOrEditJauntMetadata, id: allJaunts?.length + 1, status: 'Draft' }]); // Use UUID instead
     onAddOrEditJauntModalClose();
     toast.success('Jaunt Successfully Created');
   };
@@ -134,9 +159,25 @@ const Index = () => {
     }
   };
 
+  const isJauntDeletable = jauntId => {
+    if (
+      role === ADMIN_ROLE ||
+      (role === PILOT_ROLE && findSpecificJaunt(allJaunts, jauntId)?.status === DRAFT_STATUS)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   useEffect(() => {
     setShowSteps([...allJaunts.map(({ id }) => id)]);
   }, [allJaunts]);
+
+  useEffect(() => {
+    if (!addOrEditJauntMetadata) {
+      onNumberOfFilesChange(0);
+    }
+  }, [addOrEditJauntMetadata]);
 
   // if (!loggedInEmail) {
   //   return <Redirect from="/admin/jaunts" to={'/login'} />;
@@ -172,7 +213,11 @@ const Index = () => {
       />
       <AddOrEditJaunt
         modalMetaData={addOrEditJauntMetadata}
-        fields={addOrEditJauntMetadata?.id ? EDIT_JAUNT_FIELD : ADD_JAUNT_FIELDS}
+        fields={
+          addOrEditJauntMetadata?.id
+            ? EDIT_JAUNT_FIELD?.filter(({ key }) => key !== 'points' && key !== 'thumbnail')
+            : ADD_JAUNT_FIELDS?.filter(({ key }) => key !== 'points' && key !== 'thumbnail')
+        }
         inProgress={false}
         onHide={onAddOrEditJauntModalClose}
         onAddOrEditJauntFieldValueChange={onAddOrEditJauntFieldValueChange}
@@ -182,8 +227,14 @@ const Index = () => {
         handleStepToBeCompletedDeletion={handleStepToBeCompletedDeletion}
         onThumbnailChange={onThumbnailChange}
         onAlbumChange={onAlbumChange}
-        onNumberOfFilesToBeUploadedChange={onNumberOfFilesToBeUploadedChange}
-        numberOfFilesToBeUploaded={numberOfFilesToBeUploaded}
+        onNumberOfFilesChange={onNumberOfFilesChange}
+        numberOfFiles={numberOfFiles}
+        isEditable={
+          addOrEditJauntMetadata?.id
+            ? role === ADMIN_ROLE ||
+              (role === PILOT_ROLE && findSpecificJaunt(allJaunts, addOrEditJauntMetadata?.id)?.status === DRAFT_STATUS)
+            : true
+        }
       />
       <Jaunts
         allJaunts={allJaunts}
@@ -192,6 +243,8 @@ const Index = () => {
         editJauntStatus={editJauntStatus}
         showSteps={showSteps}
         onShowStepsChange={onShowStepsChange}
+        isDeletable={isJauntDeletable}
+        isUpdateable={role === ADMIN_ROLE}
       />
     </>
   );

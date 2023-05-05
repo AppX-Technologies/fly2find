@@ -1,16 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.scss';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.scss';
 import ScrollToTop from './components/ScrollToTop';
-import Registration from './components/registration/Registration';
-import LandingPage from './components/landing/Landing';
 import JauntRoute from './components/jaunt/JauntRoute';
+import LandingPage from './components/landing/Landing';
+import Registration from './components/registration/Registration';
+import { ADMIN_ROLE, PILOT_ROLE } from './helpers/constants';
 import Auth from './pages/Auth';
 import AuthenticatedApp from './pages/AuthenticatedApp';
 
 const App = () => {
+  localStorage.setItem('user', JSON.stringify({ email: 'gautamrajat185@gmail.com', role: PILOT_ROLE }));
   return (
     <Router>
       <ScrollToTop />

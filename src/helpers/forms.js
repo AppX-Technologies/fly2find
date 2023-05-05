@@ -233,6 +233,14 @@ export const ADD_JAUNT_FIELDS = [
     type: 'textArea',
     columns: 12,
     as: 'textarea'
+  },
+  {
+    key: 'thumbnail',
+    label: 'Thumbnail'
+  },
+  {
+    key: 'points',
+    label: 'Points'
   }
 ];
 
@@ -263,5 +271,13 @@ export const EDIT_JAUNT_FIELD = [
     label: 'Full Description',
     type: 'textArea',
     as: 'textarea'
+  },
+  {
+    key: 'thumbnail',
+    label: 'Thumbnail'
+  },
+  {
+    key: 'points',
+    label: 'Points'
   }
 ];

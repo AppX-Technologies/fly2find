@@ -6,7 +6,7 @@ import NotFound from '../components/NotFound';
 import { makeApiRequests } from '../helpers/api';
 import Dashboard from '../components/dashboard';
 import PrimaryHeader from '../components/dashboard/PrimaryHeader';
-import Profile from '../components/dashboard/Profile';
+import Profile from '../components/profile/Profile';
 
 const AuthenticatedApp = () => {
   const loggedInEmail = localStorage.getItem('user-email');

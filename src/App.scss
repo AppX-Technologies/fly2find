@@ -78,6 +78,51 @@ body,
   display: block;
   margin: 0 auto;
   opacity: 0.5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  object-fit: cover;
+}
+
+.album-images {
+  width: 150px;
+  height: 150px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 2px 0 rgba(0, 0, 0, 0.19);
+}
+
+.thumbnail-images {
+  width: 90%;
+  height: 90%;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 2px 0 rgba(0, 0, 0, 0.19);
+  object-fit: cover;
+}
+
+.internal-thumbnail-images {
+  width: 150px;
+  height: 150px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 2px 0 rgba(0, 0, 0, 0.19);
+}
+
+.album-section {
+  overflow-x: auto;
+}
+
+.steps-delete {
+  position: absolute;
+  right: 30px;
+}
+
+.image-delete {
+  position: absolute;
+  right: 6px;
+  top: 3px;
 }
 
 .image-loading-spinner {
@@ -87,6 +132,10 @@ body,
   top: 50%;
   bottom: 50%;
   margin: auto;
+}
+
+.disabled-icon {
+  color: #d3d3d3 !important;
 }
 
 .dragging-box {

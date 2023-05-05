@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ProgressBar, Spinner } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
+import { toast } from 'react-toastify';
 
 const MAX_CHUNK_SIZE = 2 * 1024 * 1024; // 48MB
 
@@ -9,7 +10,10 @@ const DriveFileUploader = ({
   onUploadedFilesChange,
   multiple = true,
   id,
-  numberOfFilesToBeUploaded
+  onNumberOfFilesChange,
+  allowedFileTypes,
+  accept = 'image/*',
+  isDisabled
 }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [fileBeingUploaded, setFileBeingUploaded] = useState(null);
@@ -56,13 +60,31 @@ const DriveFileUploader = ({
   };
 
   const onFileChange = async e => {
-    const files = e.target.files || [];
-    multiple && numberOfFilesToBeUploaded && numberOfFilesToBeUploaded(files?.length);
-
+    let files = e.target.files || [];
     if (!files) return;
 
+    if (allowedFileTypes) {
+      const allowedFiles = Array.from(files)?.filter(file => allowedFileTypes.includes(file['type']));
+
+      if (files?.length !== allowedFiles?.length) {
+        if (multiple) {
+          let fileDifference = files?.length - allowedFiles?.length;
+          toast.error(
+            `${fileDifference}/${files?.length} ${fileDifference < 2 ? 'File Is' : 'Files Are'} Not Suitable To Upload.`
+          );
+        } else {
+          toast.error('This File Is Not Suitable To Upload.');
+        }
+        files = allowedFiles;
+      }
+    }
+
+    // Updating Total Number Of Files To Be Uploaded
+
+    multiple && onNumberOfFilesChange && onNumberOfFilesChange('toBeUploaded', files?.length);
     for (let fileIndex = 0; fileIndex < Array.from(files)?.length; fileIndex++) {
       const file = files[fileIndex];
+
       setFileBeingUploaded(URL.createObjectURL(file));
 
       setError('');
@@ -113,6 +135,10 @@ const DriveFileUploader = ({
             setUploadProgress(100);
             setUploading(false);
             onUploadedFilesChange(URL.createObjectURL(file));
+
+            // Updating the uploaded file count
+            multiple && onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded');
+
             break;
           } else {
             setError(response.e);
@@ -127,23 +153,28 @@ const DriveFileUploader = ({
         }
       }
     }
+
+    // Resetting the files count
+
+    multiple && onNumberOfFilesChange && onNumberOfFilesChange('', '', true);
   };
 
   return (
     <div>
-      <div className="p-1 d-flex justify-content-center">
+      <div className="p-1 d-flex justify-content-center align-items-center">
         <input
           type="file"
           onChange={onFileChange}
-          disabled={uploading}
+          disabled={uploading || isDisabled}
           id={id}
           style={{ display: 'none' }}
           multiple={multiple}
+          accept={accept}
         />
         <label for={!uploading && id}>
           <div
             className={`drive-file-uploader d-flex justify-content-center align-items-center  ${
-              !uploading ? 'pointer p-5' : 'p-1'
+              !uploading ? (!isDisabled ? 'pointer p-5' : 'p-5') : 'p-1'
             }`}
           >
             {uploading ? (
@@ -152,7 +183,7 @@ const DriveFileUploader = ({
                 <Spinner size={40} variant="dark" animation="border" className="image-loading-spinner" />
               </div>
             ) : (
-              <Plus size={40} className={uploading && 'text-muted'} />
+              <Plus size={40} className={(uploading || isDisabled) && 'text-muted'} />
             )}
           </div>
         </label>

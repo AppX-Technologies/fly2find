@@ -8,10 +8,10 @@ const Jaunts = ({
   onJauntToBeEditedChange,
   editJauntStatus,
   showSteps,
-  onShowStepsChange
+  onShowStepsChange,
+  isDeletable,
+  isUpdateable
 }) => {
-
-
   return (
     <>
       <Container fluid className="px-5 my-4">
@@ -25,6 +25,8 @@ const Jaunts = ({
             editJauntStatus={editJauntStatus}
             showSteps={showSteps}
             onShowStepsChange={onShowStepsChange}
+            isDeletable={isDeletable}
+            isUpdateable={isUpdateable}
           />
         ))}
       </Container>
