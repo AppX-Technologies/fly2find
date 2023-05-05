@@ -43,7 +43,7 @@ const Index = () => {
     if (key === 'toBeUploaded') {
       numberOfFiles[key] = value;
     } else {
-      numberOfFiles[key] = numberOfFiles[key] + 1;
+      numberOfFiles[key] = numberOfFiles[key] + value;
     }
     setNumberOfFiles({ ...numberOfFiles });
   };

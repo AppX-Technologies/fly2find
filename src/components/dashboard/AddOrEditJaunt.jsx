@@ -60,6 +60,7 @@ const AddOrEditJaunt = ({
                   allowedFileTypes={acceptedImageTypes}
                   fileNotSuitableError={'Only Images Can Be Uploaded'}
                   isDisabled={!isEditable}
+                  accept="image/*"
                 />
               ) : (
                 <div className="d-flex justify-content-center">
@@ -145,6 +146,7 @@ const AddOrEditJaunt = ({
           <DriveFileUploader
             onUploadedFilesChange={onAlbumChange}
             id="album"
+            accept="image/*"
             onNumberOfFilesChange={onNumberOfFilesChange}
             allowedFileTypes={acceptedImageTypes}
             fileNotSuitableError={'Only Images Can Be Uploaded'}

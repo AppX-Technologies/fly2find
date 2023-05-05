@@ -10,11 +10,16 @@ const DriveFileUploader = ({
   onUploadedFilesChange,
   multiple = true,
   id,
-  onNumberOfFilesChange,
-  allowedFileTypes,
-  accept = 'image/*',
-  isDisabled
+  onNumberOfFilesChange, // Not Compulsory
+  allowedFileTypes = [], // Example ['image/gif', 'image/jpeg', 'image/png']
+  accept = '', // Only shows this type of file in file selection window
+  isDisabled = false
 }) => {
+  // onNumberOfFilesChange basically updates the number of alreadyUploaded and toBeUploaded files
+  // onNumberOfFilesChange can contain 3 parameters(key, value , reset);
+  // Keys can be alreadyUploaded and toBeUploaded
+  // Example : onNumberOfFilesChange('toBeUploaded', files?.length) or onNumberOfFilesChange('alreadyUploaded',1)
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [fileBeingUploaded, setFileBeingUploaded] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -63,7 +68,7 @@ const DriveFileUploader = ({
     let files = e.target.files || [];
     if (!files) return;
 
-    if (allowedFileTypes) {
+    if (allowedFileTypes?.length) {
       const allowedFiles = Array.from(files)?.filter(file => allowedFileTypes.includes(file['type']));
 
       if (files?.length !== allowedFiles?.length) {
@@ -81,7 +86,7 @@ const DriveFileUploader = ({
 
     // Updating Total Number Of Files To Be Uploaded
 
-    multiple && onNumberOfFilesChange && onNumberOfFilesChange('toBeUploaded', files?.length);
+    multiple && onNumberOfFilesChange && onNumberOfFilesChange('toBeUploaded', files?.length); // This call should update the count of toBeUploaded files by the length of selected files
     for (let fileIndex = 0; fileIndex < Array.from(files)?.length; fileIndex++) {
       const file = files[fileIndex];
 
@@ -137,7 +142,7 @@ const DriveFileUploader = ({
             onUploadedFilesChange(URL.createObjectURL(file));
 
             // Updating the uploaded file count
-            multiple && onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded');
+            multiple && onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded', 1); // This call sholud increase the alreadyUploaded files count by 1
 
             break;
           } else {
@@ -156,7 +161,7 @@ const DriveFileUploader = ({
 
     // Resetting the files count
 
-    multiple && onNumberOfFilesChange && onNumberOfFilesChange('', '', true);
+    multiple && onNumberOfFilesChange && onNumberOfFilesChange('', '', true); // Reseting the count of alreadyUploadedFiles and toBeUploaded files
   };
 
   return (
