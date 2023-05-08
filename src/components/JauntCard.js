@@ -14,7 +14,7 @@ const JauntCard = ({
   showSteps,
   onShowStepsChange,
   isDeletable,
-  isUpdateable
+  isEditable
 }) => {
   return (
     <Card className="mb-3">
@@ -32,7 +32,7 @@ const JauntCard = ({
               {/* Action Buttons */}
 
               <div className="d-flex justify-content-evenly align-items-center">
-                {isUpdateable ? (
+                {isEditable ? (
                   <Dropdown style={styles.smallerFont} className="ml-2">
                     <Dropdown.Toggle variant="success" className="px-1 py-0 " style={{ fontSize: '12px' }}>
                       {jaunt?.status}

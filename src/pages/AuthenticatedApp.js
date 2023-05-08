@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect, Route, Switch, useLocation, withRouter } from 'react-router';
 import NotFound from '../components/NotFound';
 // import Services from '../components/services/Services';
 // import Tasks from '../components/tasks/Tasks';
-import { makeApiRequests } from '../helpers/api';
 import Dashboard from '../components/dashboard';
 import PrimaryHeader from '../components/dashboard/PrimaryHeader';
 import Profile from '../components/profile/Profile';
 
 const AuthenticatedApp = () => {
   const loggedInEmail = localStorage.getItem('user-email');
+
+  const { pathname } = useLocation();
   // const location = useLocation();
 
   // const getAuth = async () => {
@@ -46,6 +47,10 @@ const AuthenticatedApp = () => {
   // if (location.pathname === '/') {
   //   return <Redirect from="/" to="/services/search" />;
   // }
+
+  if (!loggedInEmail) {
+    return <Redirect from={pathname} to={'/login'} />;
+  }
 
   return (
     <>

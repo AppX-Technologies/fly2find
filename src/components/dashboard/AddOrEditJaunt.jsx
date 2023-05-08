@@ -23,7 +23,7 @@ const AddOrEditJaunt = ({
   numberOfFiles,
   isEditable
 }) => {
-  const { role } = JSON.parse(localStorage.getItem('user'));
+  const { role } = JSON.parse(localStorage.getItem('user')) || {};
   const [showNotEditableInfo, setShowNonEditableInfo] = useState();
 
   function handleOnDragEnd(result) {

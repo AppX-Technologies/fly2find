@@ -1,13 +1,11 @@
 import { cloneDeep } from 'lodash';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { FILTER_JAUNTS } from '../../helpers/constants';
+import { JAUNT_RELATED_FILTERS } from '../../helpers/constants';
 
-const Filter = () => {
-  const [filterValues, setFilterValues] = useState(cloneDeep([...FILTER_JAUNTS]));
-
+const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
   const findFilterValuesByParent = parentKey => {
-    return filterValues.find(filterJaunt => filterJaunt?.key === parentKey);
+    return globalFilterValues?.filters?.find(filterJaunt => filterJaunt?.key === parentKey);
   };
 
   const onParentFilterChange = parentKey => {
@@ -15,10 +13,16 @@ const Filter = () => {
 
     if (parentFilter?.children?.length) {
       parentFilter.children = [];
-      setFilterValues([...filterValues.filter(fv => fv.key !== parentKey), parentFilter]);
+      onGlobalFilterValueChange('filters', [
+        ...globalFilterValues?.filters?.filter(fv => fv.key !== parentKey),
+        parentFilter
+      ]);
     } else {
-      parentFilter.children = [...FILTER_JAUNTS.find(fj => fj.key === parentKey)?.children];
-      setFilterValues([...filterValues.filter(fv => fv.key !== parentKey), parentFilter]);
+      parentFilter.children = [...JAUNT_RELATED_FILTERS.find(fj => fj.key === parentKey)?.children];
+      onGlobalFilterValueChange('filters', [
+        ...globalFilterValues?.filters?.filter(fv => fv.key !== parentKey),
+        parentFilter
+      ]);
     }
   };
 
@@ -26,19 +30,26 @@ const Filter = () => {
     const parentFilter = findFilterValuesByParent(parentKey);
 
     if (parentFilter?.children.includes(childKey)) {
-      setFilterValues([
-        ...filterValues.filter(fv => fv?.key !== parentKey),
+      onGlobalFilterValueChange('filters', [
+        ...globalFilterValues?.filters?.filter(fv => fv?.key !== parentKey),
         { ...parentFilter, children: [...parentFilter?.children.filter(c => c !== childKey)] }
       ]);
     } else {
       parentFilter.children.push(childKey);
-      setFilterValues([...filterValues.filter(fv => fv?.key !== parentKey), { ...parentFilter }]);
+      onGlobalFilterValueChange('filters', [
+        ...globalFilterValues?.filters?.filter(fv => fv?.key !== parentKey),
+        { ...parentFilter }
+      ]);
     }
   };
 
+  useEffect(() => {
+    onGlobalFilterValueChange('filters', cloneDeep([...JAUNT_RELATED_FILTERS]));
+  }, [JAUNT_RELATED_FILTERS]);
+
   return (
     <>
-      {FILTER_JAUNTS.map(parentFilter => {
+      {JAUNT_RELATED_FILTERS.map(parentFilter => {
         return (
           <div className="mt-4">
             <Form.Check

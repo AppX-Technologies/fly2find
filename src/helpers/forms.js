@@ -338,3 +338,119 @@ export const EDIT_JAUNT_FIELD = [
     label: 'Points'
   }
 ];
+
+export const changePasswordForm = {
+  forms: [
+    {
+      name: 'changePassword',
+      markCompulsoryFields: true,
+      hideFormName: true,
+      compact: true,
+      submit: {
+        name: 'Change',
+        show: true,
+        onSubmit: 'onChangePasswordFormSubmit'
+      },
+      rows: [
+        {
+          columns: [
+            {
+              default: 6,
+              field: {
+                id: 'oldPassword',
+                title: 'Old Password',
+                type: 'text',
+                variant: 'password',
+                required: true
+              }
+            },
+            {
+              default: 6,
+              field: {
+                id: 'newPassword',
+                title: 'New Password',
+                type: 'text',
+                variant: 'password',
+                required: true
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              default: 6,
+              field: {
+                id: 'confirmPassword',
+                title: 'Confirm Password',
+                type: 'text',
+                variant: 'password',
+                required: true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+export const resetPasswordForm = {
+  forms: [
+    {
+      name: 'resetPassword',
+      markCompulsoryFields: true,
+      hideFormName: true,
+      compact: true,
+      submit: {
+        name: 'Reset Password',
+        show: true,
+        onSubmit: 'onResetPasswordFormSubmit'
+      },
+
+      rows: [
+        {
+          columns: [
+            {
+              default: 12,
+              field: {
+                id: 'otp',
+                title: 'OTP',
+                type: 'text',
+                required: true
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              default: 12,
+              field: {
+                id: 'newPassword',
+                title: 'New Password',
+                type: 'text',
+                variant: 'password',
+                required: true
+              }
+            }
+          ]
+        },
+        {
+          columns: [
+            {
+              default: 12,
+              field: {
+                id: 'confirmPassword',
+                title: 'Confirm Password',
+                type: 'text',
+                variant: 'password',
+                required: true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};

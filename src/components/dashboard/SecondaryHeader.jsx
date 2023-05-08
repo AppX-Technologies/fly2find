@@ -3,7 +3,7 @@ import { Button, Col, Container, Dropdown, Form, Row } from 'react-bootstrap';
 import { ArrowDown, ArrowUp, Funnel, Search } from 'react-bootstrap-icons/dist';
 import { DASHBOARD_SORT_BY_OPTIONS, SHOWING_OPTIONS } from '../../helpers/constants';
 
-const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled }) => {
+const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled, executeGlobalSearch }) => {
   return (
     <div className="position-relative">
       <Form.Group className="mb-0">
@@ -15,7 +15,10 @@ const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled }) => 
           onChange={onChange}
           disabled={disabled}
         />
-        <div className="bg-dark h-100 d-flex justify-content-center align-items-center search-icon">
+        <div
+          className="bg-dark h-100 d-flex justify-content-center align-items-center search-icon"
+          onClick={executeGlobalSearch}
+        >
           <Search className="text-light" />
         </div>
       </Form.Group>
@@ -23,7 +26,13 @@ const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled }) => 
   );
 };
 
-const SecondaryHeader = ({ onFilterValueChange, onGlobalFilterValueChange, globalFilterValues, loading = false }) => {
+const SecondaryHeader = ({
+  onFilterValueChange,
+  onGlobalFilterValueChange,
+  globalFilterValues,
+  loading = false,
+  executeGlobalSearch
+}) => {
   return (
     <>
       <Container className="my-3 px-5" fluid>
@@ -33,6 +42,7 @@ const SecondaryHeader = ({ onFilterValueChange, onGlobalFilterValueChange, globa
               value={globalFilterValues.query}
               onChange={e => onGlobalFilterValueChange('query', e.target.value)}
               disabled={loading}
+              executeGlobalSearch={executeGlobalSearch}
             />
           </Col>
           {/* Showing */}

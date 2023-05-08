@@ -11,12 +11,21 @@ import AddOrEditJaunt from './AddOrEditJaunt';
 import Filter from './Filter';
 import Jaunts from './Jaunts';
 import SecondaryHeader from './SecondaryHeader';
-import { findSpecificJaunt } from '../../helpers/global';
+import { findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
+
+const generateRandomUUIDForAllJauntSteps = jaunts => {
+  return [
+    ...jaunts.map(jaunt => ({
+      ...jaunt,
+      steps: [...jaunt.steps.map(step => ({ id: generateRandomUUID(), text: step }))]
+    }))
+  ];
+};
 
 const Index = () => {
   const [addOrEditJauntMetadata, setAddOrEditJauntMetadata] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
-  const [allJaunts, setAllJaunts] = useState(JAUNTS);
+  const [allJaunts, setAllJaunts] = useState([]);
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
   const [showSteps, setShowSteps] = useState([]);
   const [jauntAddOrUpdateInProgress, setJauntAddOrUpdateInProgress] = useState(false);
@@ -32,7 +41,7 @@ const Index = () => {
     isAssessending: true
   });
 
-  const { role } = JSON.parse(localStorage.getItem('user'));
+  const { role, email } = JSON.parse(localStorage.getItem('user')) || {};
 
   const onNumberOfFilesChange = (key, value, reset = false) => {
     if (reset) {
@@ -83,8 +92,8 @@ const Index = () => {
     }
     addOrEditJauntMetadata.steps.push({
       text: addOrEditJauntMetadata?.stepToBeCompleted,
-      id: addOrEditJauntMetadata?.steps.length + 1
-    }); // Use UUID Instead
+      id: generateRandomUUID()
+    });
     onAddOrEditJauntFieldValueChange('steps', addOrEditJauntMetadata?.steps);
 
     onAddOrEditJauntFieldValueChange('stepToBeCompleted', '');
@@ -102,6 +111,7 @@ const Index = () => {
   const onJauntToBeEditedChange = value => {
     setAddOrEditJauntMetadata(cloneDeep({ ...value, album: value?.album || [] }));
   };
+
   const onFilterValueChange = value => {
     setShowFilter(value);
   };
@@ -212,8 +222,7 @@ const Index = () => {
     // if (error) {
     //   return toast.error(error);
     // }
-
-    setAllJaunts({ ...allJaunts });
+    // setAllJaunts({ ...allJaunts });
   };
 
   useEffect(() => {
@@ -226,9 +235,13 @@ const Index = () => {
     }
   }, [addOrEditJauntMetadata]);
 
-  // if (!loggedInEmail) {
-  //   return <Redirect from="/admin/jaunts" to={'/login'} />;
-  // }
+  useEffect(() => {
+    setAllJaunts(generateRandomUUIDForAllJauntSteps(JAUNTS));
+  }, [JAUNTS]);
+
+  useEffect(() => {
+    executeGlobalSearch();
+  }, [globalFilterValues.showing, globalFilterValues.isAssessending, globalFilterValues.sortBy]);
 
   return (
     <>
@@ -244,7 +257,7 @@ const Index = () => {
 
       {/* Sidebar For Filter */}
       <SlidingSideBar visible={showFilter} onClose={() => onFilterValueChange(false)} title="Filter">
-        <Filter />
+        <Filter onGlobalFilterValueChange={onGlobalFilterValueChange} globalFilterValues={globalFilterValues} />
       </SlidingSideBar>
 
       <FloatingButton
@@ -257,6 +270,7 @@ const Index = () => {
         onFilterValueChange={onFilterValueChange}
         onGlobalFilterValueChange={onGlobalFilterValueChange}
         globalFilterValues={globalFilterValues}
+        executeGlobalSearch={executeGlobalSearch}
       />
       <AddOrEditJaunt
         modalMetaData={addOrEditJauntMetadata}
@@ -291,7 +305,7 @@ const Index = () => {
         showSteps={showSteps}
         onShowStepsChange={onShowStepsChange}
         isDeletable={isJauntDeletable}
-        isUpdateable={role === ADMIN_ROLE}
+        isEditable={role === ADMIN_ROLE}
       />
     </>
   );

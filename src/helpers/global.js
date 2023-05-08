@@ -1,3 +1,6 @@
+import crypto from 'crypto';
+import { JAUNTS } from './constants';
+
 const firebaseErrors = {
   'auth/email-already-exists': 'The provided email is already in use by an existing user.',
   'auth/invalid-email': 'The provided value for the email is invalid.',
@@ -35,4 +38,8 @@ export const isFileUploadingInProcess = fileData => {
 
 export const findSpecificJaunt = (allJaunts, jauntId) => {
   return allJaunts.find(jaunt => jaunt.id === jauntId);
+};
+
+export const generateRandomUUID = () => {
+  return crypto.randomBytes(20).toString('hex');
 };

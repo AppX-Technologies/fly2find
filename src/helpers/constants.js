@@ -21,6 +21,8 @@ export const labelToKeyMap = {
   'Phone Number': 'phoneNumber'
 };
 
+export const ENDPOINTS = {};
+
 export const datefields = [];
 
 export const countyCity = {
@@ -273,22 +275,11 @@ export const JAUNTS = [
     points: 'hahahehe',
     album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
     steps: [
-      {
-        id: 1,
-        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?'
-      },
-      {
-        id: 2,
-        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh'
-      },
-      {
-        id: 3,
-        text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
-      },
-      {
-        id: 4,
-        text: 'Lorem ipsum dolor sit amet consectetur '
-      }
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
     ]
   },
   {
@@ -325,7 +316,7 @@ export const PUBLISHED_STATUS = 'Published';
 
 export const STATUSES = [DRAFT_STATUS, REVIEW_STATUS, PUBLISHED_STATUS];
 
-export const FILTER_JAUNTS = [
+export const JAUNT_RELATED_FILTERS = [
   {
     key: 'status',
     label: 'Status',

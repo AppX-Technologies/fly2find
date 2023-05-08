@@ -10,9 +10,18 @@ import Registration from './components/registration/Registration';
 import { ADMIN_ROLE, PILOT_ROLE } from './helpers/constants';
 import Auth from './pages/Auth';
 import AuthenticatedApp from './pages/AuthenticatedApp';
+import { saveUserToLocal } from './helpers/session';
+
+const sampleUserObj = {
+  email: 'gautamrajat185@gmail.com',
+  role: ADMIN_ROLE
+};
 
 const App = () => {
-  localStorage.setItem('user', JSON.stringify({ email: 'gautamrajat185@gmail.com', role: PILOT_ROLE }));
+  // TODO
+
+  saveUserToLocal(sampleUserObj);
+
   return (
     <Router>
       <ScrollToTop />

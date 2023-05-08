@@ -3,6 +3,11 @@ import { Dropdown, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons/dist';
 import { useHistory, useLocation } from 'react-router';
 
+const logout = history => {
+  localStorage.clear();
+  history.push('/login');
+};
+
 const DropDownItems = ({ history }) => (
   <>
     <Dropdown.Toggle size="sm" variant="outline-dark rounded">
@@ -11,7 +16,7 @@ const DropDownItems = ({ history }) => (
     </Dropdown.Toggle>
     <Dropdown.Menu>
       <Dropdown.Item onClick={() => history.push('/profile')}>View Profile</Dropdown.Item>
-      <Dropdown.Item>Logout</Dropdown.Item>
+      <Dropdown.Item onClick={() => logout(history)}>Logout</Dropdown.Item>
     </Dropdown.Menu>
   </>
 );
@@ -20,11 +25,6 @@ const PrimaryHeader = () => {
   const history = useHistory();
   const location = useLocation();
   const [role] = useState(localStorage.getItem('user-role'));
-
-  const logout = () => {
-    localStorage.clear();
-    history.push('/login');
-  };
 
   const LinkItem = ({ dropdown = false, title, path, otherActivePaths = [] }) => {
     return dropdown ? (

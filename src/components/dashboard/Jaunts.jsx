@@ -3,32 +3,33 @@ import { Container } from 'react-bootstrap';
 import JauntCard from '../JauntCard';
 
 const Jaunts = ({
-  allJaunts,
+  allJaunts = [],
   onJauntToBeDeletedChange,
   onJauntToBeEditedChange,
   editJauntStatus,
   showSteps,
   onShowStepsChange,
   isDeletable,
-  isUpdateable
+  isEditable
 }) => {
   return (
     <>
       <Container fluid className="px-5 my-4">
-        {allJaunts.map(jaunt => (
-          <JauntCard
-            key={jaunt?.id}
-            status={'Hello'}
-            jaunt={jaunt}
-            onDelete={() => onJauntToBeDeletedChange(jaunt)}
-            onEdit={() => onJauntToBeEditedChange(jaunt)}
-            editJauntStatus={editJauntStatus}
-            showSteps={showSteps}
-            onShowStepsChange={onShowStepsChange}
-            isDeletable={isDeletable}
-            isUpdateable={isUpdateable}
-          />
-        ))}
+        {allJaunts &&
+          allJaunts.map(jaunt => (
+            <JauntCard
+              key={jaunt?.id}
+              status={'Hello'}
+              jaunt={jaunt}
+              onDelete={() => onJauntToBeDeletedChange(jaunt)}
+              onEdit={() => onJauntToBeEditedChange(jaunt)}
+              editJauntStatus={editJauntStatus}
+              showSteps={showSteps}
+              onShowStepsChange={onShowStepsChange}
+              isDeletable={isDeletable}
+              isEditable={isEditable}
+            />
+          ))}
       </Container>
     </>
   );
