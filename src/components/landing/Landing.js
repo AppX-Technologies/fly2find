@@ -40,7 +40,6 @@ const LandingPage = () => {
 "
         onLearnMoreClick={onLearnMoreClick}
       />
-
       <Section id="section1" texts={section1Texts} />
       <Section texts={section2Texts} flip />
       <Title title="Join us Now!" />

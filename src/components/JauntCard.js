@@ -32,23 +32,27 @@ const JauntCard = ({
               {/* Action Buttons */}
 
               <div className="d-flex justify-content-evenly align-items-center">
-                <Dropdown style={styles.smallerFont} className="ml-2">
-                  <Dropdown.Toggle variant="success" className="px-1 py-0 " style={{ fontSize: '12px' }}>
-                    {jaunt?.status}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {STATUSES.map(status => (
-                      <Dropdown.Item
-                        key={status}
-                        value={status}
-                        onClick={() => editJauntStatus(jaunt?.id, status)}
-                        disabled={status === jaunt?.status || !isUpdateable}
-                      >
-                        {status}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
+                {isUpdateable ? (
+                  <Dropdown style={styles.smallerFont} className="ml-2">
+                    <Dropdown.Toggle variant="success" className="px-1 py-0 " style={{ fontSize: '12px' }}>
+                      {jaunt?.status}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {STATUSES.map(status => (
+                        <Dropdown.Item
+                          key={status}
+                          value={status}
+                          onClick={() => editJauntStatus(jaunt?.id, status)}
+                          disabled={status === jaunt?.status}
+                        >
+                          {status}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                ) : (
+                  <Badge variant="success">{jaunt?.status}</Badge>
+                )}
 
                 <Button size="sm" variant="info" className="ml-2 py-0 px-1" onClick={onEdit}>
                   <Pen style={{ verticalAlign: 'baseline' }} size={10} />

@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import NotFound from '../NotFound';
 import NavBar from '../NavBar';
 import RecentJaunts from './Recent';
+import FinishJaunt from './FinishJaunt';
 
 const JauntRoute = () => {
   const getActivePage = () => {
@@ -13,6 +14,10 @@ const JauntRoute = () => {
         <Route exact path="/jaunt/recent">
           <RecentJaunts />
         </Route>
+        <Route exact path="/jaunt/finish">
+          <FinishJaunt />
+        </Route>
+
         <Route path="*">
           <NotFound />
         </Route>

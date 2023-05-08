@@ -9,6 +9,9 @@ export const SCRIPT_PROD_URL =
   'https://script.google.com/macros/s/AKfycbzOKqZEPn2RVjMPulS-rliMOdmkKfk0YIsK5XkfQvh2Znh3RBZD_5iHWNerjg66VysoqA/exec';
 export const BRAND_NAME = 'Fly2Find';
 
+// export const SCRIPT_URL =
+//   'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
+
 export const SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
 
@@ -265,7 +268,7 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis ',
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
-    status: 'Draft',
+    status: 'Review',
     thumbnail: 'https://www.w3schools.com/css/paris.jpg',
     points: 'hahahehe',
     album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],

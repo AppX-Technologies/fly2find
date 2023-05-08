@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { GripHorizontal, TrashFill } from 'react-bootstrap-icons';
+import { Alert, Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { GripHorizontal, TrashFill, X } from 'react-bootstrap-icons';
 import { ADMIN_ROLE, acceptedImageTypes } from '../../helpers/constants';
 import SlidingSidebar from '../SlidingSideBar/SlidingSideBar';
 import DriveFileUploader from '../drive-file-uploader';
@@ -23,7 +23,8 @@ const AddOrEditJaunt = ({
   numberOfFiles,
   isEditable
 }) => {
-  const { role, email } = JSON.parse(localStorage.getItem('user'));
+  const { role } = JSON.parse(localStorage.getItem('user'));
+  const [showNotEditableInfo, setShowNonEditableInfo] = useState();
 
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -38,6 +39,14 @@ const AddOrEditJaunt = ({
     return isDragging;
   };
 
+  const filteredFields = useMemo(() => {
+    return fields?.filter(({ key }) => (role !== ADMIN_ROLE ? key !== 'status' : true));
+  }, [fields]);
+
+  useEffect(() => {
+    setShowNonEditableInfo(!isEditable);
+  }, [isEditable]);
+
   return (
     <SlidingSidebar
       visible={modalMetaData !== null}
@@ -45,6 +54,16 @@ const AddOrEditJaunt = ({
       title={`${modalMetaData?.id ? 'Edit' : 'Add'} Jaunt Information`}
       fullScreen
     >
+      {showNotEditableInfo && (
+        <Alert variant="danger" className="p-1 w-100 mt-1 mb-3">
+          <div className="d-flex ">
+            <p className="ml-1 text-center flex-grow-1 align-items-center m-auto">
+              As This Jaunt Is Not In Draft Phase So It Cannot Be Edited By You.
+            </p>
+            <X size={30} className="mr-1 pointer" onClick={() => setShowNonEditableInfo(false)} />
+          </div>
+        </Alert>
+      )}
       <Container fluid>
         {/* Thumbnail and Input Field Row */}
 
@@ -53,15 +72,19 @@ const AddOrEditJaunt = ({
             {/* Insert Thumbnail */}
             <div className="d-flex justify-content-center align-items-center">
               {!modalMetaData?.thumbnail?.length ? (
-                <DriveFileUploader
-                  onUploadedFilesChange={onThumbnailChange}
-                  multiple={false}
-                  id="thumbnail"
-                  allowedFileTypes={acceptedImageTypes}
-                  fileNotSuitableError={'Only Images Can Be Uploaded'}
-                  isDisabled={!isEditable}
-                  accept="image/*"
-                />
+                <>
+                  {isEditable && (
+                    <DriveFileUploader
+                      onUploadedFilesChange={onThumbnailChange}
+                      multiple={false}
+                      id="thumbnail"
+                      allowedFileTypes={acceptedImageTypes}
+                      fileNotSuitableError={'Only Images Can Be Uploaded'}
+                      isDisabled={!inProgress}
+                      accept="image/*"
+                    />
+                  )}
+                </>
               ) : (
                 <div className="d-flex justify-content-center">
                   <Image
@@ -84,10 +107,13 @@ const AddOrEditJaunt = ({
 
           <Col md={9} xs={12}>
             <Row>
-              {fields.map(({ key, label, type, notRequired, as, options, columns }, index) => {
+              {filteredFields?.map(({ key, label, type, notRequired, as, options, columns }, index) => {
                 return (
                   <>
-                    <Col md={fields[index + 1]?.columns ? 12 - fields[index + 1]?.columns : columns || 12} xs={12}>
+                    <Col
+                      md={filteredFields[index + 1]?.columns ? 12 - filteredFields[index + 1]?.columns : columns ?? 12}
+                      xs={12}
+                    >
                       <Form.Group className="mb-2" key={key} id={`fp-form-${key}`}>
                         <Form.Label>
                           {label}
@@ -103,7 +129,7 @@ const AddOrEditJaunt = ({
                             }}
                             as={as}
                             rows={3}
-                            disabled={!isEditable || (key === 'status' && role !== ADMIN_ROLE)}
+                            disabled={!isEditable || (key === 'status' && role !== ADMIN_ROLE) || inProgress}
                           >
                             {options.map(option => (
                               <option disabled={modalMetaData?.[key] === option}>{option}</option>
@@ -119,7 +145,7 @@ const AddOrEditJaunt = ({
                             }}
                             as={as}
                             rows={4}
-                            disabled={!isEditable}
+                            disabled={!isEditable || inProgress}
                           />
                         )}
                       </Form.Group>
@@ -143,15 +169,18 @@ const AddOrEditJaunt = ({
           )}
         </div>
         <div className="d-flex justify-content-start my-2 w-100 album-section">
-          <DriveFileUploader
-            onUploadedFilesChange={onAlbumChange}
-            id="album"
-            accept="image/*"
-            onNumberOfFilesChange={onNumberOfFilesChange}
-            allowedFileTypes={acceptedImageTypes}
-            fileNotSuitableError={'Only Images Can Be Uploaded'}
-            isDisabled={!isEditable}
-          />
+          {isEditable && (
+            <DriveFileUploader
+              onUploadedFilesChange={onAlbumChange}
+              id="album"
+              accept="image/*"
+              onNumberOfFilesChange={onNumberOfFilesChange}
+              allowedFileTypes={acceptedImageTypes}
+              fileNotSuitableError={'Only Images Can Be Uploaded'}
+              isDisabled={!isEditable || inProgress}
+            />
+          )}
+
           <div className="d-flex justify-content-start ml-4">
             {modalMetaData?.album &&
               modalMetaData?.album?.map(file => {
@@ -206,7 +235,7 @@ const AddOrEditJaunt = ({
                             {...provided.dragHandleProps}
                           >
                             <h6>
-                              <GripHorizontal size={20} className="mr-2" />
+                              {isEditable && <GripHorizontal size={20} className="mr-2" />}
                               {index + 1}.{'  '}
                               {step?.text}
                             </h6>
@@ -229,21 +258,23 @@ const AddOrEditJaunt = ({
             }}
           </Droppable>
         </DragDropContext>
-        <div className="d-flex align-items-center w-100 my-2">
-          <Form.Group className=" w-100 mb-0">
-            <Form.Control
-              value={modalMetaData?.stepToBeCompleted}
-              placeholder="Enter A Step"
-              disabled={!isEditable}
-              onChange={e => onAddOrEditJauntFieldValueChange('stepToBeCompleted', e.target.value)}
-            />
-          </Form.Group>
-          <Button variant="primary ml-2" onClick={handleStepToBeCompletedAddition} disabled={!isEditable}>
-            Add
-          </Button>
-        </div>
-
-        <hr />
+        {isEditable && (
+          <>
+            <div className="d-flex align-items-center w-100 my-2">
+              <Form.Group className=" w-100 mb-0">
+                <Form.Control
+                  value={modalMetaData?.stepToBeCompleted}
+                  placeholder="Enter A Step"
+                  onChange={e => onAddOrEditJauntFieldValueChange('stepToBeCompleted', e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="primary ml-2" onClick={handleStepToBeCompletedAddition} disabled={inProgress}>
+                Add
+              </Button>
+            </div>
+            <hr />
+          </>
+        )}
 
         {/* Points Text Area */}
         <h6 className="mt-2 mb-3 xxlarge font-weight-bold">Points</h6>
@@ -257,16 +288,17 @@ const AddOrEditJaunt = ({
             disabled={!isEditable}
           />
         </Form.Group>
-
-        <div className="d-flex justify-content-center align-items-center my-4">
-          <Button
-            variant="primary"
-            onClick={modalMetaData?.id ? onEditJauntClick : onAddJauntClick}
-            disabled={!isEditable}
-          >
-            {modalMetaData?.id ? 'Edit' : 'Add'}
-          </Button>
-        </div>
+        {isEditable && (
+          <div className="d-flex justify-content-center align-items-center my-4">
+            <Button
+              variant="primary"
+              onClick={modalMetaData?.id ? onEditJauntClick : onAddJauntClick}
+              disabled={inProgress}
+            >
+              {modalMetaData?.id ? 'Edit' : 'Add'}
+            </Button>
+          </div>
+        )}
       </Container>
     </SlidingSidebar>
   );

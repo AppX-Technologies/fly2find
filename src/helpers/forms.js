@@ -170,6 +170,64 @@ export const completeRegisterForm = {
   ]
 };
 
+const finishJauntFormRows = [
+  {
+    columns: [
+      {
+        default: 6,
+        xs: 12,
+        field: {
+          id: 'callsign',
+          title: 'Call Sign',
+          type: 'text',
+          required: true
+        }
+      },
+      {
+        default: 6,
+        xs: 12,
+        field: {
+          id: 'code',
+          title: 'Code',
+          type: 'text',
+          required: true
+        }
+      }
+    ]
+  },
+
+  {
+    columns: [
+      {
+        xs: 12,
+        field: {
+          id: 'experience',
+          title: 'Experience',
+          type: 'text-area',
+          required: true,
+          row: 3
+        }
+      }
+    ]
+  }
+];
+
+export const finishJauntForm = {
+  forms: [
+    {
+      name: 'Finish Jaunt',
+      markCompulsoryFields: true,
+      compact: false,
+      submit: {
+        name: 'Finish',
+        show: true,
+        onSubmit: 'onFinishJaunFormSubmit'
+      },
+      rows: finishJauntFormRows
+    }
+  ]
+};
+
 export const LOGIN_FORM_FIELDS = [
   {
     key: 'email',
@@ -231,7 +289,6 @@ export const ADD_JAUNT_FIELDS = [
     key: 'description',
     label: 'Full Description',
     type: 'textArea',
-    columns: 12,
     as: 'textarea'
   },
   {

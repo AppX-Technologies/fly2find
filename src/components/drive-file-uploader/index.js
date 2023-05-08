@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ProgressBar, Spinner } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { toast } from 'react-toastify';
+import { makeApiRequests } from '../../helpers/api';
 
 const MAX_CHUNK_SIZE = 2 * 1024 * 1024; // 48MB
 
@@ -50,18 +51,16 @@ const DriveFileUploader = ({
       byteEnd
     };
 
-    const scriptUrl =
-      'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
-
-    const response = await fetch(scriptUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-      },
-      body: JSON.stringify({ payload: fileInfoObject, requestType: 'upload-file' })
+    const { error, response } = await makeApiRequests({
+      requestType: 'upload-file',
+      requestBody: { payload: fileInfoObject }
     });
 
-    return await response.json();
+    if (error) {
+      return toast.error(error);
+    }
+
+    return await response;
   };
 
   const onFileChange = async e => {

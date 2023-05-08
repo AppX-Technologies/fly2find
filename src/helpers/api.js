@@ -1,8 +1,8 @@
-import { API_KEY, SCRIPT_PROD_URL } from './constants';
+import { API_KEY, SCRIPT_URL } from './constants';
 
 export const makeApiRequests = async ({ requestType, requestBody = {} }) => {
   try {
-    const response = await (await fetch(SCRIPT_PROD_URL, {
+    const response = await (await fetch(SCRIPT_URL, {
       method: 'POST',
       body: JSON.stringify({
         gid: localStorage.getItem('user-gid'),

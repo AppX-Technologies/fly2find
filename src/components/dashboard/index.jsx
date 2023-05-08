@@ -19,6 +19,8 @@ const Index = () => {
   const [allJaunts, setAllJaunts] = useState(JAUNTS);
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
   const [showSteps, setShowSteps] = useState([]);
+  const [jauntAddOrUpdateInProgress, setJauntAddOrUpdateInProgress] = useState(false);
+  const [jauntDeleteInProgress, setJauntDeleteInProgress] = useState(false);
   const [numberOfFiles, setNumberOfFiles] = useState({
     toBeUploaded: 0,
     alreadyUploaded: 0
@@ -30,7 +32,7 @@ const Index = () => {
     isAssessending: true
   });
 
-  const { role, email } = JSON.parse(localStorage.getItem('user'));
+  const { role } = JSON.parse(localStorage.getItem('user'));
 
   const onNumberOfFilesChange = (key, value, reset = false) => {
     if (reset) {
@@ -112,9 +114,19 @@ const Index = () => {
     if (emptyField) {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
+    setJauntAddOrUpdateInProgress(true);
+    // const { error, response } = await makeApiRequests({
+    //   requestType: 'upload-file',
+    //   requestBody: { payload: fileInfoObject }
+    // });
+
+    // if (error) {
+    //   return toast.error(error);
+    // }
 
     setAllJaunts([...allJaunts, { ...addOrEditJauntMetadata, id: allJaunts?.length + 1, status: 'Draft' }]); // Use UUID instead
     onAddOrEditJauntModalClose();
+    setJauntAddOrUpdateInProgress(false);
     toast.success('Jaunt Successfully Created');
   };
 
@@ -126,20 +138,43 @@ const Index = () => {
     if (emptyField) {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
+    setJauntAddOrUpdateInProgress(false);
+
+    // const { error, response } = await makeApiRequests({
+    //   requestType: 'upload-file',
+    //   requestBody: { payload: fileInfoObject }
+    // });
+
+    // if (error) {
+    //   return toast.error(error);
+    // }
+
     const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === addOrEditJauntMetadata?.id);
     allJaunts[toEditJauntIndex] = addOrEditJauntMetadata;
     setAllJaunts([...allJaunts]);
     onAddOrEditJauntModalClose();
+    setJauntAddOrUpdateInProgress(false);
     toast.success('Jaunt Successfully Edited');
   };
 
   // Triggers When Delete Button Is Clicked In The Card
 
   const onDeleteJauntClick = () => {
+    setJauntDeleteInProgress(true);
+    // const { error, response } = await makeApiRequests({
+    //   requestType: 'upload-file',
+    //   requestBody: { payload: fileInfoObject }
+    // });
+
+    // if (error) {
+    //   return toast.error(error);
+    // }
+
     const toDeleteJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntToBeDeleted?.id);
     allJaunts.splice(toDeleteJauntIndex, 1);
     setAllJaunts([...allJaunts]);
     setJauntToBeDeleted(null);
+    setJauntDeleteInProgress(false);
     toast.success('Jaunt Successfully Deleted');
   };
 
@@ -169,6 +204,18 @@ const Index = () => {
     return false;
   };
 
+  const executeGlobalSearch = () => {
+    // const { error, response } = await makeApiRequests({
+    //   requestType: 'upload-file',
+    //   requestBody: { payload: fileInfoObject }
+    // });
+    // if (error) {
+    //   return toast.error(error);
+    // }
+
+    setAllJaunts({ ...allJaunts });
+  };
+
   useEffect(() => {
     setShowSteps([...allJaunts.map(({ id }) => id)]);
   }, [allJaunts]);
@@ -190,9 +237,9 @@ const Index = () => {
         alertText={'Are You Sure You Want To Delete This Jaunt?'}
         onContinueClick={() => onDeleteJauntClick()}
         onDismissClick={() => onJauntToBeDeletedChange(null)}
-        showProgress={false}
+        showProgress={jauntDeleteInProgress}
         title="Delete This Jaunt"
-        progressText="Deletibg..."
+        progressText="Deleting..."
       />
 
       {/* Sidebar For Filter */}
@@ -218,7 +265,6 @@ const Index = () => {
             ? EDIT_JAUNT_FIELD?.filter(({ key }) => key !== 'points' && key !== 'thumbnail')
             : ADD_JAUNT_FIELDS?.filter(({ key }) => key !== 'points' && key !== 'thumbnail')
         }
-        inProgress={false}
         onHide={onAddOrEditJauntModalClose}
         onAddOrEditJauntFieldValueChange={onAddOrEditJauntFieldValueChange}
         onAddJauntClick={onAddJauntClick}
@@ -228,6 +274,7 @@ const Index = () => {
         onThumbnailChange={onThumbnailChange}
         onAlbumChange={onAlbumChange}
         onNumberOfFilesChange={onNumberOfFilesChange}
+        inProgress={jauntAddOrUpdateInProgress}
         numberOfFiles={numberOfFiles}
         isEditable={
           addOrEditJauntMetadata?.id
