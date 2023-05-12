@@ -13,8 +13,7 @@ const DriveFileUploader = ({
   id,
   onNumberOfFilesChange, // Not Compulsory
   allowedFileTypes = [], // Example ['image/gif', 'image/jpeg', 'image/png']
-  accept = '', // Only shows this type of file in file selection window
-  isDisabled = false
+  accept = '' // Only shows this type of file in file selection window
 }) => {
   // onNumberOfFilesChange basically updates the number of alreadyUploaded and toBeUploaded files
   // onNumberOfFilesChange can contain 3 parameters(key, value , reset);
@@ -53,7 +52,7 @@ const DriveFileUploader = ({
 
     const { error, response } = await makeApiRequests({
       requestType: 'upload-file',
-      requestBody: { payload: fileInfoObject }
+      requestBody: fileInfoObject
     });
 
     if (error) {
@@ -169,7 +168,7 @@ const DriveFileUploader = ({
         <input
           type="file"
           onChange={onFileChange}
-          disabled={uploading || isDisabled}
+          disabled={uploading}
           id={id}
           style={{ display: 'none' }}
           multiple={multiple}
@@ -178,7 +177,7 @@ const DriveFileUploader = ({
         <label for={!uploading && id}>
           <div
             className={`drive-file-uploader d-flex justify-content-center align-items-center  ${
-              !uploading ? (!isDisabled ? 'pointer p-5' : 'p-5') : 'p-1'
+              !uploading ? 'pointer p-5' : 'p-1'
             }`}
           >
             {uploading ? (
@@ -187,7 +186,7 @@ const DriveFileUploader = ({
                 <Spinner size={40} variant="dark" animation="border" className="image-loading-spinner" />
               </div>
             ) : (
-              <Plus size={40} className={(uploading || isDisabled) && 'text-muted'} />
+              <Plus size={40} className={uploading && 'text-muted'} />
             )}
           </div>
         </label>
