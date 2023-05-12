@@ -20,7 +20,7 @@ const sampleUserObj = {
 const App = () => {
   // TODO
 
-  // saveUserToLocal(sampleUserObj);
+  saveUserToLocal(sampleUserObj);
 
   return (
     <Router>

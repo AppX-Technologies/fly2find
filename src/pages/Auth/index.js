@@ -101,6 +101,7 @@ const Auth = () => {
         setFormSubmitting(false);
         return toast.error(error);
       }
+      toast.success('OTP Is Successfully Sent To Your Email Address.');
       setIsEmailVerified(true);
       setFormSubmitting(false);
     }
@@ -121,7 +122,6 @@ const Auth = () => {
 
     try {
       await auth();
-
       setFormSubmitting(false);
     } catch (e) {
       setFormSubmitting(false);
@@ -186,8 +186,6 @@ const Auth = () => {
       });
   };
 
-  console.log(isEmailVerified, 'isEmailVerified');
-
   if (loggedInEmail) {
     return <Redirect from="/login" to={'/admin/jaunts'} />;
   }
@@ -201,7 +199,11 @@ const Auth = () => {
         onFormSubmit={onForgotPasswordFormSubmit}
         sendingMail={sendingMail}
       />
-      <Container fluid className="bg-gradient-light h-100">
+      <Container
+        fluid
+        className="bg-gradient-light"
+        style={{ height: mode === LOGIN_MODE || !isEmailVerified ? '100%' : '130vh' }} // Temporary Needs To Be Changed
+      >
         <Row className="h-100">
           <Col xs={12} className="p-4">
             <Row className="justify-content-center h-100">
@@ -210,7 +212,6 @@ const Auth = () => {
                   <h1 className="logo mb-4 text-light">
                     F<span className="underline ">ly2Find</span>
                   </h1>
-                  {/* <Image className="mx-auto" src={`${process.env.PUBLIC_URL}/logo.png`} height={85} /> */}
                 </div>
                 <Card className="">
                   <Card.Body>
@@ -248,7 +249,13 @@ const Auth = () => {
                         animated
                         variant="dark"
                         now={100}
-                        label={mode === LOGIN_MODE ? 'Logging in...' : 'Creating account...'}
+                        label={
+                          mode === LOGIN_MODE
+                            ? 'Logging in...'
+                            : isEmailVerified
+                            ? 'Creating account...'
+                            : 'Sending OTP'
+                        }
                       />
                     )}
                     {signInError && (
