@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { LOGIN_MODE, REGISTER_MODE } from '../../helpers/constants';
-import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 const LoginOrRegister = ({
   formInfo,
@@ -12,7 +11,9 @@ const LoginOrRegister = ({
   styles,
   onModeChange,
   onForgotPassModalChange,
-  onFormSubmit
+  onFormSubmit,
+  onEmailVerification,
+  isEmailVerified
 }) => {
   return (
     <>
@@ -32,8 +33,12 @@ const LoginOrRegister = ({
       })}
 
       <div className="w-100 d-flex justify-content-center">
-        <Button variant="primary" onClick={onFormSubmit} disabled={formSubmitting}>
-          {mode === LOGIN_MODE ? 'Login' : 'Register'}
+        <Button
+          variant="primary"
+          onClick={mode === LOGIN_MODE ? onFormSubmit : isEmailVerified ? LOGIN_MODE : onEmailVerification}
+          disabled={formSubmitting}
+        >
+          {mode === LOGIN_MODE ? 'Login' : isEmailVerified ? 'Register' : 'Verify Email'}
         </Button>
       </div>
 

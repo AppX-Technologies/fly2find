@@ -5,10 +5,9 @@ export const makeApiRequests = async ({ requestType, requestBody = {} }) => {
     const response = await (await fetch(SCRIPT_URL, {
       method: 'POST',
       body: JSON.stringify({
-        gid: localStorage.getItem('user-gid'),
         clientId: API_KEY,
         requestType,
-        ...requestBody
+        payload: requestBody
       }),
       headers: {
         'Content-Type': 'text/plain;charset=utf-8'

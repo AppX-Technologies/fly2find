@@ -7,10 +7,10 @@ import ScrollToTop from './components/ScrollToTop';
 import JauntRoute from './components/jaunt/JauntRoute';
 import LandingPage from './components/landing/Landing';
 import Registration from './components/registration/Registration';
-import { ADMIN_ROLE, PILOT_ROLE } from './helpers/constants';
+import { ADMIN_ROLE } from './helpers/constants';
+import { saveUserToLocal } from './helpers/session';
 import Auth from './pages/Auth';
 import AuthenticatedApp from './pages/AuthenticatedApp';
-import { saveUserToLocal } from './helpers/session';
 
 const sampleUserObj = {
   email: 'gautamrajat185@gmail.com',
@@ -20,7 +20,7 @@ const sampleUserObj = {
 const App = () => {
   // TODO
 
-  saveUserToLocal(sampleUserObj);
+  // saveUserToLocal(sampleUserObj);
 
   return (
     <Router>

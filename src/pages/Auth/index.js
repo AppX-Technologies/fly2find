@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from '@firebase/auth';
+import { sendPasswordResetEmail } from '@firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Alert, Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { PersonBadge } from 'react-bootstrap-icons/dist';
@@ -8,7 +8,7 @@ import { firebaseAuth } from '../../firebase';
 import { highlightError, removeHighlightedError } from '../../form-generator/helpers/utility';
 import { makeApiRequests } from '../../helpers/api';
 import { LOGIN_MODE, REGISTER_MODE } from '../../helpers/constants';
-import { LOGIN_FORM_FIELDS, REGISTER_FORM_FIELDS } from '../../helpers/forms';
+import { LOGIN_FORM_FIELDS, REGISTER_FORM_FIELDS, VERIFY_EMAIL_FORM_FIELDS } from '../../helpers/forms';
 import { getErrorMessageFromFirebase } from '../../helpers/global';
 import ForgotPassword from './ForgotPassword';
 import LoginOrRegister from './LoginOrRegister';
@@ -20,6 +20,7 @@ const Auth = () => {
   const [forgotPassModalMetadata, setForgotPassModalMetadata] = useState(null);
   const [signInError, setSignInError] = useState('');
   const [sendingMail, setSendingMail] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const history = useHistory();
 
@@ -52,14 +53,11 @@ const Auth = () => {
     removeHighlightedError('validationMsg');
   }, [mode]);
 
-  const auth = async (email, user, name, fromRegister) => {
-    const idToken = await user.getIdToken();
-    const gid = user.uid;
-
+  const auth = async fromRegister => {
     setSignInError('');
     const { response: authResult, error } = await makeApiRequests({
-      requestType: 'auth',
-      requestBody: { idToken, name }
+      requestType: mode === LOGIN_MODE ? 'login' : 'register',
+      requestBody: { ...formInfo }
     });
 
     if (error) {
@@ -73,8 +71,6 @@ const Auth = () => {
     }
 
     const role = authResult['role'];
-    localStorage.setItem('user-email', email);
-    localStorage.setItem('user-gid', gid);
     localStorage.setItem('user-name', authResult['name']);
     localStorage.setItem('user-role', role);
     localStorage.setItem('user-role-applied', authResult['appliedFor']);
@@ -84,10 +80,34 @@ const Auth = () => {
     history.push('/');
   };
 
+  const onEmailVerification = async () => {
+    if (!isEmailVerified) {
+      const emptyField = VERIFY_EMAIL_FORM_FIELDS.find(field => !formInfo[(field?.key)]);
+
+      if (emptyField) {
+        return highlightError(
+          document.getElementById(`${mode}-form-${emptyField?.key}`),
+          `${emptyField?.label} Is Empty`
+        );
+      }
+
+      setFormSubmitting(true);
+      const { response: authResult, error } = await makeApiRequests({
+        requestType: 'get-registration-OTP',
+        requestBody: { email: formInfo?.email, firstName: '', lastName: '', registrationType: 'Closed' }
+      });
+
+      if (error) {
+        setFormSubmitting(false);
+        return toast.error(error);
+      }
+      setIsEmailVerified(true);
+      setFormSubmitting(false);
+    }
+  };
+
   const onLoginFormSubmit = async () => {
     setSignInError('');
-    const email = formInfo?.email;
-    const password = formInfo?.password;
 
     const emptyField = LOGIN_FORM_FIELDS.find(field => !formInfo[(field?.key)]);
 
@@ -100,8 +120,7 @@ const Auth = () => {
     setFormSubmitting(true);
 
     try {
-      const cred = await signInWithEmailAndPassword(firebaseAuth, email, password);
-      await auth(email, cred.user);
+      await auth();
 
       setFormSubmitting(false);
     } catch (e) {
@@ -113,8 +132,6 @@ const Auth = () => {
   const onRegisterFormSubmit = async () => {
     setSignInError('');
 
-    const name = formInfo?.name;
-    const email = formInfo?.email;
     const password = formInfo?.password;
     const confirmPassword = formInfo?.confirmPassword;
 
@@ -135,9 +152,8 @@ const Auth = () => {
 
     let userCreated = false;
     try {
-      const cred = await createUserWithEmailAndPassword(firebaseAuth, email, password);
       userCreated = true;
-      await auth(email, cred.user, name, true);
+      await auth(true);
       setMode(LOGIN_MODE);
       setFormSubmitting(false);
     } catch (e) {
@@ -170,6 +186,8 @@ const Auth = () => {
       });
   };
 
+  console.log(isEmailVerified, 'isEmailVerified');
+
   if (loggedInEmail) {
     return <Redirect from="/login" to={'/admin/jaunts'} />;
   }
@@ -183,7 +201,7 @@ const Auth = () => {
         onFormSubmit={onForgotPasswordFormSubmit}
         sendingMail={sendingMail}
       />
-      <Container fluid className="h-100 bg-gradient-light">
+      <Container fluid className="bg-gradient-light h-100">
         <Row className="h-100">
           <Col xs={12} className="p-4">
             <Row className="justify-content-center h-100">
@@ -199,7 +217,7 @@ const Auth = () => {
                     <div className="d-flex justify-content-center">
                       <h5 className="text-dark my-1">
                         <PersonBadge className="mr-2 " />
-                        {mode === LOGIN_MODE ? 'Login' : 'Register'}
+                        {mode === LOGIN_MODE ? 'Login' : isEmailVerified ? 'Register' : 'Verify Email'}
                       </h5>
                     </div>
                     <hr />
@@ -207,12 +225,20 @@ const Auth = () => {
                       formInfo={formInfo}
                       onFormInfoChange={onFormInfoChange}
                       formSubmitting={formSubmitting}
-                      fields={mode === LOGIN_MODE ? LOGIN_FORM_FIELDS : REGISTER_FORM_FIELDS}
+                      fields={
+                        mode === LOGIN_MODE
+                          ? LOGIN_FORM_FIELDS
+                          : isEmailVerified
+                          ? REGISTER_FORM_FIELDS
+                          : VERIFY_EMAIL_FORM_FIELDS
+                      }
                       mode={mode}
                       styles={styles}
                       onModeChange={onModeChange}
                       onForgotPassModalChange={onForgotPassModalChange}
                       onFormSubmit={mode === LOGIN_MODE ? onLoginFormSubmit : onRegisterFormSubmit}
+                      onEmailVerification={onEmailVerification}
+                      isEmailVerified={isEmailVerified}
                     />
 
                     {formSubmitting && (

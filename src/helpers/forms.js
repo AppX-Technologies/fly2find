@@ -261,6 +261,19 @@ export const REGISTER_FORM_FIELDS = [
     key: 'confirmPassword',
     label: 'Confirm Password',
     type: 'password'
+  },
+  {
+    key: 'temporaryKey',
+    label: 'O.T.P',
+    type: 'number'
+  }
+];
+
+export const VERIFY_EMAIL_FORM_FIELDS = [
+  {
+    key: 'email',
+    label: 'Email',
+    type: 'email'
   }
 ];
 
