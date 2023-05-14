@@ -45,7 +45,9 @@ const SecondaryHeader = ({
               executeGlobalSearch={executeGlobalSearch}
             />
           </Col>
+
           {/* Showing */}
+
           <Col xs={4} md={2} className="my-1">
             <Dropdown className="mb-md-0">
               <Dropdown.Toggle size="sm" disabled={false} block variant="outline-dark" id="dropdown-basic">
@@ -54,14 +56,20 @@ const SecondaryHeader = ({
 
               <Dropdown.Menu value={globalFilterValues?.showing}>
                 {SHOWING_OPTIONS.map(option => (
-                  <Dropdown.Item value={option} onClick={() => onGlobalFilterValueChange('showing', option)}>
+                  <Dropdown.Item
+                    value={option}
+                    onClick={() => onGlobalFilterValueChange('showing', option)}
+                    className={`${globalFilterValues?.showing === option && 'bg-primary text-light'}`}
+                  >
                     {option}
                   </Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
           </Col>
+
           {/* Sort By */}
+
           <Col xs={4} md={2} className="my-1">
             <Dropdown className="mb-md-0">
               <Dropdown.Toggle size="sm" disabled={false} block variant="outline-dark" id="dropdown-basic">
@@ -70,7 +78,11 @@ const SecondaryHeader = ({
 
               <Dropdown.Menu value={globalFilterValues?.sortBy}>
                 {DASHBOARD_SORT_BY_OPTIONS.map(option => (
-                  <Dropdown.Item value={option} onClick={() => onGlobalFilterValueChange('showing', option)}>
+                  <Dropdown.Item
+                    value={option}
+                    onClick={() => onGlobalFilterValueChange('sortBy', option)}
+                    className={`${globalFilterValues?.sortBy === option && 'bg-primary text-light'}`}
+                  >
                     {option}
                   </Dropdown.Item>
                 ))}
@@ -98,6 +110,7 @@ const SecondaryHeader = ({
           </Col>
 
           {/* Filter */}
+
           <Col xs={2} md={1} className="my-1">
             <Button
               size="sm"

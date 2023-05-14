@@ -1,13 +1,15 @@
 import { API_KEY, SCRIPT_URL } from './constants';
 
 export const makeApiRequests = async ({ requestType, requestBody = {} }) => {
+  const accessToken = localStorage.getItem('user-token');
   try {
     const response = await (await fetch(SCRIPT_URL, {
       method: 'POST',
       body: JSON.stringify({
         clientId: API_KEY,
         requestType,
-        payload: requestBody
+        payload: requestBody,
+        accessToken
       }),
       headers: {
         'Content-Type': 'text/plain;charset=utf-8'
@@ -17,10 +19,9 @@ export const makeApiRequests = async ({ requestType, requestBody = {} }) => {
     if (response['success']) {
       return { response };
     } else {
-      return { error: response['reason'] || 'Oops something went wrong!' };
+      return { error: response['message'] || 'Oops something went wrong!' };
     }
   } catch (e) {
-    console.log(e);
     return { error: 'Oops something went wrong!' };
   }
 };

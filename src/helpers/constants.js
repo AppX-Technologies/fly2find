@@ -9,9 +9,6 @@ export const SCRIPT_PROD_URL =
   'https://script.google.com/macros/s/AKfycbzOKqZEPn2RVjMPulS-rliMOdmkKfk0YIsK5XkfQvh2Znh3RBZD_5iHWNerjg66VysoqA/exec';
 export const BRAND_NAME = 'Fly2Find';
 
-// export const SCRIPT_URL =
-//   'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
-
 export const SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
 

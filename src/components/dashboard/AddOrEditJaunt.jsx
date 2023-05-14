@@ -157,10 +157,16 @@ const AddOrEditJaunt = ({
           </Col>
         </Row>
         <hr />
+
+        {/* Description Row */}
+
         <div className="mt-2">
-          <h6 className="xxlarge font-weight-bold">Description</h6>
+          <h6 className="xxlarge font-weight-bold">
+            Add Description About This Jaunt
+            <sup className="text-primary">*</sup>
+          </h6>
         </div>
-        <Row className="my-2 px-3">
+        <div className="my-2 px-1">
           <Form.Group className="w-100">
             <Form.Control
               type="text"
@@ -174,7 +180,7 @@ const AddOrEditJaunt = ({
               disabled={inProgress}
             />
           </Form.Group>
-        </Row>
+        </div>
         <hr />
 
         {/* Albums Row */}
@@ -296,8 +302,10 @@ const AddOrEditJaunt = ({
         )}
 
         {/* Points Text Area */}
-        <h6 className="mt-2 mb-3 xxlarge font-weight-bold">Points</h6>
-        <Form.Group className="mb-3 mt-2">
+        <h6 className="mt-2 xxlarge font-weight-bold">
+          Points <sup className="text-primary">*</sup>
+        </h6>
+        <Form.Group className="mb-3 ">
           <Form.Control
             as={'textarea'}
             rows={3}

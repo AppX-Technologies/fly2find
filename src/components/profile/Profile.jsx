@@ -42,31 +42,31 @@ const Profile = () => {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [savingProfile, setSubmittingProfile] = useState(false);
 
-  const getProfile = async () => {
-    setLoadingProfile(true);
-    try {
-      const { error, response } = await makeApiRequests({
-        requestType: 'getMe'
-      });
+  // const getProfile = async () => {
+  //   setLoadingProfile(true);
+  //   try {
+  //     const { error, response } = await makeApiRequests({
+  //       requestType: 'getMe'
+  //     });
 
-      setLoadingProfile(false);
+  //     setLoadingProfile(false);
 
-      if (error) {
-        toast.error(error);
-        return;
-      }
+  //     if (error) {
+  //       toast.error(error);
+  //       return;
+  //     }
 
-      setEditingProfile(response);
-    } catch (e) {
-      setLoadingProfile(false);
-      toast.error('Something went wrong! Please try again');
-      console.log(e);
-    }
-  };
+  //     setEditingProfile(response);
+  //   } catch (e) {
+  //     setLoadingProfile(false);
+  //     toast.error('Something went wrong! Please try again');
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
 
   const onChangePasswordFormSubmit = async form => {
     const oldPassword = form['Old Password'];
@@ -82,8 +82,8 @@ const Profile = () => {
 
     try {
       const { error, response } = await makeApiRequests({
-        requestType: 'changePassword',
-        requestBody: { oldPassword, newPassword, confirmPassword }
+        requestType: 'change-password',
+        requestBody: { oldPassword, newPassword }
       });
 
       setFormSubmitting(false);
@@ -163,6 +163,10 @@ const Profile = () => {
                   <PersonCircle size={35} />
                 </div>
                 <div className="flex-grow-1 bg-white px-4">
+                  <Heading title={'Password Change'} />
+                  <ChangePasswordForm showProgress={formSubmitting} />
+                </div>
+                {/* <div className="flex-grow-1 bg-white px-4">
                   {loadingProfile ? (
                     <Loader />
                   ) : (
@@ -216,12 +220,11 @@ const Profile = () => {
                           </Row>
                         )}
 
-                        <Heading title={'Password Change'} />
-                        <ChangePasswordForm showProgress={formSubmitting} />
+                       
                       </>
                     )
                   )}
-                </div>
+                </div> */}
               </div>
             </Card.Body>
           </Card>

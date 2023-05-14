@@ -1,17 +1,21 @@
-import { sendPasswordResetEmail } from '@firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Alert, Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { PersonBadge } from 'react-bootstrap-icons/dist';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { toast } from 'react-toastify';
-import { firebaseAuth } from '../../firebase';
 import { highlightError, removeHighlightedError } from '../../form-generator/helpers/utility';
 import { makeApiRequests } from '../../helpers/api';
-import { LOGIN_MODE, REGISTER_MODE } from '../../helpers/constants';
-import { LOGIN_FORM_FIELDS, REGISTER_FORM_FIELDS, VERIFY_EMAIL_FORM_FIELDS } from '../../helpers/forms';
+import { ADMIN_ROLE, LOGIN_MODE, REGISTER_MODE } from '../../helpers/constants';
+import {
+  LOGIN_FORM_FIELDS,
+  REGISTER_FORM_FIELDS,
+  RESET_PASSWORD_FIELDS,
+  VERIFY_EMAIL_FORM_FIELDS
+} from '../../helpers/forms';
 import { getErrorMessageFromFirebase } from '../../helpers/global';
 import ForgotPassword from './ForgotPassword';
 import LoginOrRegister from './LoginOrRegister';
+import ResetPassword from './ResetPassword';
 
 const Auth = () => {
   const [mode, setMode] = useState(LOGIN_MODE);
@@ -21,6 +25,8 @@ const Auth = () => {
   const [signInError, setSignInError] = useState('');
   const [sendingMail, setSendingMail] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [resetPasswordFormMetadata, setResetPasswordFormMetadata] = useState(null);
+  const [resettingPassword, setResttingPaasword] = useState(false);
 
   const history = useHistory();
 
@@ -42,7 +48,12 @@ const Auth = () => {
     setForgotPassModalMetadata({ ...forgotPassModalMetadata });
   };
 
-  const loggedInEmail = localStorage.getItem('user-email');
+  const onResetPasswordFormMetadataChange = (key, value) => {
+    resetPasswordFormMetadata[key] = value;
+    setResetPasswordFormMetadata({ ...resetPasswordFormMetadata });
+  };
+
+  const userToken = localStorage.getItem('user-token');
 
   useEffect(() => {
     if (mode === REGISTER_MODE) {
@@ -53,30 +64,24 @@ const Auth = () => {
     removeHighlightedError('validationMsg');
   }, [mode]);
 
-  const auth = async fromRegister => {
+  const auth = async () => {
     setSignInError('');
     const { response: authResult, error } = await makeApiRequests({
       requestType: mode === LOGIN_MODE ? 'login' : 'register',
-      requestBody: { ...formInfo }
+      requestBody: { ...formInfo, registrationOTP: formInfo?.temporaryKey }
     });
 
     if (error) {
-      if (fromRegister) {
-        throw new Error();
-      } else {
-        setSignInError(error);
-      }
-      setFormSubmitting(false);
+      return toast.error(error);
+    }
+
+    if (mode === REGISTER_MODE) {
+      setMode(LOGIN_MODE);
       return;
     }
 
-    const role = authResult['role'];
-    localStorage.setItem('user-name', authResult['name']);
-    localStorage.setItem('user-role', role);
-    localStorage.setItem('user-role-applied', authResult['appliedFor']);
-    localStorage.setItem('user-application-id', authResult['applicationId']);
-    localStorage.setItem('user-allowed-order-placement', authResult['allowOrderPlacement']);
-    localStorage.setItem('user-clients', JSON.stringify(authResult['clientsAndSites']));
+    localStorage.setItem('user-token', authResult?.accessToken?.jwt);
+    localStorage.setItem('user-role', ADMIN_ROLE);
     history.push('/');
   };
 
@@ -94,7 +99,7 @@ const Auth = () => {
       setFormSubmitting(true);
       const { response: authResult, error } = await makeApiRequests({
         requestType: 'get-registration-OTP',
-        requestBody: { email: formInfo?.email, firstName: '', lastName: '', registrationType: 'Closed' }
+        requestBody: { email: formInfo?.email }
       });
 
       if (error) {
@@ -174,31 +179,74 @@ const Auth = () => {
     }
 
     setSendingMail(true);
-    sendPasswordResetEmail(firebaseAuth, forgotPassModalMetadata?.email)
-      .then(() => {
-        toast.success('Mail sent successfully!');
-        setSendingMail(false);
-        onForgotPassModalChange(null);
-      })
-      .catch(error => {
-        toast.error(getErrorMessageFromFirebase(error));
-        setSendingMail(false);
-      });
+    const { response: authResult, error } = await makeApiRequests({
+      requestType: 'get-password-reset-link',
+      requestBody: { email: forgotPassModalMetadata?.email }
+    });
+
+    if (error) {
+      setSendingMail(false);
+      return toast.error(error);
+    }
+
+    toast.success('Email Reset Link Sent Successfully.');
+    setSendingMail(false);
+    setResetPasswordFormMetadata({});
   };
 
-  if (loggedInEmail) {
+  const onResetPasswordFormSubmit = async () => {
+    const newPassword = resetPasswordFormMetadata?.newPassword;
+    const confirmPassword = resetPasswordFormMetadata?.confirmPassword;
+
+    const emptyField = RESET_PASSWORD_FIELDS.find(field => !resetPasswordFormMetadata[(field?.key)]);
+
+    if (emptyField) {
+      return highlightError(document.getElementById(`rp-form-${emptyField?.key}`), `${emptyField?.label} Is Empty`);
+    }
+
+    if (newPassword !== confirmPassword) {
+      return highlightError(document.getElementById(`rp-form-confirmPassword`), 'Password Didnot Match.');
+    }
+    setResttingPaasword(true);
+    const { response: authResult, error } = await makeApiRequests({
+      requestType: 'reset-password',
+      requestBody: { email: forgotPassModalMetadata?.email, ...resetPasswordFormMetadata }
+    });
+
+    if (error) {
+      setResttingPaasword(false);
+      return toast.error(error);
+    }
+    toast.success('Password Reset Is Successfully Complete.');
+
+    setResetPasswordFormMetadata(null);
+    setForgotPassModalMetadata(null);
+    setResttingPaasword(false);
+  };
+
+  if (userToken) {
     return <Redirect from="/login" to={'/admin/jaunts'} />;
   }
 
   return (
     <>
-      <ForgotPassword
-        forgotPassModalMetadata={forgotPassModalMetadata}
-        onHide={() => onForgotPassModalChange(null)}
-        onForgotPassFieldValueChange={onForgotPassFieldValueChange}
-        onFormSubmit={onForgotPasswordFormSubmit}
-        sendingMail={sendingMail}
-      />
+      {resetPasswordFormMetadata ? (
+        <ResetPassword
+          resetPasswordFormMetadata={resetPasswordFormMetadata}
+          onResetPasswordFormMetadataChange={onResetPasswordFormMetadataChange}
+          onHide={() => setResetPasswordFormMetadata(null)}
+          onFormSubmit={onResetPasswordFormSubmit}
+          inProgress={resettingPassword}
+        />
+      ) : (
+        <ForgotPassword
+          forgotPassModalMetadata={forgotPassModalMetadata}
+          onHide={() => onForgotPassModalChange(null)}
+          onForgotPassFieldValueChange={onForgotPassFieldValueChange}
+          onFormSubmit={onForgotPasswordFormSubmit}
+          inProgress={sendingMail}
+        />
+      )}
       <Container
         fluid
         className="bg-gradient-light"

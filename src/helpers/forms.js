@@ -265,7 +265,7 @@ export const REGISTER_FORM_FIELDS = [
   {
     key: 'temporaryKey',
     label: 'O.T.P',
-    type: 'number'
+    type: 'text'
   }
 ];
 
@@ -282,6 +282,24 @@ export const FORGOT_PASSWORD_FORM_FIELDS = [
     key: 'email',
     label: 'Email',
     type: 'email'
+  }
+];
+
+export const RESET_PASSWORD_FIELDS = [
+  {
+    key: 'temporaryKey',
+    label: 'O.T.P',
+    type: 'text'
+  },
+  {
+    key: 'newPassword',
+    label: 'New Password',
+    type: 'password'
+  },
+  {
+    key: 'confirmPassword',
+    label: 'Confirm New Password',
+    type: 'password'
   }
 ];
 

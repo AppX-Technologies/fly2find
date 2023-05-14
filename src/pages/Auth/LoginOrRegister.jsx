@@ -35,7 +35,7 @@ const LoginOrRegister = ({
       <div className="w-100 d-flex justify-content-center">
         <Button
           variant="primary"
-          onClick={mode === LOGIN_MODE ? onFormSubmit : isEmailVerified ? LOGIN_MODE : onEmailVerification}
+          onClick={mode === LOGIN_MODE ? onFormSubmit : isEmailVerified ? onFormSubmit : onEmailVerification}
           disabled={formSubmitting}
         >
           {mode === LOGIN_MODE ? 'Login' : isEmailVerified ? 'Register' : 'Verify Email'}

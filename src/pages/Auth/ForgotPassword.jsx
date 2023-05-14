@@ -5,13 +5,13 @@ import { FORGOT_PASSWORD_FORM_FIELDS } from '../../helpers/forms';
 const ForgotPassword = ({
   forgotPassModalMetadata,
   onHide,
-  sendingMail,
+  inProgress,
   onForgotPassFieldValueChange,
   onFormSubmit
 }) => {
   return (
     <Modal show={forgotPassModalMetadata} onHide={onHide} centered backdrop="static">
-      <Modal.Header closeButton={!sendingMail}>
+      <Modal.Header closeButton={!inProgress}>
         <Modal.Title>Forgot password</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -31,11 +31,11 @@ const ForgotPassword = ({
           );
         })}
         <div className="w-100 d-flex justify-content-center">
-          <Button variant="primary" onClick={onFormSubmit} disabled={sendingMail}>
+          <Button variant="primary" onClick={onFormSubmit} disabled={inProgress}>
             Submit
           </Button>
         </div>
-        {sendingMail && (
+        {inProgress && (
           <ProgressBar variant="dark" animated now={100} label="Sending reset email..." className="mt-2" />
         )}
       </Modal.Body>

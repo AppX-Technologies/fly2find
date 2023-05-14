@@ -8,7 +8,7 @@ import PrimaryHeader from '../components/dashboard/PrimaryHeader';
 import Profile from '../components/profile/Profile';
 
 const AuthenticatedApp = () => {
-  const loggedInEmail = localStorage.getItem('user-email');
+  const userToken = localStorage.getItem('user-token');
 
   const { pathname } = useLocation();
   // const location = useLocation();
@@ -48,7 +48,7 @@ const AuthenticatedApp = () => {
   //   return <Redirect from="/" to="/services/search" />;
   // }
 
-  if (!loggedInEmail) {
+  if (!userToken) {
     return <Redirect from={pathname} to={'/login'} />;
   }
 

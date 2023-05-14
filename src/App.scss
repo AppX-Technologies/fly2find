@@ -74,6 +74,11 @@ body,
   cursor: pointer;
 }
 
+.selected-dropdown-item {
+  background-color: #dc2424;
+  // color: white;
+}
+
 .uploading-image {
   width: 140px;
   height: 140px;

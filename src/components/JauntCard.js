@@ -1,9 +1,7 @@
-import moment from 'moment/moment';
 import React from 'react';
 import { Alert, Badge, Button, Card, Col, Dropdown, Image, Row } from 'react-bootstrap';
-import { ChevronDown, ChevronUp, Pen, Trash } from 'react-bootstrap-icons/dist';
+import { Pen, Trash } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
-import Title from './landing/Title';
 
 const JauntCard = ({
   updatingStatus,

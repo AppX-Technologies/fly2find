@@ -7,21 +7,10 @@ import ScrollToTop from './components/ScrollToTop';
 import JauntRoute from './components/jaunt/JauntRoute';
 import LandingPage from './components/landing/Landing';
 import Registration from './components/registration/Registration';
-import { ADMIN_ROLE } from './helpers/constants';
-import { saveUserToLocal } from './helpers/session';
 import Auth from './pages/Auth';
 import AuthenticatedApp from './pages/AuthenticatedApp';
 
-const sampleUserObj = {
-  email: 'gautamrajat185@gmail.com',
-  role: ADMIN_ROLE
-};
-
 const App = () => {
-  // TODO
-
-  saveUserToLocal(sampleUserObj);
-
   return (
     <Router>
       <ScrollToTop />

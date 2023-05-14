@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import { JAUNTS } from './constants';
 
 const firebaseErrors = {
   'auth/email-already-exists': 'The provided email is already in use by an existing user.',

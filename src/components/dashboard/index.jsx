@@ -40,7 +40,7 @@ const Index = () => {
     isAssessending: true
   });
 
-  const { role, email } = JSON.parse(localStorage.getItem('user')) || {};
+  const role = localStorage.getItem('user-role');
 
   const onNumberOfFilesChange = (key, value, reset = false) => {
     if (reset) {
