@@ -8,7 +8,7 @@ const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
     <Row style={{ minHeight: '100vh' }} className="h-100 bg-gradient text-white py-5">
       <Col xs={12} md={6} lg={5} className="align-self-center px-5">
         <h1 className="logo mb-4">
-          F<span className="underline">ly2Find</span>
+          R<span className="underline">atherFly</span>
         </h1>
         <h1>
           <b>{headerTitle}</b>
@@ -21,7 +21,7 @@ const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
               <ArrowDownCircle className="ml-2" size={16} />
             </Button>
           </Col>
-          <Col xs={12} md={7} className='mt-2'>
+          <Col xs={12} md={7} className="mt-2">
             <Link to="/jaunt/finish">
               <Button block variant="dark" className="ml-0" onClick={onLearnMoreClick}>
                 I finished a Jaunt

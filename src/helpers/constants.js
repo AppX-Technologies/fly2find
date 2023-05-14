@@ -267,7 +267,7 @@ export const JAUNTS = [
     id: 1,
     title: 'Jaunt 1',
     brief:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis ',
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis',
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
     status: 'Review',

@@ -3,6 +3,7 @@ import React from 'react';
 import { Alert, Badge, Button, Card, Col, Dropdown, Image, Row } from 'react-bootstrap';
 import { ChevronDown, ChevronUp, Pen, Trash } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
+import Title from './landing/Title';
 
 const JauntCard = ({
   updatingStatus,
@@ -11,8 +12,6 @@ const JauntCard = ({
   onDelete,
   onEdit,
   editJauntStatus,
-  showSteps,
-  onShowStepsChange,
   isDeletable,
   isEditable
 }) => {
@@ -27,7 +26,7 @@ const JauntCard = ({
               {/* Title  */}
 
               <div className="flex-grow-1">
-                <h6 className="font-weight-bold xxlarge mt-2"> {jaunt?.title}</h6>
+                <h6 className="font-weight-bold xxlarge mt-1"> {jaunt?.title}</h6>
               </div>
               {/* Action Buttons */}
 
@@ -64,7 +63,7 @@ const JauntCard = ({
                 )}
               </div>
             </div>
-            <hr className="my-1" />
+            <hr className="my-0" />
 
             {/* Thumbnail ,Descriptiona and Brief Row */}
 
@@ -78,54 +77,12 @@ const JauntCard = ({
 
               <Col md={9} xs={12}>
                 <div>
-                  <h5 className="font-weight-bold xlarge">Brief</h5>
-
-                  <Alert variant="muted ml-3">
+                  <Alert variant="muted ">
                     <h5 className="large text-dark">{jaunt?.brief}</h5>
-                  </Alert>
-                </div>
-                {/* Description Columns */}
-
-                <div>
-                  <h5 className="font-weight-bold xlarge">Description</h5>
-
-                  <Alert variant="muted ml-3">
-                    <h6 className="large  text-dark">{jaunt?.description}</h6>
                   </Alert>
                 </div>
               </Col>
             </Row>
-            {/* Steps Row */}
-            <hr />
-            <div className="my-3">
-              <h6 className="font-weight-bold xlarge">
-                Steps
-                {showSteps?.includes(jaunt?.id) ? (
-                  <ChevronUp className="pointer ml-2" onClick={() => onShowStepsChange(jaunt?.id)} title="Show Less" />
-                ) : (
-                  <ChevronDown
-                    className="pointer ml-2"
-                    onClick={() => onShowStepsChange(jaunt?.id)}
-                    title="Show More"
-                  />
-                )}
-              </h6>
-              {showSteps.includes(jaunt?.id) && jaunt?.steps?.length === 0 && (
-                <span className="large ml-3">No Steps Added Yet.</span>
-              )}
-
-              {showSteps.includes(jaunt?.id) && jaunt?.steps?.length ? (
-                <Alert variant="muted ml-3">
-                  {jaunt?.steps.map((step, idx) => {
-                    return (
-                      <h6 className="large text-dark">
-                        {idx + 1}. {step?.text}
-                      </h6>
-                    );
-                  })}
-                </Alert>
-              ) : null}
-            </div>
           </div>
         </div>
       </Card.Body>

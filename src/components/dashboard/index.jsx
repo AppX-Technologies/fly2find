@@ -27,7 +27,6 @@ const Index = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [allJaunts, setAllJaunts] = useState([]);
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
-  const [showSteps, setShowSteps] = useState([]);
   const [jauntAddOrUpdateInProgress, setJauntAddOrUpdateInProgress] = useState(false);
   const [jauntDeleteInProgress, setJauntDeleteInProgress] = useState(false);
   const [numberOfFiles, setNumberOfFiles] = useState({
@@ -196,14 +195,6 @@ const Index = () => {
     setAllJaunts([...allJaunts]);
   };
 
-  const onShowStepsChange = jauntId => {
-    if (showSteps.includes(jauntId)) {
-      setShowSteps([...showSteps.filter(jaunt => jaunt !== jauntId)]);
-    } else {
-      setShowSteps([...showSteps, jauntId]);
-    }
-  };
-
   const isJauntDeletable = jauntId => {
     if (
       role === ADMIN_ROLE ||
@@ -224,10 +215,6 @@ const Index = () => {
     // }
     // setAllJaunts({ ...allJaunts });
   };
-
-  useEffect(() => {
-    setShowSteps([...allJaunts.map(({ id }) => id)]);
-  }, [allJaunts]);
 
   useEffect(() => {
     if (!addOrEditJauntMetadata) {
@@ -302,8 +289,6 @@ const Index = () => {
         onJauntToBeDeletedChange={onJauntToBeDeletedChange}
         onJauntToBeEditedChange={onJauntToBeEditedChange}
         editJauntStatus={editJauntStatus}
-        showSteps={showSteps}
-        onShowStepsChange={onShowStepsChange}
         isDeletable={isJauntDeletable}
         isEditable={role === ADMIN_ROLE}
       />

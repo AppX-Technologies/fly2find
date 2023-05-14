@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Title = ({ title }) => {
+const Title = ({ title, isCentered = true }) => {
   return (
-    <div className="text-center my-3">
+    <div className={`text-${isCentered && 'center'} my-3`}>
       <h3 className="mb-0">
         <b>{title}</b>
       </h3>

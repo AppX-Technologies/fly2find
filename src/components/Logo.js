@@ -3,7 +3,7 @@ import React from 'react';
 const Logo = ({ light }) => {
   return (
     <h3 className={`logo mb-0 ${light ? 'text-light' : ''}`}>
-      F<span className="underline">ly2Find</span>
+      R<span className="underline">atherFly</span>
     </h3>
   );
 };

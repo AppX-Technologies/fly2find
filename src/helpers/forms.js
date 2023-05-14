@@ -296,12 +296,6 @@ export const ADD_JAUNT_FIELDS = [
     key: 'brief',
     label: 'Brief',
     type: 'text',
-    as: 'input'
-  },
-  {
-    key: 'description',
-    label: 'Full Description',
-    type: 'textArea',
     as: 'textarea'
   },
   {
@@ -333,15 +327,9 @@ export const EDIT_JAUNT_FIELD = [
     key: 'brief',
     label: 'Brief',
     type: 'text',
-    as: 'input'
-  },
-
-  {
-    key: 'description',
-    label: 'Full Description',
-    type: 'textArea',
     as: 'textarea'
   },
+
   {
     key: 'thumbnail',
     label: 'Thumbnail'

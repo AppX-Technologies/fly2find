@@ -24,7 +24,7 @@ const LoginOrRegister = ({
             <Form.Control
               type={type}
               placeholder={`${label}`}
-              value={formInfo?.[key]}
+              value={formInfo?.[key] || ''}
               onChange={e => onFormInfoChange(key, e.target.value)}
               autocomplete="off"
             />

@@ -67,7 +67,7 @@ const AddOrEditJaunt = ({
       <Container fluid>
         {/* Thumbnail and Input Field Row */}
 
-        <Row>
+        <Row className="mb-2">
           <Col md={3} xs={12} className="my-auto h-100 mx-auto">
             {/* Insert Thumbnail */}
             <div className="d-flex justify-content-center align-items-center">
@@ -115,7 +115,7 @@ const AddOrEditJaunt = ({
                       xs={12}
                     >
                       <Form.Group className="mb-2" key={key} id={`fp-form-${key}`}>
-                        <Form.Label>
+                        <Form.Label className="m-0 font-weight-bold">
                           {label}
                           {!notRequired && <sup className="text-primary">*</sup>}
                         </Form.Label>
@@ -144,7 +144,7 @@ const AddOrEditJaunt = ({
                               onAddOrEditJauntFieldValueChange(key, e.target.value);
                             }}
                             as={as}
-                            rows={4}
+                            rows={3}
                             disabled={!isEditable || inProgress}
                           />
                         )}
@@ -155,6 +155,25 @@ const AddOrEditJaunt = ({
               })}
             </Row>
           </Col>
+        </Row>
+        <hr />
+        <div className="mt-2">
+          <h6 className="xxlarge font-weight-bold">Description</h6>
+        </div>
+        <Row className="my-2 px-3">
+          <Form.Group className="w-100">
+            <Form.Control
+              type="text"
+              size="sm"
+              value={modalMetaData?.description || ''}
+              onChange={e => {
+                onAddOrEditJauntFieldValueChange('description', e.target.value);
+              }}
+              as={'textarea'}
+              rows={6}
+              disabled={inProgress}
+            />
+          </Form.Group>
         </Row>
         <hr />
 
@@ -168,7 +187,7 @@ const AddOrEditJaunt = ({
             </h6>
           )}
         </div>
-        <div className="d-flex justify-content-start my-2 w-100 album-section">
+        <div className="d-flex justify-content-start  mb-2 w-100 album-section">
           {isEditable && (
             <DriveFileUploader
               onUploadedFilesChange={onAlbumChange}
