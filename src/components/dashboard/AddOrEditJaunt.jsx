@@ -6,6 +6,8 @@ import { ADMIN_ROLE, acceptedImageTypes } from '../../helpers/constants';
 import SlidingSidebar from '../SlidingSideBar/SlidingSideBar';
 import DriveFileUploader from '../drive-file-uploader';
 import { isFileUploadingInProcess } from '../../helpers/global';
+import { useContext } from 'react';
+import { UserContext } from '../context/userContext';
 
 const AddOrEditJaunt = ({
   modalMetaData,
@@ -23,7 +25,7 @@ const AddOrEditJaunt = ({
   numberOfFiles,
   isEditable
 }) => {
-  const { role } = JSON.parse(localStorage.getItem('user')) || {};
+  const { user, onUserChange } = useContext(UserContext);
   const [showNotEditableInfo, setShowNonEditableInfo] = useState();
 
   function handleOnDragEnd(result) {
@@ -40,7 +42,7 @@ const AddOrEditJaunt = ({
   };
 
   const filteredFields = useMemo(() => {
-    return fields?.filter(({ key }) => (role !== ADMIN_ROLE ? key !== 'status' : true));
+    return fields?.filter(({ key }) => (user?.role !== ADMIN_ROLE ? key !== 'status' : true));
   }, [fields]);
 
   useEffect(() => {
@@ -129,7 +131,7 @@ const AddOrEditJaunt = ({
                             }}
                             as={as}
                             rows={3}
-                            disabled={!isEditable || (key === 'status' && role !== ADMIN_ROLE) || inProgress}
+                            disabled={!isEditable || (key === 'status' && user?.role !== ADMIN_ROLE) || inProgress}
                           >
                             {options.map(option => (
                               <option disabled={modalMetaData?.[key] === option}>{option}</option>

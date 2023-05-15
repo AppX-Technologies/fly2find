@@ -92,6 +92,11 @@ body,
   object-fit: cover;
 }
 
+.disabled-content {
+  background-color: #d3d3d3 !important;
+  cursor: auto !important;
+}
+
 .left-bar {
   border-left: 10px solid $dark-color;
 }

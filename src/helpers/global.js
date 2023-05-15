@@ -42,3 +42,13 @@ export const findSpecificJaunt = (allJaunts, jauntId) => {
 export const generateRandomUUID = () => {
   return crypto.randomBytes(20).toString('hex');
 };
+
+export const createFilterObj = (filters = []) => {
+  const filterObj = {};
+
+  filters.forEach(filter => {
+    filterObj[(filter?.key)] = filter?.children;
+  });
+
+  return filterObj;
+};

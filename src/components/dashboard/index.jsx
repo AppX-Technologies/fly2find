@@ -1,17 +1,19 @@
 import { cloneDeep } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { PlusCircleFill } from 'react-bootstrap-icons/dist';
 import { toast } from 'react-toastify';
 import { ADMIN_ROLE, DRAFT_STATUS, JAUNTS, PILOT_ROLE } from '../../helpers/constants';
 import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
+import { findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
 import AlertModal from '../AlertModal';
 import FloatingButton from '../FloatingButton';
+import HorizontalProgress from '../HorizontalProgress';
 import SlidingSideBar from '../SlidingSideBar/SlidingSideBar';
+import { UserContext } from '../context/userContext';
 import AddOrEditJaunt from './AddOrEditJaunt';
 import Filter from './Filter';
 import Jaunts from './Jaunts';
 import SecondaryHeader from './SecondaryHeader';
-import { findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
 
 const generateRandomUUIDForAllJauntSteps = jaunts => {
   return [
@@ -23,6 +25,7 @@ const generateRandomUUIDForAllJauntSteps = jaunts => {
 };
 
 const Index = () => {
+  const { user } = useContext(UserContext);
   const [addOrEditJauntMetadata, setAddOrEditJauntMetadata] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [allJaunts, setAllJaunts] = useState([]);
@@ -34,13 +37,13 @@ const Index = () => {
     alreadyUploaded: 0
   });
   const [globalFilterValues, setGlobalFilterValues] = useState({
-    query: '',
     showing: 'All',
-    sortBy: '',
+    sortBy: 'Created Date',
     isAssessending: true
   });
+  const [globalSearchQuery, setGlobalSearchQuery] = useState('');
 
-  const role = localStorage.getItem('user-role');
+  const [globalSearchInProgress, setGlobalSearchInProgress] = useState(false);
 
   const onNumberOfFilesChange = (key, value, reset = false) => {
     if (reset) {
@@ -56,6 +59,10 @@ const Index = () => {
       numberOfFiles[key] = numberOfFiles[key] + value;
     }
     setNumberOfFiles({ ...numberOfFiles });
+  };
+
+  const onGlobalSearchQueryChange = query => {
+    setGlobalSearchQuery(query);
   };
 
   const onThumbnailChange = file => {
@@ -197,8 +204,8 @@ const Index = () => {
 
   const isJauntDeletable = jauntId => {
     if (
-      role === ADMIN_ROLE ||
-      (role === PILOT_ROLE && findSpecificJaunt(allJaunts, jauntId)?.status === DRAFT_STATUS)
+      user?.role === ADMIN_ROLE ||
+      (user?.role === PILOT_ROLE && findSpecificJaunt(allJaunts, jauntId)?.status === DRAFT_STATUS)
     ) {
       return true;
     }
@@ -206,6 +213,7 @@ const Index = () => {
   };
 
   const executeGlobalSearch = () => {
+    setGlobalSearchInProgress(true);
     // const { error, response } = await makeApiRequests({
     //   requestType: 'upload-file',
     //   requestBody: { payload: fileInfoObject }
@@ -213,7 +221,9 @@ const Index = () => {
     // if (error) {
     //   return toast.error(error);
     // }
-    // setAllJaunts({ ...allJaunts });
+
+    setAllJaunts(generateRandomUUIDForAllJauntSteps(JAUNTS));
+    setGlobalSearchInProgress(false);
   };
 
   useEffect(() => {
@@ -223,12 +233,8 @@ const Index = () => {
   }, [addOrEditJauntMetadata]);
 
   useEffect(() => {
-    setAllJaunts(generateRandomUUIDForAllJauntSteps(JAUNTS));
-  }, [JAUNTS]);
-
-  useEffect(() => {
     executeGlobalSearch();
-  }, [globalFilterValues.showing, globalFilterValues.isAssessending, globalFilterValues.sortBy]);
+  }, [globalFilterValues]);
 
   return (
     <>
@@ -242,7 +248,8 @@ const Index = () => {
         progressText="Deleting..."
       />
 
-      {/* Sidebar For Filter */}
+      {/* Filter Sidebar */}
+
       <SlidingSideBar visible={showFilter} onClose={() => onFilterValueChange(false)} title="Filter">
         <Filter onGlobalFilterValueChange={onGlobalFilterValueChange} globalFilterValues={globalFilterValues} />
       </SlidingSideBar>
@@ -258,7 +265,11 @@ const Index = () => {
         onGlobalFilterValueChange={onGlobalFilterValueChange}
         globalFilterValues={globalFilterValues}
         executeGlobalSearch={executeGlobalSearch}
+        inProgress={globalSearchInProgress}
+        onGlobalSearchQueryChange={onGlobalSearchQueryChange}
+        globalSearchQuery={globalSearchQuery}
       />
+      {globalSearchInProgress && <HorizontalProgress text="Searching..." />}
       <AddOrEditJaunt
         modalMetaData={addOrEditJauntMetadata}
         fields={
@@ -279,8 +290,9 @@ const Index = () => {
         numberOfFiles={numberOfFiles}
         isEditable={
           addOrEditJauntMetadata?.id
-            ? role === ADMIN_ROLE ||
-              (role === PILOT_ROLE && findSpecificJaunt(allJaunts, addOrEditJauntMetadata?.id)?.status === DRAFT_STATUS)
+            ? user?.role === ADMIN_ROLE ||
+              (user?.role === PILOT_ROLE &&
+                findSpecificJaunt(allJaunts, addOrEditJauntMetadata?.id)?.status === DRAFT_STATUS)
             : true
         }
       />
@@ -290,7 +302,7 @@ const Index = () => {
         onJauntToBeEditedChange={onJauntToBeEditedChange}
         editJauntStatus={editJauntStatus}
         isDeletable={isJauntDeletable}
-        isEditable={role === ADMIN_ROLE}
+        isEditable={user?.role === ADMIN_ROLE}
       />
     </>
   );

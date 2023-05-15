@@ -12,12 +12,14 @@ const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled, execu
           type="text"
           size="sm"
           value={value}
-          onChange={onChange}
+          onChange={e => onChange(e.target.value)}
           disabled={disabled}
         />
         <div
-          className="bg-dark h-100 d-flex justify-content-center align-items-center search-icon"
-          onClick={executeGlobalSearch}
+          className={`h-100 d-flex justify-content-center align-items-center search-icon ${
+            disabled ? 'disabled-content' : 'bg-dark'
+          }`}
+          onClick={e => (!disabled ? executeGlobalSearch() : e.stopPropagation())}
         >
           <Search className="text-light" />
         </div>
@@ -30,8 +32,10 @@ const SecondaryHeader = ({
   onFilterValueChange,
   onGlobalFilterValueChange,
   globalFilterValues,
-  loading = false,
-  executeGlobalSearch
+  inProgress,
+  executeGlobalSearch,
+  onGlobalSearchQueryChange,
+  globalSearchQuery
 }) => {
   return (
     <>
@@ -39,9 +43,9 @@ const SecondaryHeader = ({
         <Row className="align-items-center">
           <Col xs={12} md={6} className="my-1">
             <SearchBar
-              value={globalFilterValues.query}
-              onChange={e => onGlobalFilterValueChange('query', e.target.value)}
-              disabled={loading}
+              value={globalSearchQuery}
+              onChange={onGlobalSearchQueryChange}
+              disabled={inProgress}
               executeGlobalSearch={executeGlobalSearch}
             />
           </Col>
@@ -50,7 +54,7 @@ const SecondaryHeader = ({
 
           <Col xs={4} md={2} className="my-1">
             <Dropdown className="mb-md-0">
-              <Dropdown.Toggle size="sm" disabled={false} block variant="outline-dark" id="dropdown-basic">
+              <Dropdown.Toggle size="sm" disabled={inProgress} block variant="outline-dark" id="dropdown-basic">
                 Showing
               </Dropdown.Toggle>
 
@@ -72,7 +76,7 @@ const SecondaryHeader = ({
 
           <Col xs={4} md={2} className="my-1">
             <Dropdown className="mb-md-0">
-              <Dropdown.Toggle size="sm" disabled={false} block variant="outline-dark" id="dropdown-basic">
+              <Dropdown.Toggle size="sm" disabled={inProgress} block variant="outline-dark" id="dropdown-basic">
                 Sort By
               </Dropdown.Toggle>
 
@@ -99,7 +103,7 @@ const SecondaryHeader = ({
               onClick={() => {
                 onGlobalFilterValueChange('isAssessending', !globalFilterValues?.isAssessending);
               }}
-              disabled={loading}
+              disabled={inProgress}
             >
               {globalFilterValues?.isAssessending ? (
                 <ArrowUp className="align-text-top mt-1" />
@@ -119,7 +123,7 @@ const SecondaryHeader = ({
               onClick={() => {
                 onFilterValueChange(true);
               }}
-              disabled={loading}
+              disabled={inProgress}
             >
               <Funnel className="align-text-top mt-1" />
             </Button>

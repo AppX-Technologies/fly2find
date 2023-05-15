@@ -6,9 +6,11 @@ import NotFound from '../components/NotFound';
 import Dashboard from '../components/dashboard';
 import PrimaryHeader from '../components/dashboard/PrimaryHeader';
 import Profile from '../components/profile/Profile';
+import { useContext } from 'react';
+import { UserContext } from '../components/context/userContext';
 
 const AuthenticatedApp = () => {
-  const userToken = localStorage.getItem('user-token');
+  const { user, onUserChange } = useContext(UserContext);
 
   const { pathname } = useLocation();
   // const location = useLocation();
@@ -48,7 +50,7 @@ const AuthenticatedApp = () => {
   //   return <Redirect from="/" to="/services/search" />;
   // }
 
-  if (!userToken) {
+  if (!user?.token) {
     return <Redirect from={pathname} to={'/login'} />;
   }
 

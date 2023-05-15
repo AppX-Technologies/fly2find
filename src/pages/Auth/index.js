@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
+import { Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { PersonBadge } from 'react-bootstrap-icons/dist';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { toast } from 'react-toastify';
@@ -12,21 +12,23 @@ import {
   RESET_PASSWORD_FIELDS,
   VERIFY_EMAIL_FORM_FIELDS
 } from '../../helpers/forms';
-import { getErrorMessageFromFirebase } from '../../helpers/global';
 import ForgotPassword from './ForgotPassword';
 import LoginOrRegister from './LoginOrRegister';
 import ResetPassword from './ResetPassword';
+import { useContext } from 'react';
+import { UserContext } from '../../components/context/userContext';
 
 const Auth = () => {
-  const [mode, setMode] = useState(LOGIN_MODE);
+  const { onUserChange } = useContext(UserContext);
+
+  const [mode, setMode] = useState(LOGIN_MODE); // Login or Register Mode
   const [formSubmitting, setFormSubmitting] = useState(false);
-  const [formInfo, setFormInfo] = useState({});
-  const [forgotPassModalMetadata, setForgotPassModalMetadata] = useState(null);
-  const [signInError, setSignInError] = useState('');
+  const [formInfo, setFormInfo] = useState({}); // Register or Login Form Info
+  const [forgotPassModalMetadata, setForgotPassModalMetadata] = useState(null); // Forgot Pass Modal formInfo
   const [sendingMail, setSendingMail] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [resetPasswordFormMetadata, setResetPasswordFormMetadata] = useState(null);
-  const [resettingPassword, setResttingPaasword] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false); // If email is not verified verify email form is shown else register form
+  const [resetPasswordFormMetadata, setResetPasswordFormMetadata] = useState(null); // Reset Pass Modal formInfo
+  const [resettingPassword, setResettingPaasword] = useState(false);
 
   const history = useHistory();
 
@@ -59,13 +61,11 @@ const Auth = () => {
     if (mode === REGISTER_MODE) {
       setFormInfo({});
     }
-    setSignInError('');
 
     removeHighlightedError('validationMsg');
   }, [mode]);
 
   const auth = async () => {
-    setSignInError('');
     const { response: authResult, error } = await makeApiRequests({
       requestType: mode === LOGIN_MODE ? 'login' : 'register',
       requestBody: { ...formInfo, registrationOTP: formInfo?.temporaryKey }
@@ -80,8 +80,14 @@ const Auth = () => {
       return;
     }
 
+    // Saving Overall User Object In Local Storage
+
+    localStorage.setItem('user', JSON.stringify({ role: ADMIN_ROLE, token: authResult?.accessToken?.jwt }));
+
     localStorage.setItem('user-token', authResult?.accessToken?.jwt);
     localStorage.setItem('user-role', ADMIN_ROLE);
+
+    onUserChange({ token: authResult?.accessToken?.jwt, role: ADMIN_ROLE });
     history.push('/');
   };
 
@@ -113,8 +119,6 @@ const Auth = () => {
   };
 
   const onLoginFormSubmit = async () => {
-    setSignInError('');
-
     const emptyField = LOGIN_FORM_FIELDS.find(field => !formInfo[(field?.key)]);
 
     if (emptyField) {
@@ -130,13 +134,10 @@ const Auth = () => {
       setFormSubmitting(false);
     } catch (e) {
       setFormSubmitting(false);
-      setSignInError(getErrorMessageFromFirebase(e));
     }
   };
 
   const onRegisterFormSubmit = async () => {
-    setSignInError('');
-
     const password = formInfo?.password;
     const confirmPassword = formInfo?.confirmPassword;
 
@@ -155,21 +156,12 @@ const Auth = () => {
 
     setFormSubmitting(true);
 
-    let userCreated = false;
     try {
-      userCreated = true;
-      await auth(true);
+      await auth();
       setMode(LOGIN_MODE);
       setFormSubmitting(false);
     } catch (e) {
       setFormSubmitting(false);
-      if (userCreated) {
-        toast.error(
-          'A user with the above email has been created, however there was some error logging in. Please try logging in to your account'
-        );
-      } else {
-        setSignInError(getErrorMessageFromFirebase(e));
-      }
     }
   };
 
@@ -207,21 +199,21 @@ const Auth = () => {
     if (newPassword !== confirmPassword) {
       return highlightError(document.getElementById(`rp-form-confirmPassword`), 'Password Didnot Match.');
     }
-    setResttingPaasword(true);
+    setResettingPaasword(true);
     const { response: authResult, error } = await makeApiRequests({
       requestType: 'reset-password',
       requestBody: { email: forgotPassModalMetadata?.email, ...resetPasswordFormMetadata }
     });
 
     if (error) {
-      setResttingPaasword(false);
+      setResettingPaasword(false);
       return toast.error(error);
     }
     toast.success('Password Reset Is Successfully Complete.');
 
     setResetPasswordFormMetadata(null);
     setForgotPassModalMetadata(null);
-    setResttingPaasword(false);
+    setResettingPaasword(false);
   };
 
   if (userToken) {
@@ -305,11 +297,6 @@ const Auth = () => {
                             : 'Sending OTP'
                         }
                       />
-                    )}
-                    {signInError && (
-                      <Alert style={{ fontSize: 14 }} className="mx-2 p-2" variant="danger">
-                        {signInError}
-                      </Alert>
                     )}
                   </Card.Body>
                 </Card>
