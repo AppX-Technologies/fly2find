@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import JauntCard from '../JauntCard';
 
 const Jaunts = ({
@@ -15,21 +15,24 @@ const Jaunts = ({
   return (
     <>
       <Container fluid className="px-5 my-4">
-        {allJaunts &&
-          allJaunts.map(jaunt => (
-            <JauntCard
-              key={jaunt?.id}
-              status={'Hello'}
-              jaunt={jaunt}
-              onDelete={() => onJauntToBeDeletedChange(jaunt)}
-              onEdit={() => onJauntToBeEditedChange(jaunt)}
-              editJauntStatus={editJauntStatus}
-              showSteps={showSteps}
-              onShowStepsChange={onShowStepsChange}
-              isDeletable={isDeletable}
-              isEditable={isEditable}
-            />
-          ))}
+        <Row className="gx-5 ">
+          {allJaunts &&
+            allJaunts.map(jaunt => (
+              <Col xs={10} md={5} lg={3} className="mx-auto">
+                <JauntCard
+                  key={jaunt?.id}
+                  jaunt={jaunt}
+                  onDelete={() => onJauntToBeDeletedChange(jaunt)}
+                  onEdit={() => onJauntToBeEditedChange(jaunt)}
+                  editJauntStatus={editJauntStatus}
+                  showSteps={showSteps}
+                  onShowStepsChange={onShowStepsChange}
+                  isDeletable={isDeletable}
+                  isEditable={isEditable}
+                />
+              </Col>
+            ))}
+        </Row>
       </Container>
     </>
   );

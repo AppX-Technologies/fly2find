@@ -55,6 +55,7 @@ const AddOrEditJaunt = ({
       onClose={onHide}
       title={`${modalMetaData?.id ? 'Edit' : 'Add'} Jaunt Information`}
       fullScreen
+      underlinedTitle={true}
     >
       {showNotEditableInfo && (
         <Alert variant="danger" className="p-1 w-100 mt-1 mb-3">
@@ -111,48 +112,49 @@ const AddOrEditJaunt = ({
             <Row>
               {filteredFields?.map(({ key, label, type, notRequired, as, options, columns }, index) => {
                 return (
-                  <>
-                    <Col
-                      md={filteredFields[index + 1]?.columns ? 12 - filteredFields[index + 1]?.columns : columns ?? 12}
-                      xs={12}
-                    >
-                      <Form.Group className="mb-2" key={key} id={`fp-form-${key}`}>
-                        <Form.Label className="m-0 font-weight-bold">
-                          {label}
-                          {!notRequired && <sup className="text-primary">*</sup>}
-                        </Form.Label>
-                        {type === 'dropDown' ? (
-                          <Form.Control
-                            type={type}
-                            size="sm"
-                            value={modalMetaData?.[key] || ''}
-                            onChange={e => {
-                              onAddOrEditJauntFieldValueChange(key, e.target.value);
-                            }}
-                            as={as}
-                            rows={3}
-                            disabled={!isEditable || (key === 'status' && user?.role !== ADMIN_ROLE) || inProgress}
-                          >
-                            {options.map(option => (
-                              <option disabled={modalMetaData?.[key] === option}>{option}</option>
-                            ))}
-                          </Form.Control>
-                        ) : (
-                          <Form.Control
-                            type={type}
-                            size="sm"
-                            value={modalMetaData?.[key] || ''}
-                            onChange={e => {
-                              onAddOrEditJauntFieldValueChange(key, e.target.value);
-                            }}
-                            as={as}
-                            rows={3}
-                            disabled={!isEditable || inProgress}
-                          />
-                        )}
-                      </Form.Group>
-                    </Col>
-                  </>
+                  <Col
+                    key={key}
+                    md={filteredFields[index + 1]?.columns ? 12 - filteredFields[index + 1]?.columns : columns ?? 12}
+                    xs={12}
+                  >
+                    <Form.Group className="mb-2" id={`fp-form-${key}`}>
+                      <Form.Label className="m-0 font-weight-bold">
+                        {label}
+                        {!notRequired && <sup className="text-primary">*</sup>}
+                      </Form.Label>
+                      {type === 'dropDown' ? (
+                        <Form.Control
+                          type={type}
+                          size="sm"
+                          value={modalMetaData?.[key] || ''}
+                          onChange={e => {
+                            onAddOrEditJauntFieldValueChange(key, e.target.value);
+                          }}
+                          as={as}
+                          rows={3}
+                          disabled={!isEditable || (key === 'status' && user?.role !== ADMIN_ROLE) || inProgress}
+                        >
+                          {options.map(option => (
+                            <option key={option} disabled={modalMetaData?.[key] === option}>
+                              {option}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      ) : (
+                        <Form.Control
+                          type={type}
+                          size="sm"
+                          value={modalMetaData?.[key] || ''}
+                          onChange={e => {
+                            onAddOrEditJauntFieldValueChange(key, e.target.value);
+                          }}
+                          as={as}
+                          rows={3}
+                          disabled={!isEditable || inProgress}
+                        />
+                      )}
+                    </Form.Group>
+                  </Col>
                 );
               })}
             </Row>
@@ -164,7 +166,7 @@ const AddOrEditJaunt = ({
 
         <div className="mt-2">
           <h6 className="xxlarge font-weight-bold">
-            Add Description About This Jaunt
+            Description
             <sup className="text-primary">*</sup>
           </h6>
         </div>
@@ -212,7 +214,7 @@ const AddOrEditJaunt = ({
             {modalMetaData?.album &&
               modalMetaData?.album?.map(file => {
                 return (
-                  <div className="d-flex justify-content-center mx-2">
+                  <div className="d-flex justify-content-center mx-2" key={file}>
                     <Image
                       src={file}
                       className="internal-thumbnail-images mt-2 pointer"

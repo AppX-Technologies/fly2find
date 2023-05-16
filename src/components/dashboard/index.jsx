@@ -213,7 +213,7 @@ const Index = () => {
   };
 
   const executeGlobalSearch = () => {
-    setGlobalSearchInProgress(true);
+    // setGlobalSearchInProgress(true);
     // const { error, response } = await makeApiRequests({
     //   requestType: 'upload-file',
     //   requestBody: { payload: fileInfoObject }
@@ -223,7 +223,7 @@ const Index = () => {
     // }
 
     setAllJaunts(generateRandomUUIDForAllJauntSteps(JAUNTS));
-    setGlobalSearchInProgress(false);
+    // setGlobalSearchInProgress(false);
   };
 
   useEffect(() => {
@@ -259,6 +259,7 @@ const Index = () => {
         icon={<PlusCircleFill size={15} className="mr-1" />}
         onClick={() => setAddOrEditJauntMetadata({ steps: [], album: [] })}
         variant="dark"
+        backgroundClass="bg-gradient"
       />
       <SecondaryHeader
         onFilterValueChange={onFilterValueChange}

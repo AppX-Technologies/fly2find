@@ -264,7 +264,7 @@ export const JAUNTS = [
     id: 1,
     title: 'Jaunt 1',
     brief:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis',
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
     status: 'Review',
@@ -281,27 +281,136 @@ export const JAUNTS = [
   },
   {
     id: 2,
-    title: 'Jaunt 2',
-    brief: 'abc',
-    description: 'kdljfkjk',
-    status: 'Draft',
-    steps: []
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
   },
   {
     id: 3,
-    title: 'Jaunt 3',
-    brief: 'abc',
-    description: 'kdljfkjk',
-    status: 'Draft',
-    steps: []
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
   },
   {
     id: 4,
-    title: 'Jaunt 4',
-    brief: 'abc',
-    description: 'kdljfkjk',
-    status: 'Draft',
-    steps: []
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
+  },
+  {
+    id: 5,
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
+  },
+  {
+    id: 6,
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
+  },
+  {
+    id: 7,
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
+  },
+  {
+    id: 8,
+    title: 'Jaunt 1',
+    brief:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+    description:
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
+    status: 'Review',
+    thumbnail: 'https://www.w3schools.com/css/paris.jpg',
+    points: 'hahahehe',
+    album: ['https://www.w3schools.com/css/paris.jpg', 'https://www.w3schools.com/html/workplace.jpg'],
+    steps: [
+      'Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
+      'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+    ]
   }
 ];
 

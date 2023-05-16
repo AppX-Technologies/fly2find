@@ -17,7 +17,7 @@ const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled, execu
         />
         <div
           className={`h-100 d-flex justify-content-center align-items-center search-icon ${
-            disabled ? 'disabled-content' : 'bg-dark'
+            disabled ? 'disabled-content' : 'bg-gradient'
           }`}
           onClick={e => (!disabled ? executeGlobalSearch() : e.stopPropagation())}
         >
@@ -53,14 +53,15 @@ const SecondaryHeader = ({
           {/* Showing */}
 
           <Col xs={4} md={2} className="my-1">
-            <Dropdown className="mb-md-0">
-              <Dropdown.Toggle size="sm" disabled={inProgress} block variant="outline-dark" id="dropdown-basic">
+            <Dropdown className="mb-md-0 ">
+              <Dropdown.Toggle size="sm" disabled={inProgress} block variant="outline-primary" id="dropdown-basic">
                 Showing
               </Dropdown.Toggle>
 
               <Dropdown.Menu value={globalFilterValues?.showing}>
                 {SHOWING_OPTIONS.map(option => (
                   <Dropdown.Item
+                    key={option}
                     value={option}
                     onClick={() => onGlobalFilterValueChange('showing', option)}
                     className={`${globalFilterValues?.showing === option && 'bg-primary text-light'}`}
@@ -76,13 +77,14 @@ const SecondaryHeader = ({
 
           <Col xs={4} md={2} className="my-1">
             <Dropdown className="mb-md-0">
-              <Dropdown.Toggle size="sm" disabled={inProgress} block variant="outline-dark" id="dropdown-basic">
+              <Dropdown.Toggle size="sm" disabled={inProgress} block variant="outline-primary" id="dropdown-basic">
                 Sort By
               </Dropdown.Toggle>
 
               <Dropdown.Menu value={globalFilterValues?.sortBy}>
                 {DASHBOARD_SORT_BY_OPTIONS.map(option => (
                   <Dropdown.Item
+                    key={option}
                     value={option}
                     onClick={() => onGlobalFilterValueChange('sortBy', option)}
                     className={`${globalFilterValues?.sortBy === option && 'bg-primary text-light'}`}
@@ -98,7 +100,7 @@ const SecondaryHeader = ({
           <Col xs={2} md={1} className="my-1">
             <Button
               size="sm"
-              variant="dark"
+              className="bg-gradient"
               block
               onClick={() => {
                 onGlobalFilterValueChange('isAssessending', !globalFilterValues?.isAssessending);
@@ -118,7 +120,7 @@ const SecondaryHeader = ({
           <Col xs={2} md={1} className="my-1">
             <Button
               size="sm"
-              variant="dark"
+              className="bg-gradient"
               block
               onClick={() => {
                 onFilterValueChange(true);

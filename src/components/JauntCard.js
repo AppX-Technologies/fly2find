@@ -14,73 +14,58 @@ const JauntCard = ({
   isEditable
 }) => {
   return (
-    <Card className="mb-3">
-      <Card.Body className="px-2 py-1">
-        <div className="d-flex">
-          <div className={`flex-grow-1 pl-2`}>
-            {/* Title an Action Buttons */}
+    <Card className="my-3 p-0 mx-auto">
+      <Card.Body className="p-0 position-relative">
+        {/* Thumbnail ,Descriptiona and Brief Row */}
 
-            <div className="d-flex align-items-center">
-              {/* Title  */}
+        <Image src={jaunt?.thumbnail} className="thumbnail-images mb-1" />
 
-              <div className="flex-grow-1">
-                <h6 className="font-weight-bold xxlarge mt-1"> {jaunt?.title}</h6>
-              </div>
-              {/* Action Buttons */}
+        {/* Action Buttons */}
 
-              <div className="d-flex justify-content-evenly align-items-center">
-                {isEditable ? (
-                  <Dropdown style={styles.smallerFont} className="ml-2">
-                    <Dropdown.Toggle variant="success" className="px-1 py-0 " style={{ fontSize: '12px' }}>
-                      {jaunt?.status}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {STATUSES.map(status => (
-                        <Dropdown.Item
-                          key={status}
-                          value={status}
-                          onClick={() => editJauntStatus(jaunt?.id, status)}
-                          disabled={status === jaunt?.status}
-                        >
-                          {status}
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                ) : (
-                  <Badge variant="success">{jaunt?.status}</Badge>
-                )}
+        <div className="d-flex align-items-center action-buttons">
+          <Button size="sm" variant="info" className="py-0 px-1" onClick={onEdit}>
+            <Pen style={{ verticalAlign: 'baseline' }} size={10} />
+          </Button>
+          {isDeletable(jaunt?.id) && (
+            <Button size="sm" variant="danger" className="ml-1 py-0 px-1" onClick={onDelete}>
+              <Trash style={{ verticalAlign: 'baseline' }} size={10} />
+            </Button>
+          )}
+        </div>
 
-                <Button size="sm" variant="info" className="ml-2 py-0 px-1" onClick={onEdit}>
-                  <Pen style={{ verticalAlign: 'baseline' }} size={10} />
-                </Button>
-                {isDeletable(jaunt?.id) && (
-                  <Button size="sm" variant="danger" className="ml-1 py-0 px-1" onClick={onDelete}>
-                    <Trash style={{ verticalAlign: 'baseline' }} size={10} />
-                  </Button>
-                )}
-              </div>
-            </div>
-            <hr className="my-0" />
+        {/* Title And Brief Row */}
+        <div className="px-2">
+          {/* Title and status Row */}
+          <div className="my-1 d-flex justify-content-between align-items-center">
+            <h6 className="font-weight-bold xxxlarge mt-1"> {jaunt?.title}</h6>
+            {isEditable ? (
+              <Dropdown style={styles.smallerFont} className="ml-2">
+                <Dropdown.Toggle variant="success" className=" py-0 " style={{ fontSize: '12px' }}>
+                  {jaunt?.status}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {STATUSES.map(status => (
+                    <Dropdown.Item
+                      key={status}
+                      value={status}
+                      onClick={() => editJauntStatus(jaunt?.id, status)}
+                      disabled={status === jaunt?.status}
+                    >
+                      {status}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Badge variant="success">{jaunt?.status}</Badge>
+            )}
+          </div>
+          <hr className="m-0" />
 
-            {/* Thumbnail ,Descriptiona and Brief Row */}
+          {/* Brief Row */}
 
-            <Row className="my-2">
-              {/* Thumbnail Column */}
-
-              <Col md={3} xs={12} className="w-100 d-flex justify-content-center">
-                <Image src={jaunt?.thumbnail} className="thumbnail-images " />
-              </Col>
-              {/* Brief Column */}
-
-              <Col md={9} xs={12}>
-                <div>
-                  <Alert variant="muted ">
-                    <h5 className="large text-dark">{jaunt?.brief}</h5>
-                  </Alert>
-                </div>
-              </Col>
-            </Row>
+          <div className="mt-1 py-2">
+            <h5 className="large text-muted lh-lg">{jaunt?.brief}</h5>
           </div>
         </div>
       </Card.Body>

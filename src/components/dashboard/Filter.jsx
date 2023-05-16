@@ -1,7 +1,8 @@
 import { cloneDeep } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { JAUNT_RELATED_FILTERS } from '../../helpers/constants';
+import CircularProgressBar from '../circular-progress';
 
 const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
   const findFilterValuesByParent = parentKey => {
@@ -51,7 +52,7 @@ const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
     <>
       {JAUNT_RELATED_FILTERS.map(parentFilter => {
         return (
-          <div className="mt-4">
+          <div className="mt-2" key={parentFilter?.key}>
             <Form.Check
               type="checkbox"
               className="xxlarge font-weight-bold"
@@ -65,6 +66,7 @@ const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
               {parentFilter?.children.map(subFilter => {
                 return (
                   <Form.Check
+                    key={subFilter}
                     type="checkbox"
                     className="xlarge ml-3"
                     label={subFilter}
@@ -79,7 +81,7 @@ const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
         );
       })}
 
-      <div className="my-2 w-100 d-flex justify-content-end">
+      <div className="my-2 w-100 d-flex justify-content-center">
         <Button variant="primary">Apply</Button>
       </div>
     </>

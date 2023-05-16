@@ -174,7 +174,7 @@ const DriveFileUploader = ({
           multiple={multiple}
           accept={accept}
         />
-        <label for={!uploading && id}>
+        <label htmlFor={!uploading && id}>
           <div
             className={`drive-file-uploader d-flex justify-content-center align-items-center  ${
               !uploading ? 'pointer p-5' : 'p-1'

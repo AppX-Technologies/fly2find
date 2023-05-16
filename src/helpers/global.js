@@ -52,3 +52,8 @@ export const createFilterObj = (filters = []) => {
 
   return filterObj;
 };
+
+export const isActiveParthname = (location, pathname) => {
+  if (location?.pathname === pathname) return true;
+  return false;
+};

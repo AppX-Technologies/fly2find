@@ -4,6 +4,7 @@ import { Dropdown, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons/dist';
 import { useHistory, useLocation } from 'react-router';
 import { UserContext } from '../context/userContext';
+import { isActiveParthname } from '../../helpers/global';
 
 const logout = history => {
   localStorage.clear();
@@ -59,7 +60,14 @@ const PrimaryHeader = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-3 mr-auto">
-            <LinkItem path="/admin/jaunts" title="Jaunts" />
+            <LinkItem
+              path="/admin/jaunts"
+              title={
+                <span className={isActiveParthname(location, '/admin/jaunts') && 'gradient-underline font-weight-bold'}>
+                  Jaunts
+                </span>
+              }
+            />
           </Nav>
 
           <Dropdown className="d-none d-md-inline-block" drop="left">
