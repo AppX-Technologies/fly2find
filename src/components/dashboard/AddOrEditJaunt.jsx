@@ -180,7 +180,7 @@ const AddOrEditJaunt = ({
                 onAddOrEditJauntFieldValueChange('description', e.target.value);
               }}
               as={'textarea'}
-              rows={6}
+              rows={13}
               disabled={inProgress}
             />
           </Form.Group>

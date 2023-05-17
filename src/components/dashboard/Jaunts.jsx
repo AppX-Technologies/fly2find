@@ -15,22 +15,24 @@ const Jaunts = ({
   return (
     <>
       <Container fluid className="px-5 my-4">
-        <Row className="gx-5 ">
+        <Row>
           {allJaunts &&
-            allJaunts.map(jaunt => (
-              <Col xs={10} md={5} lg={3} className="mx-auto">
-                <JauntCard
-                  key={jaunt?.id}
-                  jaunt={jaunt}
-                  onDelete={() => onJauntToBeDeletedChange(jaunt)}
-                  onEdit={() => onJauntToBeEditedChange(jaunt)}
-                  editJauntStatus={editJauntStatus}
-                  showSteps={showSteps}
-                  onShowStepsChange={onShowStepsChange}
-                  isDeletable={isDeletable}
-                  isEditable={isEditable}
-                />
-              </Col>
+            allJaunts.map((jaunt, index) => (
+              <>
+                <Col xs={12} md={6} lg={4} className="my-4">
+                  <JauntCard
+                    key={jaunt?.id}
+                    jaunt={jaunt}
+                    onDelete={() => onJauntToBeDeletedChange(jaunt)}
+                    onEdit={() => onJauntToBeEditedChange(jaunt)}
+                    editJauntStatus={editJauntStatus}
+                    showSteps={showSteps}
+                    onShowStepsChange={onShowStepsChange}
+                    isDeletable={isDeletable}
+                    isEditable={isEditable}
+                  />
+                </Col>
+              </>
             ))}
         </Row>
       </Container>

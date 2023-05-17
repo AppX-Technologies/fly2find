@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, Badge, Button, Card, Col, Dropdown, Image, Row } from 'react-bootstrap';
-import { Pen, Trash } from 'react-bootstrap-icons/dist';
+import { Pen, PenFill, Trash, TrashFill } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
 
 const JauntCard = ({
@@ -14,51 +14,53 @@ const JauntCard = ({
   isEditable
 }) => {
   return (
-    <Card className="my-3 p-0 mx-auto">
+    <Card className="p-0 mx-auto jaunt-card h-100">
       <Card.Body className="p-0 position-relative">
         {/* Thumbnail ,Descriptiona and Brief Row */}
-
-        <Image src={jaunt?.thumbnail} className="thumbnail-images mb-1" />
+        <a href={jaunt?.thumbnail} target="_blank">
+          <Image src={jaunt?.thumbnail} className="thumbnail-images mb-1" />
+        </a>
 
         {/* Action Buttons */}
 
-        <div className="d-flex align-items-center action-buttons">
-          <Button size="sm" variant="info" className="py-0 px-1" onClick={onEdit}>
-            <Pen style={{ verticalAlign: 'baseline' }} size={10} />
+        <div className="d-flex align-items-center position-relatives">
+          <Button size="sm" className="py-0 px-1 jaunt-delete-action-button" onClick={onEdit}>
+            <PenFill style={{ verticalAlign: 'baseline' }} size={15} className="text-light mt-2" />
           </Button>
           {isDeletable(jaunt?.id) && (
-            <Button size="sm" variant="danger" className="ml-1 py-0 px-1" onClick={onDelete}>
-              <Trash style={{ verticalAlign: 'baseline' }} size={10} />
+            <Button size="sm" className="ml-1 py-0 px-1 jaunt-edit-action-button" onClick={onDelete}>
+              <TrashFill style={{ verticalAlign: 'baseline' }} size={15} className="text-light mt-2" />
             </Button>
           )}
         </div>
 
-        {/* Title And Brief Row */}
         <div className="px-2">
           {/* Title and status Row */}
           <div className="my-1 d-flex justify-content-between align-items-center">
-            <h6 className="font-weight-bold xxxlarge mt-1"> {jaunt?.title}</h6>
-            {isEditable ? (
-              <Dropdown style={styles.smallerFont} className="ml-2">
-                <Dropdown.Toggle variant="success" className=" py-0 " style={{ fontSize: '12px' }}>
-                  {jaunt?.status}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {STATUSES.map(status => (
-                    <Dropdown.Item
-                      key={status}
-                      value={status}
-                      onClick={() => editJauntStatus(jaunt?.id, status)}
-                      disabled={status === jaunt?.status}
-                    >
-                      {status}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            ) : (
-              <Badge variant="success">{jaunt?.status}</Badge>
-            )}
+            <h6 className="font-weight-bold xxlarge mt-2"> {jaunt?.title}</h6>
+            <div>
+              {isEditable ? (
+                <Dropdown style={styles.smallerFont} className="ml-2">
+                  <Dropdown.Toggle variant="success" className=" py-0 " style={{ fontSize: '12px' }}>
+                    {jaunt?.status}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ zIndex: 999999 }}>
+                    {STATUSES.map(status => (
+                      <Dropdown.Item
+                        key={status}
+                        value={status}
+                        onClick={() => editJauntStatus(jaunt?.id, status)}
+                        disabled={status === jaunt?.status}
+                      >
+                        {status}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <Badge variant="success">{jaunt?.status}</Badge>
+              )}
+            </div>
           </div>
           <hr className="m-0" />
 

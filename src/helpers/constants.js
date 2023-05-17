@@ -7,7 +7,7 @@ export const TOKEN_INFO_PATH = 'https://oauth2.googleapis.com/tokeninfo?id_token
 export const API_KEY = 'fkajshd^*@#&$(ajshdfuaiwe#(@)*$&@(*faksdjfiwekajdsfwaj8923288(*8HF(H*fa273HF&^';
 export const SCRIPT_PROD_URL =
   'https://script.google.com/macros/s/AKfycbzOKqZEPn2RVjMPulS-rliMOdmkKfk0YIsK5XkfQvh2Znh3RBZD_5iHWNerjg66VysoqA/exec';
-export const BRAND_NAME = 'Fly2Find';
+export const BRAND_NAME = 'RatherFly';
 
 export const SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
@@ -276,14 +276,14 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 2,
-    title: 'Jaunt 1',
+    title: 'Jaunt 2',
     brief:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing',
     description:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus ipsam dolore quae in eveniet laudantium recusandae, quia voluptas laboriosam nesciunt voluptates perspiciatis voluptatibus soluta ad, aliquam nisi quam? Optio mollitia eligendi nulla eius nisi. Similique, eius perferendis reprehenderit praesentium incidunt commodi a unde assumenda cumque adipisci eos dignissimos sapiente quam.',
     status: 'Review',
@@ -295,12 +295,12 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 3,
-    title: 'Jaunt 1',
+    title: 'Jaunt 3',
     brief:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
@@ -314,12 +314,12 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 4,
-    title: 'Jaunt 1',
+    title: 'Jaunt 4',
     brief:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
@@ -333,12 +333,12 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 5,
-    title: 'Jaunt 1',
+    title: 'Jaunt 5',
     brief:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
@@ -352,12 +352,12 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 6,
-    title: 'Jaunt 1',
+    title: 'Jaunt 6',
     brief:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
@@ -371,12 +371,12 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 7,
-    title: 'Jaunt 1',
+    title: 'Jaunt 7',
     brief:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
@@ -390,12 +390,12 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   },
   {
     id: 8,
-    title: 'Jaunt 1',
+    title: 'Jaunt 8',
     brief:
       'Lorem ipsum dolor sit amet consectetur, adipisicing elit.Lorem ipsum dolor sit amet consectetur, adipisicing elit.dkjfhkjdfhguiyfyherfbdsbhfgsdgfhgsdhfgsdgfhsgduyftyuetfyuetyutyuewtyuwetfyuwteftywetfyuewtfyuwetfyutwetfyuwetfyuwtyuwteyuwetu',
     description:
@@ -409,7 +409,7 @@ export const JAUNTS = [
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj',
       'Lorem ipsum dolor sit amet consectetur adipisicing elit. dlkjjkgh',
       'Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur Lorem ipsum dolor sit amet consectetur',
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghj'
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, vitae?wdjhfkjdshgfhjfghjLorem ipsum '
     ]
   }
 ];

@@ -51,8 +51,8 @@ const PrimaryHeader = () => {
 
   return (
     <>
-      <Navbar bg="light" expand="lg" className="px-2 py-0">
-        <Navbar.Brand href="/">
+      <Navbar bg="light" expand="lg" className="px-3 py-0">
+        <Navbar.Brand href="/" className="mt-1">
           <h3 className="logo">
             R<span className="underline">atherFly</span>
           </h3>{' '}
