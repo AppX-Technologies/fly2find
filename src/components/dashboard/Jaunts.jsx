@@ -10,7 +10,8 @@ const Jaunts = ({
   showSteps,
   onShowStepsChange,
   isDeletable,
-  isEditable
+  isEditable,
+  statusUpdateInProcess
 }) => {
   return (
     <>
@@ -30,6 +31,7 @@ const Jaunts = ({
                     onShowStepsChange={onShowStepsChange}
                     isDeletable={isDeletable}
                     isEditable={isEditable}
+                    statusUpdateInProcess={statusUpdateInProcess}
                   />
                 </Col>
               </>

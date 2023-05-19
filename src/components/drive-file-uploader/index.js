@@ -3,8 +3,7 @@ import { ProgressBar, Spinner } from 'react-bootstrap';
 import { Plus } from 'react-bootstrap-icons';
 import { toast } from 'react-toastify';
 import { makeApiRequests } from '../../helpers/api';
-
-const MAX_CHUNK_SIZE = 2 * 1024 * 1024; // 48MB
+import { MAX_CHUNK_SIZE } from '../../helpers/constants';
 
 const DriveFileUploader = ({
   text = 'Upload The Image',
@@ -84,7 +83,7 @@ const DriveFileUploader = ({
 
     // Updating Total Number Of Files To Be Uploaded
 
-    multiple && onNumberOfFilesChange && onNumberOfFilesChange('toBeUploaded', files?.length); // This call should update the count of toBeUploaded files by the length of selected files
+    onNumberOfFilesChange && onNumberOfFilesChange('toBeUploaded', files?.length); // This call should update the count of toBeUploaded files by the length of selected files
     for (let fileIndex = 0; fileIndex < Array.from(files)?.length; fileIndex++) {
       const file = files[fileIndex];
 
@@ -137,10 +136,10 @@ const DriveFileUploader = ({
           } else if (response.status === 'complete') {
             setUploadProgress(100);
             setUploading(false);
-            onUploadedFilesChange(URL.createObjectURL(file));
+            onUploadedFilesChange({ fileName: file?.name, mimeType: file.type, fileId: response?.fileId });
 
             // Updating the uploaded file count
-            multiple && onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded', 1); // This call sholud increase the alreadyUploaded files count by 1
+            onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded', 1); // This call sholud increase the alreadyUploaded files count by 1
 
             break;
           } else {
@@ -159,7 +158,7 @@ const DriveFileUploader = ({
 
     // Resetting the files count
 
-    multiple && onNumberOfFilesChange && onNumberOfFilesChange('', '', true); // Reseting the count of alreadyUploadedFiles and toBeUploaded files
+    onNumberOfFilesChange && onNumberOfFilesChange('', '', true); // Reseting the count of alreadyUploadedFiles and toBeUploaded files
   };
 
   return (

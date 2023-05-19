@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { JAUNT_RELATED_FILTERS } from '../../helpers/constants';
 import CircularProgressBar from '../circular-progress';
 
-const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
+const Filter = ({ onGlobalFilterValueChange, globalFilterValues, executeGlobalSearch, onHide }) => {
   const findFilterValuesByParent = parentKey => {
     return globalFilterValues?.filters?.find(filterJaunt => filterJaunt?.key === parentKey);
   };
@@ -82,7 +82,15 @@ const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
       })}
 
       <div className="my-2 w-100 d-flex justify-content-center">
-        <Button variant="primary">Apply</Button>
+        <Button
+          variant="primary"
+          onClick={() => {
+            executeGlobalSearch();
+            onHide();
+          }}
+        >
+          Apply
+        </Button>
       </div>
     </>
   );

@@ -19,7 +19,7 @@ const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled, execu
           className={`h-100 d-flex justify-content-center align-items-center search-icon ${
             disabled ? 'disabled-content' : 'bg-gradient'
           }`}
-          onClick={e => (!disabled ? executeGlobalSearch() : e.stopPropagation())}
+          onClick={e => (!disabled ? executeGlobalSearch(true) : e.stopPropagation())}
         >
           <Search className="text-light" />
         </div>
@@ -82,14 +82,14 @@ const SecondaryHeader = ({
               </Dropdown.Toggle>
 
               <Dropdown.Menu value={globalFilterValues?.sortBy}>
-                {DASHBOARD_SORT_BY_OPTIONS.map(option => (
+                {DASHBOARD_SORT_BY_OPTIONS.map(({ key, label }) => (
                   <Dropdown.Item
-                    key={option}
-                    value={option}
-                    onClick={() => onGlobalFilterValueChange('sortBy', option)}
-                    className={`${globalFilterValues?.sortBy === option && 'bg-primary text-light'}`}
+                    key={key}
+                    value={key}
+                    onClick={() => onGlobalFilterValueChange('sortBy', key)}
+                    className={`${globalFilterValues?.sortBy === key && 'bg-primary text-light'}`}
                   >
-                    {option}
+                    {label}
                   </Dropdown.Item>
                 ))}
               </Dropdown.Menu>

@@ -2,9 +2,10 @@ import { cloneDeep } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import { PlusCircleFill } from 'react-bootstrap-icons/dist';
 import { toast } from 'react-toastify';
-import { ADMIN_ROLE, DRAFT_STATUS, JAUNTS, PILOT_ROLE } from '../../helpers/constants';
+import { makeApiRequests } from '../../helpers/api';
+import { ADMIN_ROLE, DRAFT_STATUS, MAX_CHUNK_SIZE, PILOT_ROLE } from '../../helpers/constants';
 import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
-import { findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
+import { createFilterObj, findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
 import AlertModal from '../AlertModal';
 import FloatingButton from '../FloatingButton';
 import HorizontalProgress from '../HorizontalProgress';
@@ -16,12 +17,14 @@ import Jaunts from './Jaunts';
 import SecondaryHeader from './SecondaryHeader';
 
 const generateRandomUUIDForAllJauntSteps = jaunts => {
-  return [
-    ...jaunts.map(jaunt => ({
-      ...jaunt,
-      steps: [...jaunt.steps.map(step => ({ id: generateRandomUUID(), text: step }))]
-    }))
-  ];
+  return jaunts
+    ? [
+        ...jaunts.map(jaunt => ({
+          ...jaunt,
+          steps: [...jaunt?.steps.map(step => ({ id: generateRandomUUID(), text: step }))]
+        }))
+      ]
+    : [];
 };
 
 const Index = () => {
@@ -32,15 +35,17 @@ const Index = () => {
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
   const [jauntAddOrUpdateInProgress, setJauntAddOrUpdateInProgress] = useState(false);
   const [jauntDeleteInProgress, setJauntDeleteInProgress] = useState(false);
+  const [statusUpdateInProcess, setStatusUpdateInProgress] = useState(null);
   const [numberOfFiles, setNumberOfFiles] = useState({
     toBeUploaded: 0,
     alreadyUploaded: 0
   });
   const [globalFilterValues, setGlobalFilterValues] = useState({
     showing: 'All',
-    sortBy: 'Created Date',
+    sortBy: 'createdDate',
     isAssessending: true
   });
+
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
 
   const [globalSearchInProgress, setGlobalSearchInProgress] = useState(false);
@@ -124,23 +129,28 @@ const Index = () => {
 
   // Triggers When Add Button Is Clicked Inside The SlidingSidebar
 
-  const onAddJauntClick = () => {
+  const onAddJauntClick = async () => {
     const emptyField = ADD_JAUNT_FIELDS.find(jaunt => !addOrEditJauntMetadata[(jaunt?.key)]);
 
     if (emptyField) {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
     setJauntAddOrUpdateInProgress(true);
-    // const { error, response } = await makeApiRequests({
-    //   requestType: 'upload-file',
-    //   requestBody: { payload: fileInfoObject }
-    // });
+    const { error, response } = await makeApiRequests({
+      requestType: 'create-jaunt',
+      requestBody: {
+        ...addOrEditJauntMetadata,
+        status: 'Draft',
+        gallery: []
+      }
+    });
 
-    // if (error) {
-    //   return toast.error(error);
-    // }
+    if (error) {
+      setJauntAddOrUpdateInProgress(false);
+      return toast.error(error);
+    }
 
-    setAllJaunts([...allJaunts, { ...addOrEditJauntMetadata, id: allJaunts?.length + 1, status: 'Draft' }]); // Use UUID instead
+    setAllJaunts([...allJaunts, { ...response?.jaunt }]);
     onAddOrEditJauntModalClose();
     setJauntAddOrUpdateInProgress(false);
     toast.success('Jaunt Successfully Created');
@@ -148,25 +158,26 @@ const Index = () => {
 
   // Triggers When Edit Button Is Clicked Inside The SlidingSidebar
 
-  const onEditJauntClick = () => {
+  const onEditJauntClick = async () => {
     const emptyField = ADD_JAUNT_FIELDS.find(jaunt => !addOrEditJauntMetadata[(jaunt?.key)]);
 
     if (emptyField) {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
-    setJauntAddOrUpdateInProgress(false);
+    setJauntAddOrUpdateInProgress(true);
 
-    // const { error, response } = await makeApiRequests({
-    //   requestType: 'upload-file',
-    //   requestBody: { payload: fileInfoObject }
-    // });
+    const { error, response } = await makeApiRequests({
+      requestType: 'update-jaunt',
+      requestBody: { ...addOrEditJauntMetadata }
+    });
 
-    // if (error) {
-    //   return toast.error(error);
-    // }
+    if (error) {
+      setJauntAddOrUpdateInProgress(false);
+      return toast.error(error);
+    }
 
-    const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === addOrEditJauntMetadata?.id);
-    allJaunts[toEditJauntIndex] = addOrEditJauntMetadata;
+    const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === addOrEditJauntMetadata?.id); // replace addOrEditJauntMetadata with response?.jaunt?.id
+    allJaunts[toEditJauntIndex] = addOrEditJauntMetadata; // replace addOrEditJauntMetadata with response?.jaunt?.id
     setAllJaunts([...allJaunts]);
     onAddOrEditJauntModalClose();
     setJauntAddOrUpdateInProgress(false);
@@ -175,16 +186,18 @@ const Index = () => {
 
   // Triggers When Delete Button Is Clicked In The Card
 
-  const onDeleteJauntClick = () => {
+  const onDeleteJauntClick = async () => {
     setJauntDeleteInProgress(true);
-    // const { error, response } = await makeApiRequests({
-    //   requestType: 'upload-file',
-    //   requestBody: { payload: fileInfoObject }
-    // });
+    const { error, response } = await makeApiRequests({
+      requestType: 'delete-jaunt',
+      requestBody: { id: jauntToBeDeleted?.id }
+    });
 
-    // if (error) {
-    //   return toast.error(error);
-    // }
+    if (error) {
+      setJauntDeleteInProgress(false);
+
+      return toast.error(error);
+    }
 
     const toDeleteJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntToBeDeleted?.id);
     allJaunts.splice(toDeleteJauntIndex, 1);
@@ -196,10 +209,23 @@ const Index = () => {
 
   // Edit Status of A Jaunt From Card
 
-  const editJauntStatus = (jauntId, status) => {
+  const editJauntStatus = async (jauntId, status) => {
+    setStatusUpdateInProgress(jauntId);
+    const { error, response } = await makeApiRequests({
+      requestType: 'update-jaunt',
+      requestBody: { id: jauntId, status }
+    });
+
+    if (error) {
+      setStatusUpdateInProgress(null);
+      return toast.error(error);
+    }
+
     const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntId);
     allJaunts[toEditJauntIndex] = { ...allJaunts[toEditJauntIndex], status };
     setAllJaunts([...allJaunts]);
+    setStatusUpdateInProgress(null);
+    toast.success('Status Updates Successfully');
   };
 
   const isJauntDeletable = jauntId => {
@@ -212,19 +238,65 @@ const Index = () => {
     return false;
   };
 
-  const executeGlobalSearch = () => {
-    // setGlobalSearchInProgress(true);
-    // const { error, response } = await makeApiRequests({
-    //   requestType: 'upload-file',
-    //   requestBody: { payload: fileInfoObject }
-    // });
-    // if (error) {
-    //   return toast.error(error);
-    // }
-
-    setAllJaunts(generateRandomUUIDForAllJauntSteps(JAUNTS));
-    // setGlobalSearchInProgress(false);
+  const executeGlobalSearch = async searchByQuery => {
+    if (!searchByQuery || (searchByQuery && globalSearchQuery)) {
+      setGlobalSearchInProgress(true);
+      const { error, response } = await makeApiRequests({
+        requestType: 'search-jaunts',
+        requestBody: {
+          keyword: globalSearchQuery,
+          sortSchema: {},
+          filterSchema: createFilterObj(globalFilterValues?.filters)
+        }
+      });
+      if (error) {
+        setGlobalSearchInProgress(false);
+        return toast.error(error);
+      }
+      setAllJaunts(generateRandomUUIDForAllJauntSteps(response?.jaunts.map(jaunt => ({ ...jaunt, steps: [] }))));
+      setGlobalSearchInProgress(false);
+    }
   };
+
+  // Get Images
+
+  const getFileChunk = async (fileId, chunkIndex) => {
+    const fileInfoObject = {
+      fileId,
+      chunkIndex
+    };
+
+    const { error, response } = await makeApiRequests({
+      requestType: 'read-file',
+      requestBody: fileInfoObject
+    });
+
+    if (error) {
+      return toast.error(error);
+    }
+
+    return await response;
+  };
+
+  const onFetchingFiles = async file => {
+    let completeChunkData = {};
+    let chunkIndex = 0;
+    const totalChunks = Math.ceil(file.size / MAX_CHUNK_SIZE);
+    for (chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+      const response = await getFileChunk(file?.fileId, chunkIndex);
+      if (response) {
+        completeChunkData = { ...completeChunkData, ...response };
+      }
+    }
+
+    return completeChunkData;
+  };
+
+  useEffect(() => {
+    if (allJaunts?.length) {
+      onFetchingFiles({ fileId: '1xAIIIB5fP2sE8mFJy81CFPUF6Iq6xVoM', size: MAX_CHUNK_SIZE });
+    }
+  }, []);
 
   useEffect(() => {
     if (!addOrEditJauntMetadata) {
@@ -233,8 +305,10 @@ const Index = () => {
   }, [addOrEditJauntMetadata]);
 
   useEffect(() => {
-    executeGlobalSearch();
-  }, [globalFilterValues]);
+    if (globalFilterValues?.showing && globalFilterValues?.sortBy) {
+      executeGlobalSearch();
+    }
+  }, [globalFilterValues?.showing, globalFilterValues?.sortBy, globalFilterValues?.isAssessending]);
 
   return (
     <>
@@ -251,7 +325,12 @@ const Index = () => {
       {/* Filter Sidebar */}
 
       <SlidingSideBar visible={showFilter} onClose={() => onFilterValueChange(false)} title="Filter">
-        <Filter onGlobalFilterValueChange={onGlobalFilterValueChange} globalFilterValues={globalFilterValues} />
+        <Filter
+          onGlobalFilterValueChange={onGlobalFilterValueChange}
+          globalFilterValues={globalFilterValues}
+          executeGlobalSearch={executeGlobalSearch}
+          onHide={() => onFilterValueChange(false)}
+        />
       </SlidingSideBar>
 
       <FloatingButton
@@ -270,7 +349,11 @@ const Index = () => {
         onGlobalSearchQueryChange={onGlobalSearchQueryChange}
         globalSearchQuery={globalSearchQuery}
       />
-      {globalSearchInProgress && <HorizontalProgress text="Searching..." />}
+      {globalSearchInProgress && <HorizontalProgress text="Searching..." style={{ width: '92%', margin: '0 auto' }} />}
+      {!globalSearchInProgress && !allJaunts?.length && (
+        <h5 className="my-4 xxlarge text-center">No Jaunts To Show.</h5>
+      )}
+
       <AddOrEditJaunt
         modalMetaData={addOrEditJauntMetadata}
         fields={
@@ -304,6 +387,7 @@ const Index = () => {
         editJauntStatus={editJauntStatus}
         isDeletable={isJauntDeletable}
         isEditable={user?.role === ADMIN_ROLE}
+        statusUpdateInProcess={statusUpdateInProcess}
       />
     </>
   );

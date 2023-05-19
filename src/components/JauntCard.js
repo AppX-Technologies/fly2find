@@ -3,6 +3,8 @@ import { Alert, Badge, Button, Card, Col, Dropdown, Image, Row } from 'react-boo
 import { Pen, PenFill, Trash, TrashFill } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
 
+const RANDOM_IMAGE = 'https://www.w3schools.com/css/paris.jpg';
+
 const JauntCard = ({
   updatingStatus,
   status = '',
@@ -11,14 +13,16 @@ const JauntCard = ({
   onEdit,
   editJauntStatus,
   isDeletable,
-  isEditable
+  isEditable,
+  statusUpdateInProcess
 }) => {
   return (
     <Card className="p-0 mx-auto jaunt-card h-100">
       <Card.Body className="p-0 position-relative">
         {/* Thumbnail ,Descriptiona and Brief Row */}
-        <a href={jaunt?.thumbnail} target="_blank">
-          <Image src={jaunt?.thumbnail} className="thumbnail-images mb-1" />
+        {/* Use jaunt?.thumbnail */}
+        <a href={RANDOM_IMAGE} target="_blank">
+          <Image src={RANDOM_IMAGE} className="thumbnail-images mb-1" />
         </a>
 
         {/* Action Buttons */}
@@ -41,8 +45,13 @@ const JauntCard = ({
             <div>
               {isEditable ? (
                 <Dropdown style={styles.smallerFont} className="ml-2">
-                  <Dropdown.Toggle variant="success" className=" py-0 " style={{ fontSize: '12px' }}>
-                    {jaunt?.status}
+                  <Dropdown.Toggle
+                    variant="success"
+                    className=" py-0 "
+                    style={{ fontSize: '12px' }}
+                    disabled={statusUpdateInProcess === jaunt?.id}
+                  >
+                    {statusUpdateInProcess === jaunt?.id ? 'Updating...' : jaunt?.status}
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ zIndex: 999999 }}>
                     {STATUSES.map(status => (

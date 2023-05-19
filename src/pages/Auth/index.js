@@ -74,21 +74,22 @@ const Auth = () => {
     if (error) {
       return toast.error(error);
     }
+    if (!error) {
+      if (mode === REGISTER_MODE) {
+        setMode(LOGIN_MODE);
+        return;
+      }
 
-    if (mode === REGISTER_MODE) {
-      setMode(LOGIN_MODE);
-      return;
+      // Saving Overall User Object In Local Storage
+
+      localStorage.setItem('user', JSON.stringify({ role: ADMIN_ROLE, token: authResult?.accessToken?.jwt }));
+
+      localStorage.setItem('user-token', authResult?.accessToken?.jwt);
+      localStorage.setItem('user-role', ADMIN_ROLE);
+
+      onUserChange({ token: authResult?.accessToken?.jwt, role: ADMIN_ROLE });
+      history.push('/');
     }
-
-    // Saving Overall User Object In Local Storage
-
-    localStorage.setItem('user', JSON.stringify({ role: ADMIN_ROLE, token: authResult?.accessToken?.jwt }));
-
-    localStorage.setItem('user-token', authResult?.accessToken?.jwt);
-    localStorage.setItem('user-role', ADMIN_ROLE);
-
-    onUserChange({ token: authResult?.accessToken?.jwt, role: ADMIN_ROLE });
-    history.push('/');
   };
 
   const onEmailVerification = async () => {
@@ -158,7 +159,6 @@ const Auth = () => {
 
     try {
       await auth();
-      setMode(LOGIN_MODE);
       setFormSubmitting(false);
     } catch (e) {
       setFormSubmitting(false);

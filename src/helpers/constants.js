@@ -255,7 +255,10 @@ export const indServiceMetas = [
 export const LOGIN_MODE = 'login';
 export const REGISTER_MODE = 'register';
 
-export const DASHBOARD_SORT_BY_OPTIONS = ['Created Date', 'Updated Date'];
+export const DASHBOARD_SORT_BY_OPTIONS = [
+  { label: 'Created Date', key: 'createdDate' },
+  { label: 'Updated Date', key: 'updatedDate' }
+];
 
 export const SHOWING_OPTIONS = ['10', '20', '50', '100', 'All'];
 
@@ -434,3 +437,5 @@ export const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
 export const ADMIN_ROLE = 'Admin';
 export const PILOT_ROLE = 'Pilot';
+
+export const MAX_CHUNK_SIZE = 2 * 1024 * 1024; // 48MB

@@ -9,6 +9,8 @@ import { isFileUploadingInProcess } from '../../helpers/global';
 import { useContext } from 'react';
 import { UserContext } from '../context/userContext';
 
+const RANDOM_IMAGE = 'https://www.w3schools.com/css/paris.jpg';
+
 const AddOrEditJaunt = ({
   modalMetaData,
   onHide,
@@ -74,7 +76,7 @@ const AddOrEditJaunt = ({
           <Col md={3} xs={12} className="my-auto h-100 mx-auto">
             {/* Insert Thumbnail */}
             <div className="d-flex justify-content-center align-items-center">
-              {!modalMetaData?.thumbnail?.length ? (
+              {!modalMetaData?.thumbnail?.fileId ? (
                 <>
                   {isEditable && (
                     <DriveFileUploader
@@ -85,15 +87,16 @@ const AddOrEditJaunt = ({
                       fileNotSuitableError={'Only Images Can Be Uploaded'}
                       isDisabled={!inProgress}
                       accept="image/*"
+                      onNumberOfFilesChange={onNumberOfFilesChange}
                     />
                   )}
                 </>
               ) : (
                 <div className="d-flex justify-content-center">
                   <Image
-                    src={modalMetaData?.thumbnail}
+                    src={RANDOM_IMAGE} // use modalMetadata?.thumbnail?.fileId
                     className="internal-thumbnail-images mt-2 pointer"
-                    onClick={() => window.open(modalMetaData?.thumbnail, '_blank')}
+                    onClick={() => window.open(RANDOM_IMAGE, '_blank')}
                   />
                   {isEditable && (
                     <TrashFill
@@ -181,7 +184,7 @@ const AddOrEditJaunt = ({
               }}
               as={'textarea'}
               rows={13}
-              disabled={inProgress}
+              disabled={!isEditable || inProgress}
             />
           </Form.Group>
         </div>
@@ -316,7 +319,7 @@ const AddOrEditJaunt = ({
             placeholder="Enter Points"
             value={modalMetaData?.points || ''}
             onChange={e => onAddOrEditJauntFieldValueChange('points', e.target.value)}
-            disabled={!isEditable}
+            disabled={!isEditable || inProgress}
           />
         </Form.Group>
         {isEditable && (
@@ -324,9 +327,9 @@ const AddOrEditJaunt = ({
             <Button
               variant="primary"
               onClick={modalMetaData?.id ? onEditJauntClick : onAddJauntClick}
-              disabled={inProgress}
+              disabled={inProgress || isFileUploadingInProcess(numberOfFiles)}
             >
-              {modalMetaData?.id ? 'Edit' : 'Add'}
+              {modalMetaData?.id ? (inProgress ? 'Editing...' : 'Edit') : inProgress ? 'Adding...' : 'Add'}
             </Button>
           </div>
         )}
