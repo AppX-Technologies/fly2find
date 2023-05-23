@@ -3,9 +3,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { PlusCircleFill } from 'react-bootstrap-icons/dist';
 import { toast } from 'react-toastify';
 import { makeApiRequests } from '../../helpers/api';
-import { ADMIN_ROLE, DRAFT_STATUS, MAX_CHUNK_SIZE, PILOT_ROLE } from '../../helpers/constants';
+import { ADMIN_ROLE, DRAFT_STATUS, PILOT_ROLE } from '../../helpers/constants';
 import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
-import { createFilterObj, findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
+import {
+  convertBase64ToImage,
+  convertResponseToObj,
+  createFilterObj,
+  findSpecificJaunt,
+  generateRandomUUID
+} from '../../helpers/global';
 import AlertModal from '../AlertModal';
 import FloatingButton from '../FloatingButton';
 import HorizontalProgress from '../HorizontalProgress';
@@ -21,7 +27,9 @@ const generateRandomUUIDForAllJauntSteps = jaunts => {
     ? [
         ...jaunts.map(jaunt => ({
           ...jaunt,
-          steps: [...jaunt?.steps.map(step => ({ id: generateRandomUUID(), text: step }))]
+          steps: [...jaunt?.steps.map(step => ({ id: generateRandomUUID(), text: step }))],
+          thumbnail: convertResponseToObj(jaunt?.thumbnail),
+          album: []
         }))
       ]
     : [];
@@ -35,11 +43,14 @@ const Index = () => {
   const [jauntToBeDeleted, setJauntToBeDeleted] = useState(null);
   const [jauntAddOrUpdateInProgress, setJauntAddOrUpdateInProgress] = useState(false);
   const [jauntDeleteInProgress, setJauntDeleteInProgress] = useState(false);
-  const [statusUpdateInProcess, setStatusUpdateInProgress] = useState(null);
+  const [statusUpdateInProcess, setStatusUpdateInProgress] = useState({});
+  const [albumLoading, setAlbumLoading] = useState({});
   const [numberOfFiles, setNumberOfFiles] = useState({
     toBeUploaded: 0,
     alreadyUploaded: 0
   });
+
+  const [globalizedJaunts, setGlobalizedJaunts] = useState(null); // stores allJaunts values and is unchangable
   const [globalFilterValues, setGlobalFilterValues] = useState({
     showing: 'All',
     sortBy: 'createdDate',
@@ -49,6 +60,7 @@ const Index = () => {
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
 
   const [globalSearchInProgress, setGlobalSearchInProgress] = useState(false);
+  const [jauntThumbnailLoading, setJauntThumbnailLoading] = useState({});
 
   const onNumberOfFilesChange = (key, value, reset = false) => {
     if (reset) {
@@ -141,7 +153,18 @@ const Index = () => {
       requestBody: {
         ...addOrEditJauntMetadata,
         status: 'Draft',
-        gallery: []
+        gallery: addOrEditJauntMetadata?.album
+          ? addOrEditJauntMetadata?.album?.map(i => ({
+              mimeType: i.mimeType,
+              fileName: i?.fileName,
+              fileId: i?.fileId
+            }))
+          : [],
+        thumbnail: {
+          fileId: addOrEditJauntMetadata?.thumbnail?.fileId,
+          mimeType: addOrEditJauntMetadata?.thumbnail?.mimeType,
+          fileName: addOrEditJauntMetadata?.thumbnail?.fileName
+        }
       }
     });
 
@@ -168,7 +191,21 @@ const Index = () => {
 
     const { error, response } = await makeApiRequests({
       requestType: 'update-jaunt',
-      requestBody: { ...addOrEditJauntMetadata }
+      requestBody: {
+        ...addOrEditJauntMetadata,
+        gallery: addOrEditJauntMetadata?.album
+          ? addOrEditJauntMetadata?.album.map(i => ({
+              mimeType: i.mimeType,
+              fileName: i?.fileName,
+              fileId: i?.fileId
+            }))
+          : [],
+        thumbnail: {
+          fileId: addOrEditJauntMetadata?.thumbnail?.fileId,
+          mimeType: addOrEditJauntMetadata?.thumbnail?.mimeType,
+          fileName: addOrEditJauntMetadata?.thumbnail?.fileName
+        }
+      }
     });
 
     if (error) {
@@ -210,22 +247,27 @@ const Index = () => {
   // Edit Status of A Jaunt From Card
 
   const editJauntStatus = async (jauntId, status) => {
-    setStatusUpdateInProgress(jauntId);
+    setStatusUpdateInProgress(prevStatusValues => ({ ...prevStatusValues, [jauntId]: true }));
+
     const { error, response } = await makeApiRequests({
       requestType: 'update-jaunt',
       requestBody: { id: jauntId, status }
     });
 
     if (error) {
-      setStatusUpdateInProgress(null);
-      return toast.error(error);
+      toast.error(error);
+    } else {
+      const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntId);
+      allJaunts[toEditJauntIndex] = { ...allJaunts[toEditJauntIndex], status };
+      setAllJaunts([...allJaunts]);
+      toast.success('Status Updates Successfully');
     }
 
-    const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntId);
-    allJaunts[toEditJauntIndex] = { ...allJaunts[toEditJauntIndex], status };
-    setAllJaunts([...allJaunts]);
-    setStatusUpdateInProgress(null);
-    toast.success('Status Updates Successfully');
+    setStatusUpdateInProgress(prevStatusValues => {
+      const updatedStatusValues = { ...prevStatusValues };
+      delete updatedStatusValues[jauntId];
+      return updatedStatusValues;
+    });
   };
 
   const isJauntDeletable = jauntId => {
@@ -241,7 +283,7 @@ const Index = () => {
   const executeGlobalSearch = async searchByQuery => {
     if (!searchByQuery || (searchByQuery && globalSearchQuery)) {
       setGlobalSearchInProgress(true);
-      const { error, response } = await makeApiRequests({
+      let { error, response } = await makeApiRequests({
         requestType: 'search-jaunts',
         requestBody: {
           keyword: globalSearchQuery,
@@ -253,7 +295,68 @@ const Index = () => {
         setGlobalSearchInProgress(false);
         return toast.error(error);
       }
-      setAllJaunts(generateRandomUUIDForAllJauntSteps(response?.jaunts.map(jaunt => ({ ...jaunt, steps: [] }))));
+
+      if (response?.jaunts?.length) {
+        response.jaunts = generateRandomUUIDForAllJauntSteps(response?.jaunts.map(jaunt => ({ ...jaunt, steps: [] })));
+        response.jaunts.forEach(async jaunt => {
+          if (!jaunt?.thumbnail?.src && !jaunt?.thumbnail?.tempSrc) {
+            const jauntIndex = response?.jaunts.findIndex(j => j?.id === jaunt?.id);
+
+            // If allJaunts alreay contains the jaunts form search request there is no need to refetch the image again
+
+            const jauntAlreadyExists = (globalizedJaunts || allJaunts)?.find(
+              j => j?.thumbnail?.fileId === jaunt?.thumbnail?.fileId
+            );
+
+            if (!jauntAlreadyExists) {
+              // For Thumbnail
+              setJauntThumbnailLoading(prevValue => ({ ...prevValue, [jaunt?.thumbnail?.fileId]: true }));
+
+              let thumbnailData = await onFetchingFiles({
+                fileId: jaunt?.thumbnail?.fileId
+              });
+
+              if (thumbnailData) {
+                response.jaunts[jauntIndex].thumbnail.src = convertBase64ToImage(thumbnailData);
+              }
+              setJauntThumbnailLoading(prevValue => ({ ...prevValue, [jaunt?.thumbnail?.fileId]: false }));
+
+
+              // For Album
+
+              if (jaunt?.album?.length) {
+                setAlbumLoading(prevValue => ({ ...prevValue, [jaunt?.id]: true }));
+                jaunt.album.forEach(async albumFile => {
+                  let albumData = await onFetchingFiles({
+                    fileId: albumFile?.fileId
+                  });
+
+                  const indexOfAlbum = response.jaunts[jauntIndex].album.findIndex(
+                    f => f?.fileId === albumFile?.fileId
+                  );
+                  if (indexOfAlbum !== -1) {
+                    response.jaunts[jauntIndex].album[indexOfAlbum].src = convertBase64ToImage(albumData);
+                  }
+                });
+
+                setAlbumLoading(prevValue => ({ ...prevValue, [jaunt?.id]: false }));
+              }
+            } else {
+              // setting Thumbnail
+              response.jaunts[jauntIndex].thumbnail = jauntAlreadyExists?.thumbnail;
+
+              // setting Album
+              response.jaunts[jauntIndex].album = jauntAlreadyExists?.album;
+            }
+          }
+        });
+      }
+
+      setAllJaunts([...response?.jaunts]);
+
+      if (!globalizedJaunts?.length) {
+        setGlobalizedJaunts([...response?.jaunts]);
+      }
       setGlobalSearchInProgress(false);
     }
   };
@@ -271,32 +374,25 @@ const Index = () => {
       requestBody: fileInfoObject
     });
 
-    if (error) {
-      return toast.error(error);
-    }
-
     return await response;
   };
 
   const onFetchingFiles = async file => {
-    let completeChunkData = {};
+    let completeChunkData = '';
     let chunkIndex = 0;
-    const totalChunks = Math.ceil(file.size / MAX_CHUNK_SIZE);
-    for (chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+    let totalChunks = 1;
+
+    while (chunkIndex < totalChunks) {
       const response = await getFileChunk(file?.fileId, chunkIndex);
       if (response) {
-        completeChunkData = { ...completeChunkData, ...response };
+        completeChunkData += response?.chunkData;
       }
+      totalChunks = response?.totalChunks;
+      chunkIndex += 1;
     }
 
     return completeChunkData;
   };
-
-  useEffect(() => {
-    if (allJaunts?.length) {
-      onFetchingFiles({ fileId: '1xAIIIB5fP2sE8mFJy81CFPUF6Iq6xVoM', size: MAX_CHUNK_SIZE });
-    }
-  }, []);
 
   useEffect(() => {
     if (!addOrEditJauntMetadata) {
@@ -371,6 +467,8 @@ const Index = () => {
         onAlbumChange={onAlbumChange}
         onNumberOfFilesChange={onNumberOfFilesChange}
         inProgress={jauntAddOrUpdateInProgress}
+        jauntThumbnailLoading={jauntThumbnailLoading}
+        albumLoading={albumLoading}
         numberOfFiles={numberOfFiles}
         isEditable={
           addOrEditJauntMetadata?.id
@@ -388,6 +486,7 @@ const Index = () => {
         isDeletable={isJauntDeletable}
         isEditable={user?.role === ADMIN_ROLE}
         statusUpdateInProcess={statusUpdateInProcess}
+        jauntThumbnailLoading={jauntThumbnailLoading}
       />
     </>
   );

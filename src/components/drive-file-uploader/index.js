@@ -136,7 +136,12 @@ const DriveFileUploader = ({
           } else if (response.status === 'complete') {
             setUploadProgress(100);
             setUploading(false);
-            onUploadedFilesChange({ fileName: file?.name, mimeType: file.type, fileId: response?.fileId });
+            onUploadedFilesChange({
+              fileName: file?.name,
+              mimeType: file.type,
+              fileId: response?.fileId,
+              src: URL.createObjectURL(file)
+            });
 
             // Updating the uploaded file count
             onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded', 1); // This call sholud increase the alreadyUploaded files count by 1

@@ -61,74 +61,37 @@ export const isActiveParthname = (location, pathname) => {
   return false;
 };
 
-// Creating The Image URL
+export const convertResponseToObj = response => {
+  const trimmedStr = response?.slice(1, -1);
 
-// Base64-decode a string using Web-safe encoding
-export const base64DecodeWebSafe = data => {
-  const base64 = data.replace(/-/g, '+').replace(/_/g, '/');
-  const padded = padBase64(base64);
-  const uint8Array = base64ToUint8Array(padded);
-  return uint8Array;
+  const keyValuePairs = trimmedStr?.split(',');
+
+  const obj = {};
+
+  keyValuePairs.forEach(pair => {
+    const [key, value] = pair?.split('=');
+    obj[key.trim()] = value?.trim();
+  });
+
+  return obj;
 };
 
-// Pad a Base64 string with additional characters as needed
-export const padBase64 = base64 => {
-  const padding = '='.repeat((4 - (base64.length % 4)) % 4);
-  return base64 + padding;
-};
+export const convertBase64ToImage = response => {
+  const byteCharacters = atob(response?.replace(/-/g, '+').replace(/_/g, '/'));
+  const byteArrays = [];
 
-// Convert a Base64 string to a Uint8Array
-export const base64ToUint8Array = base64 => {
-  const string = window.atob(base64);
-  const utf8Array = new Uint8Array(string.length);
-  for (let i = 0; i < string.length; i++) {
-    utf8Array[i] = string.charCodeAt(i);
+  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+    const slice = byteCharacters.slice(offset, offset + 512);
+    const byteNumbers = new Array(slice.length);
+
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
   }
-  return utf8Array;
+
+  let blob = new Blob(byteArrays, { type: 'image/png' }); // Adjust the type according to the image format
+  return URL.createObjectURL(blob);
 };
-
-// Create a Blob object from binary data and a MIME type
-export const newBlob = (data, type) => {
-  const blobData = [data];
-  const options = { type };
-  return new Blob(blobData, options);
-};
-
-// Create a data URL for a Blob object
-export const createObjectURL = blob => {
-  if (typeof window.URL !== 'undefined') {
-    return window.URL.createObjectURL(blob);
-  } else if (typeof window.webkitURL !== 'undefined') {
-    return window.webkitURL.createObjectURL(blob);
-  } else {
-    return null;
-  }
-};
-
-// Clean up a data URL created with createObjectURL
-export const revokeObjectURL = url => {
-  if (typeof window.URL !== 'undefined') {
-    window.URL.revokeObjectURL(url);
-  } else if (typeof window.webkitURL !== 'undefined') {
-    window.webkitURL.revokeObjectURL(url);
-  }
-};
-
-// useEffect(() => {
-//   // Assuming the `response` variable holds the returned response from the `readFile` function
-
-//   // Decode the Base64-encoded chunk data
-//   const imageData = base64DecodeWebSafe(response.chunkData);
-
-//   // Create a Blob from the decoded image data
-//   const imageBlob = newBlob(imageData, 'image/jpeg');
-
-//   // Convert the Blob to a data URL
-//   const imageUrl = createObjectURL(imageBlob);
-
-//   // Set the image source in the component state
-//   setImageSrc(imageUrl);
-
-//   // Clean up the data URL when the component unmounts
-//   return () => revokeObjectURL(imageUrl);
-// }, []);

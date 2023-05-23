@@ -9,8 +9,6 @@ import { isFileUploadingInProcess } from '../../helpers/global';
 import { useContext } from 'react';
 import { UserContext } from '../context/userContext';
 
-const RANDOM_IMAGE = 'https://www.w3schools.com/css/paris.jpg';
-
 const AddOrEditJaunt = ({
   modalMetaData,
   onHide,
@@ -25,7 +23,9 @@ const AddOrEditJaunt = ({
   onAlbumChange,
   onNumberOfFilesChange,
   numberOfFiles,
-  isEditable
+  isEditable,
+  albumLoading,
+  jauntThumbnailLoading
 }) => {
   const { user, onUserChange } = useContext(UserContext);
   const [showNotEditableInfo, setShowNonEditableInfo] = useState();
@@ -87,26 +87,33 @@ const AddOrEditJaunt = ({
                       fileNotSuitableError={'Only Images Can Be Uploaded'}
                       isDisabled={!inProgress}
                       accept="image/*"
-                      onNumberOfFilesChange={onNumberOfFilesChange}
                     />
                   )}
                 </>
               ) : (
-                <div className="d-flex justify-content-center">
-                  <Image
-                    src={RANDOM_IMAGE} // use modalMetadata?.thumbnail?.fileId
-                    className="internal-thumbnail-images mt-2 pointer"
-                    onClick={() => window.open(RANDOM_IMAGE, '_blank')}
-                  />
-                  {isEditable && (
-                    <TrashFill
-                      className="text-primary pointer "
-                      size={17}
-                      title="Delete This Thumbnail"
-                      onClick={() => onThumbnailChange('')}
-                    />
+                <>
+                  {jauntThumbnailLoading[(modalMetaData?.thumbnail?.fileId)] ? (
+                    <div class="rectangular-skeleton-small"></div>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <Image
+                        src={modalMetaData?.thumbnail?.src || modalMetaData?.thumbnail?.tempSrc} // use modalMetadata?.thumbnail?.fileId
+                        className="internal-thumbnail-images mt-2 pointer"
+                        onClick={() =>
+                          window.open(modalMetaData?.thumbnail?.src || modalMetaData?.thumbnail?.tempSrc, '_blank')
+                        }
+                      />
+                      {isEditable && (
+                        <TrashFill
+                          className="text-primary pointer "
+                          size={17}
+                          title="Delete This Thumbnail"
+                          onClick={() => onThumbnailChange('')}
+                        />
+                      )}
+                    </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           </Col>
@@ -191,6 +198,7 @@ const AddOrEditJaunt = ({
         <hr />
 
         {/* Albums Row */}
+        {albumLoading[(modalMetaData?.id)] && <h1>Loading ALbum...</h1>}
 
         <div className="d-flex justify-content-between align-items-center">
           <h6 className="xxlarge font-weight-bold">Albums</h6>
@@ -219,7 +227,7 @@ const AddOrEditJaunt = ({
                 return (
                   <div className="d-flex justify-content-center mx-2" key={file}>
                     <Image
-                      src={file}
+                      src={file?.src || file?.tempSrc}
                       className="internal-thumbnail-images mt-2 pointer"
                       onClick={() => window.open(file, '_blank')}
                     />

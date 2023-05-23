@@ -14,6 +14,7 @@ const SearchBar = ({ placeholder = 'Search...', value, onChange, disabled, execu
           value={value}
           onChange={e => onChange(e.target.value)}
           disabled={disabled}
+          onKeyPress={e => e.key === 'Enter' && executeGlobalSearch(true)}
         />
         <div
           className={`h-100 d-flex justify-content-center align-items-center search-icon ${

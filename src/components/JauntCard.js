@@ -2,6 +2,8 @@ import React from 'react';
 import { Alert, Badge, Button, Card, Col, Dropdown, Image, Row } from 'react-bootstrap';
 import { Pen, PenFill, Trash, TrashFill } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
+import CircularProgressBar from './circular-progress';
+import Jaunts from './dashboard/Jaunts';
 
 const RANDOM_IMAGE = 'https://www.w3schools.com/css/paris.jpg';
 
@@ -14,15 +16,24 @@ const JauntCard = ({
   editJauntStatus,
   isDeletable,
   isEditable,
-  statusUpdateInProcess
+  statusUpdateInProcess,
+  jauntThumbnailLoading
 }) => {
   return (
     <Card className="p-0 mx-auto jaunt-card h-100">
       <Card.Body className="p-0 position-relative">
         {/* Thumbnail ,Descriptiona and Brief Row */}
         {/* Use jaunt?.thumbnail */}
-        <a href={RANDOM_IMAGE} target="_blank">
-          <Image src={RANDOM_IMAGE} className="thumbnail-images mb-1" />
+        <a href={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc} target="_blank">
+          {jauntThumbnailLoading[(jaunt?.thumbnail?.fileId)] ? (
+            <div class="rectangular-skeleton-large"></div>
+          ) : (
+            <Image
+              src={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
+              className="thumbnail-images mb-1"
+              id={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
+            />
+          )}
         </a>
 
         {/* Action Buttons */}
@@ -49,9 +60,9 @@ const JauntCard = ({
                     variant="success"
                     className=" py-0 "
                     style={{ fontSize: '12px' }}
-                    disabled={statusUpdateInProcess === jaunt?.id}
+                    disabled={statusUpdateInProcess[jaunt.id]}
                   >
-                    {statusUpdateInProcess === jaunt?.id ? 'Updating...' : jaunt?.status}
+                    {statusUpdateInProcess[jaunt.id] ? 'Updating...' : jaunt?.status}
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ zIndex: 999999 }}>
                     {STATUSES.map(status => (
