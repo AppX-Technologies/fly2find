@@ -9,7 +9,8 @@ const SlidingSideBar = ({
   showCloseButton = true,
   onClose,
   fullScreen,
-  underlinedTitle = false
+  underlinedTitle = false,
+  buttonDisabled = false
 }) => {
   const Header = () => {
     return (
@@ -17,7 +18,7 @@ const SlidingSideBar = ({
         <div className="d-flex">
           <h5 className={`flex-grow-1 font-weight-bold xxxlarge mt-2 `}>{title}</h5>
           {showCloseButton && (
-            <Button className="close_button p-1" onClick={onClose} variant="danger" size="sm">
+            <Button className="close_button p-1" onClick={onClose} variant="danger" size="sm" disabled={buttonDisabled}>
               Close <X size={20} className="align-text-top" />
             </Button>
           )}

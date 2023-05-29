@@ -25,7 +25,7 @@ const JauntCard = ({
         {/* Thumbnail ,Descriptiona and Brief Row */}
         {/* Use jaunt?.thumbnail */}
         <a href={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc} target="_blank">
-          {jauntThumbnailLoading[(jaunt?.thumbnail?.fileId)] ? (
+          {!jaunt?.thumbnail?.src ? (
             <div class="rectangular-skeleton-large"></div>
           ) : (
             <Image

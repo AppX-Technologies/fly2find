@@ -23,9 +23,7 @@ const AddOrEditJaunt = ({
   onAlbumChange,
   onNumberOfFilesChange,
   numberOfFiles,
-  isEditable,
-  albumLoading,
-  jauntThumbnailLoading
+  isEditable
 }) => {
   const { user, onUserChange } = useContext(UserContext);
   const [showNotEditableInfo, setShowNonEditableInfo] = useState();
@@ -58,6 +56,7 @@ const AddOrEditJaunt = ({
       title={`${modalMetaData?.id ? 'Edit' : 'Add'} Jaunt Information`}
       fullScreen
       underlinedTitle={true}
+      buttonDisabled={inProgress || isFileUploadingInProcess(numberOfFiles)}
     >
       {showNotEditableInfo && (
         <Alert variant="danger" className="p-1 w-100 mt-1 mb-3">
@@ -92,8 +91,8 @@ const AddOrEditJaunt = ({
                 </>
               ) : (
                 <>
-                  {jauntThumbnailLoading[(modalMetaData?.thumbnail?.fileId)] ? (
-                    <div class="rectangular-skeleton-small"></div>
+                  {!modalMetaData?.thumbnail?.src ? (
+                    <div className="rectangular-skeleton-small"></div>
                   ) : (
                     <div className="d-flex justify-content-center">
                       <Image
@@ -198,7 +197,6 @@ const AddOrEditJaunt = ({
         <hr />
 
         {/* Albums Row */}
-        {albumLoading[(modalMetaData?.id)] && <h1>Loading ALbum...</h1>}
 
         <div className="d-flex justify-content-between align-items-center">
           <h6 className="xxlarge font-weight-bold">Albums</h6>
@@ -209,7 +207,7 @@ const AddOrEditJaunt = ({
           )}
         </div>
         <div className="d-flex justify-content-start  mb-2 w-100 album-section">
-          {isEditable && (
+          {isEditable && !inProgress && (
             <DriveFileUploader
               onUploadedFilesChange={onAlbumChange}
               id="album"
@@ -217,7 +215,6 @@ const AddOrEditJaunt = ({
               onNumberOfFilesChange={onNumberOfFilesChange}
               allowedFileTypes={acceptedImageTypes}
               fileNotSuitableError={'Only Images Can Be Uploaded'}
-              isDisabled={!isEditable || inProgress}
             />
           )}
 
@@ -225,19 +222,25 @@ const AddOrEditJaunt = ({
             {modalMetaData?.album &&
               modalMetaData?.album?.map(file => {
                 return (
-                  <div className="d-flex justify-content-center mx-2" key={file}>
-                    <Image
-                      src={file?.src || file?.tempSrc}
-                      className="internal-thumbnail-images mt-2 pointer"
-                      onClick={() => window.open(file, '_blank')}
-                    />
-                    {isEditable && (
-                      <TrashFill
-                        className="text-primary pointer "
-                        size={17}
-                        title="Delete This Image"
-                        onClick={() => onAlbumChange(file, false)}
-                      />
+                  <div className="d-flex justify-content-center mx-2" key={file?.src}>
+                    {file?.src ? (
+                      <>
+                        <Image
+                          src={file?.src}
+                          className="internal-thumbnail-images mt-2 pointer"
+                          onClick={() => window.open(file?.src, '_blank')}
+                        />
+                        {isEditable && (
+                          <TrashFill
+                            className="text-primary pointer "
+                            size={17}
+                            title="Delete This Image"
+                            onClick={() => onAlbumChange(file, false)}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <div className="rectangular-skeleton-small" />
                     )}
                   </div>
                 );
