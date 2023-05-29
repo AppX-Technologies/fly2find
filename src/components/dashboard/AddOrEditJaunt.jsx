@@ -84,7 +84,6 @@ const AddOrEditJaunt = ({
                       id="thumbnail"
                       allowedFileTypes={acceptedImageTypes}
                       fileNotSuitableError={'Only Images Can Be Uploaded'}
-                      isDisabled={!inProgress}
                       accept="image/*"
                     />
                   )}
@@ -102,7 +101,7 @@ const AddOrEditJaunt = ({
                           window.open(modalMetaData?.thumbnail?.src || modalMetaData?.thumbnail?.tempSrc, '_blank')
                         }
                       />
-                      {isEditable && (
+                      {isEditable && !inProgress && (
                         <TrashFill
                           className="text-primary pointer "
                           size={17}
@@ -141,7 +140,7 @@ const AddOrEditJaunt = ({
                           }}
                           as={as}
                           rows={3}
-                          disabled={!isEditable || (key === 'status' && user?.role !== ADMIN_ROLE) || inProgress}
+                          disabled={!isEditable || (key === 'status' && user?.role !== ADMIN_ROLE)}
                         >
                           {options.map(option => (
                             <option key={option} disabled={modalMetaData?.[key] === option}>
@@ -159,7 +158,7 @@ const AddOrEditJaunt = ({
                           }}
                           as={as}
                           rows={3}
-                          disabled={!isEditable || inProgress}
+                          disabled={!isEditable}
                         />
                       )}
                     </Form.Group>
@@ -190,7 +189,7 @@ const AddOrEditJaunt = ({
               }}
               as={'textarea'}
               rows={13}
-              disabled={!isEditable || inProgress}
+              disabled={!isEditable}
             />
           </Form.Group>
         </div>
@@ -230,7 +229,7 @@ const AddOrEditJaunt = ({
                           className="internal-thumbnail-images mt-2 pointer"
                           onClick={() => window.open(file?.src, '_blank')}
                         />
-                        {isEditable && (
+                        {isEditable && !inProgress && (
                           <TrashFill
                             className="text-primary pointer "
                             size={17}
@@ -330,7 +329,7 @@ const AddOrEditJaunt = ({
             placeholder="Enter Points"
             value={modalMetaData?.points || ''}
             onChange={e => onAddOrEditJauntFieldValueChange('points', e.target.value)}
-            disabled={!isEditable || inProgress}
+            disabled={!isEditable}
           />
         </Form.Group>
         {isEditable && (
