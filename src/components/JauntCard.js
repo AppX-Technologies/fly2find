@@ -1,49 +1,40 @@
 import React from 'react';
-import { Alert, Badge, Button, Card, Col, Dropdown, Image, Row } from 'react-bootstrap';
-import { Pen, PenFill, Trash, TrashFill } from 'react-bootstrap-icons/dist';
+import { Badge, Button, Card, Dropdown, Image } from 'react-bootstrap';
+import { PenFill, TrashFill } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
-import CircularProgressBar from './circular-progress';
-import Jaunts from './dashboard/Jaunts';
 
-const RANDOM_IMAGE = 'https://www.w3schools.com/css/paris.jpg';
-
-const JauntCard = ({
-  updatingStatus,
-  status = '',
-  jaunt,
-  onDelete,
-  onEdit,
-  editJauntStatus,
-  isDeletable,
-  isEditable,
-  statusUpdateInProcess,
-  jauntThumbnailLoading
-}) => {
+const JauntCard = ({ jaunt, onDelete, onEdit, editJauntStatus, isDeletable, isEditable, statusUpdateInProcess }) => {
   return (
-    <Card className="p-0 mx-auto jaunt-card h-100">
+    <Card className="p-0 mx-auto jaunt-card h-100" onClick={onEdit}>
       <Card.Body className="p-0 position-relative">
         {/* Thumbnail ,Descriptiona and Brief Row */}
         {/* Use jaunt?.thumbnail */}
-        <a href={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc} target="_blank">
-          {!jaunt?.thumbnail?.src ? (
-            <div class="rectangular-skeleton-large"></div>
-          ) : (
-            <Image
-              src={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
-              className="thumbnail-images mb-1"
-              id={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
-            />
-          )}
-        </a>
+
+        {!jaunt?.thumbnail?.src ? (
+          <div class="rectangular-skeleton-large"></div>
+        ) : (
+          <Image
+            src={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
+            className="thumbnail-images mb-1"
+            id={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
+          />
+        )}
 
         {/* Action Buttons */}
 
         <div className="d-flex align-items-center position-relatives">
-          <Button size="sm" className="py-0 px-1 jaunt-delete-action-button" onClick={onEdit}>
+          <Button size="sm" className="py-0 px-1 jaunt-delete-action-button">
             <PenFill style={{ verticalAlign: 'baseline' }} size={15} className="text-light mt-2" />
           </Button>
           {isDeletable(jaunt?.id) && (
-            <Button size="sm" className="ml-1 py-0 px-1 jaunt-edit-action-button" onClick={onDelete}>
+            <Button
+              size="sm"
+              className="ml-1 py-0 px-1 jaunt-edit-action-button"
+              onClick={e => {
+                e.stopPropagation();
+                onDelete();
+              }}
+            >
               <TrashFill style={{ verticalAlign: 'baseline' }} size={15} className="text-light mt-2" />
             </Button>
           )}
@@ -55,7 +46,7 @@ const JauntCard = ({
             <h6 className="font-weight-bold xxlarge mt-2"> {jaunt?.title}</h6>
             <div>
               {isEditable ? (
-                <Dropdown style={styles.smallerFont} className="ml-2">
+                <Dropdown style={styles.smallerFont} className="ml-2" onClick={e => e.stopPropagation()}>
                   <Dropdown.Toggle
                     variant="success"
                     className=" py-0 "
@@ -69,7 +60,9 @@ const JauntCard = ({
                       <Dropdown.Item
                         key={status}
                         value={status}
-                        onClick={() => editJauntStatus(jaunt?.id, status)}
+                        onClick={e => {
+                          editJauntStatus(jaunt?.id, status);
+                        }}
                         disabled={status === jaunt?.status}
                       >
                         {status}

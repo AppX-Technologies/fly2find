@@ -41,11 +41,13 @@ const OverViewColumns = ({
 
   return (
     <Row className={className}>
-      {fieldsToShow.map(row => (
+      {fieldsToShow.map(({ label, key }) => (
         <Col xs={12} md={md} className={`mt-${mt}`}>
           <p className="mb-0  text-secondary">
-            <span className="text-dark">{row === 'Estimated Turnaround Time' ? 'Est. Turnaround Time' : row}: </span>
-            {data[row] ? getValue(row) : 'N/A'}
+            <span className="text-dark">
+              {label === 'Estimated Turnaround Time' ? 'Est. Turnaround Time' : label}:{' '}
+            </span>
+            {data[key] ? getValue(key) : 'N/A'}
           </p>
         </Col>
       ))}

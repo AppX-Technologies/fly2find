@@ -42,7 +42,7 @@ const Index = () => {
     alreadyUploaded: 0
   });
 
-  const [globalizedJaunts, setGlobalizedJaunts] = useState(null); // stores allJaunts values and is unchangable
+  const [globalizedJaunts, setGlobalizedJaunts] = useState(null); // stores allJaunts values in order to provide cached value when search API is called
   const [globalFilterValues, setGlobalFilterValues] = useState({
     showing: 'All',
     sortBy: 'createdDate',
@@ -52,7 +52,6 @@ const Index = () => {
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
 
   const [globalSearchInProgress, setGlobalSearchInProgress] = useState(false);
-  const [jauntThumbnailLoading, setJauntThumbnailLoading] = useState({});
 
   const onNumberOfFilesChange = (key, value, reset = false) => {
     if (reset) {
@@ -139,6 +138,7 @@ const Index = () => {
     if (emptyField) {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
+
     setJauntAddOrUpdateInProgress(true);
     const { error, response } = await makeApiRequests({
       requestType: 'create-jaunt',
@@ -167,6 +167,10 @@ const Index = () => {
     }
 
     setAllJaunts([...allJaunts, { ...response?.jaunt, thumbnail: addOrEditJauntMetadata?.thumbnail }]);
+
+    // Updating GLobalized Jaunts
+
+    setGlobalizedJaunts([...globalizedJaunts, { ...response?.jaunt, thumbnail: addOrEditJauntMetadata?.thumbnail }]);
     onAddOrEditJauntModalClose();
     setJauntAddOrUpdateInProgress(false);
     toast.success('Jaunt Successfully Created');
@@ -180,6 +184,7 @@ const Index = () => {
     if (emptyField) {
       return toast.error(`${emptyField?.label} Field Cannot Be Empty`);
     }
+
     setJauntAddOrUpdateInProgress(true);
 
     delete addOrEditJauntMetadata?.createdBy;
@@ -212,6 +217,12 @@ const Index = () => {
     const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === addOrEditJauntMetadata?.id); // replace addOrEditJauntMetadata with response?.jaunt?.id
     allJaunts[toEditJauntIndex] = addOrEditJauntMetadata; // replace addOrEditJauntMetadata with response?.jaunt?.id
     setAllJaunts([...allJaunts]);
+
+    //  Updating Globalized Jaunts
+    globalizedJaunts[toEditJauntIndex] = addOrEditJauntMetadata; // replace addOrEditJauntMetadata with response?.jaunt?.id
+
+    setGlobalizedJaunts([...globalizedJaunts]);
+
     onAddOrEditJauntModalClose();
     setJauntAddOrUpdateInProgress(false);
     toast.success('Jaunt Successfully Edited');
@@ -256,7 +267,7 @@ const Index = () => {
       const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntId);
       allJaunts[toEditJauntIndex] = { ...allJaunts[toEditJauntIndex], status };
       setAllJaunts([...allJaunts]);
-      toast.success('Status Updates Successfully');
+      toast.success('Status Updated Successfully');
     }
 
     setStatusUpdateInProgress(prevStatusValues => {
@@ -283,7 +294,8 @@ const Index = () => {
       requestBody: {
         keyword: globalSearchQuery,
         sortSchema: {},
-        filterSchema: createFilterObj(globalFilterValues?.filters)
+        filterSchema: createFilterObj(globalFilterValues?.filters),
+        limit: globalFilterValues?.showing
       }
     });
     if (error) {
@@ -316,6 +328,7 @@ const Index = () => {
             if (thumbnailData) {
               response.jaunts[jauntIndex].thumbnail.src = convertBase64ToImage(thumbnailData);
             }
+            setAllJaunts([...response?.jaunts]);
 
             // For Album
 
@@ -329,6 +342,7 @@ const Index = () => {
                 if (indexOfAlbum !== -1) {
                   response.jaunts[jauntIndex].album[indexOfAlbum].src = convertBase64ToImage(albumData);
                 }
+                setAllJaunts([...response?.jaunts]);
               });
             }
           } else {
@@ -337,8 +351,8 @@ const Index = () => {
 
             // setting Album
             response.jaunts[jauntIndex].album = jauntAlreadyExists?.album;
+            setAllJaunts([...response?.jaunts]);
           }
-          setAllJaunts([...response?.jaunts]);
         }
       });
     }
@@ -464,7 +478,6 @@ const Index = () => {
         onAlbumChange={onAlbumChange}
         onNumberOfFilesChange={onNumberOfFilesChange}
         inProgress={jauntAddOrUpdateInProgress}
-        jauntThumbnailLoading={jauntThumbnailLoading}
         numberOfFiles={numberOfFiles}
         isEditable={
           addOrEditJauntMetadata?.id
@@ -482,7 +495,6 @@ const Index = () => {
         isDeletable={isJauntDeletable}
         isEditable={user?.role === ADMIN_ROLE}
         statusUpdateInProcess={statusUpdateInProcess}
-        jauntThumbnailLoading={jauntThumbnailLoading}
       />
     </>
   );

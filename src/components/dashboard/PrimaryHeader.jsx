@@ -14,7 +14,7 @@ const logout = history => {
 const DropDownItems = ({ history, onUserChange }) => (
   <>
     <Dropdown.Toggle size="sm" variant="outline-dark rounded">
-      <PersonCircle size={18} className="mr-2 align-text-top" />
+      <PersonCircle size={18} className="mr-2 align-text-center" />
       Rajat
     </Dropdown.Toggle>
     <Dropdown.Menu>

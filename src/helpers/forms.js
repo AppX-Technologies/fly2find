@@ -366,7 +366,7 @@ export const changePasswordForm = {
       hideFormName: true,
       compact: true,
       submit: {
-        name: 'Change',
+        name: 'Change Password',
         show: true,
         onSubmit: 'onChangePasswordFormSubmit'
       },

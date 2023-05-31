@@ -60,7 +60,6 @@ const DriveFileUploader = ({
 
     return await response;
   };
-
   const onFileChange = async e => {
     let files = e.target.files || [];
     if (!files) return;
@@ -84,84 +83,86 @@ const DriveFileUploader = ({
     // Updating Total Number Of Files To Be Uploaded
 
     onNumberOfFilesChange && onNumberOfFilesChange('toBeUploaded', files?.length); // This call should update the count of toBeUploaded files by the length of selected files
-    for (let fileIndex = 0; fileIndex < Array.from(files)?.length; fileIndex++) {
-      const file = files[fileIndex];
 
-      setFileBeingUploaded(URL.createObjectURL(file));
+    // Use Promise.all() to upload all the selected files concurrently
 
-      setError('');
-      setUploadProgress(0);
-      setUploading(true);
-      const totalChunks = Math.ceil(file.size / MAX_CHUNK_SIZE);
+    await Promise.all(
+      Array.from(files).map(async file => {
+        setFileBeingUploaded(URL.createObjectURL(file));
+        setError('');
+        setUploadProgress(0);
+        setUploading(true);
+        const totalChunks = Math.ceil(file.size / MAX_CHUNK_SIZE);
 
-      let fileId = '';
-      let uploadSessionUrl = '';
+        let fileId = '';
+        let uploadSessionUrl = '';
 
-      let chunkIndex = 0;
+        let chunkIndex = 0;
 
-      for (chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
-        const start = chunkIndex * MAX_CHUNK_SIZE;
-        const end = Math.min(start + MAX_CHUNK_SIZE, file.size);
-        const chunk = file.slice(start, end);
+        for (chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+          const start = chunkIndex * MAX_CHUNK_SIZE;
+          const end = Math.min(start + MAX_CHUNK_SIZE, file.size);
+          const chunk = file.slice(start, end);
 
-        const base64data = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = event => {
-            resolve(event.target.result.split(',')[1]);
-          };
-          reader.onerror = error => {
-            reject(error);
-          };
-          reader.readAsDataURL(chunk);
-        });
+          const base64data = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = event => {
+              resolve(event.target.result.split(',')[1]);
+            };
+            reader.onerror = error => {
+              reject(error);
+            };
+            reader.readAsDataURL(chunk);
+          });
 
-        try {
-          const response = await sendChunk(
-            fileId,
-            uploadSessionUrl,
-            base64data,
-            chunkIndex,
-            file.name,
-            file.type,
-            file.size,
-            start,
-            end - 1,
-            totalChunks
-          );
+          try {
+            const response = await sendChunk(
+              fileId,
+              uploadSessionUrl,
+              base64data,
+              chunkIndex,
+              file.name,
+              file.type,
+              file.size,
+              start,
+              end - 1,
+              totalChunks
+            );
 
-          if (response.status === 'pending') {
-            fileId = response.fileId;
-            uploadSessionUrl = response.uploadSessionUrl;
-            setUploadProgress(((chunkIndex + 1) / totalChunks) * 100);
-          } else if (response.status === 'complete') {
-            setUploadProgress(100);
-            setUploading(false);
-            onUploadedFilesChange({
-              fileName: file?.name,
-              mimeType: file.type,
-              fileId: response?.fileId,
-              src: URL.createObjectURL(file)
-            });
+            if (response.status === 'pending') {
+              fileId = response.fileId;
+              uploadSessionUrl = response.uploadSessionUrl;
+              setUploadProgress(((chunkIndex + 1) / totalChunks) * 100);
+            } else if (response.status === 'complete') {
+              setUploadProgress(100);
+              setUploading(false);
+              onUploadedFilesChange({
+                fileName: file?.name,
+                mimeType: file.type,
+                fileId: response?.fileId,
+                src: URL.createObjectURL(file)
+              });
 
-            // Updating the uploaded file count
-            onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded', 1); // This call sholud increase the alreadyUploaded files count by 1
+              // Updating the uploaded file count
+              onNumberOfFilesChange && onNumberOfFilesChange('alreadyUploaded', 1); // This call sholud increase the alreadyUploaded files count by 1
 
-            break;
-          } else {
-            setError(response.e);
-            console.error('Upload error:', response.e);
+              break;
+            } else {
+              setError(response.e);
+              console.error('Upload error:', response.e);
+              setUploading(false);
+              break;
+            }
+          } catch (error) {
+            console.error('Error during upload:', error);
             setUploading(false);
             break;
           }
-        } catch (error) {
-          console.error('Error during upload:', error);
-          setUploading(false);
-          break;
         }
-      }
-    }
+      })
+    );
 
-    // Resetting the files count
+    // Resetting the file count
 
     onNumberOfFilesChange && onNumberOfFilesChange('', '', true); // Reseting the count of alreadyUploadedFiles and toBeUploaded files
   };

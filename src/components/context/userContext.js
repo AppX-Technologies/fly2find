@@ -20,6 +20,7 @@ export const UserProvider = ({ children }) => {
       setUser({ ...user, ...userObj });
     } else {
       setUser(null);
+      localStorage.clear();
     }
   };
 

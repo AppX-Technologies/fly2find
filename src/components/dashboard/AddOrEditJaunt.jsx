@@ -8,6 +8,7 @@ import DriveFileUploader from '../drive-file-uploader';
 import { isFileUploadingInProcess } from '../../helpers/global';
 import { useContext } from 'react';
 import { UserContext } from '../context/userContext';
+import HorizontalProgress from '../HorizontalProgress';
 
 const AddOrEditJaunt = ({
   modalMetaData,
@@ -48,6 +49,10 @@ const AddOrEditJaunt = ({
   useEffect(() => {
     setShowNonEditableInfo(!isEditable);
   }, [isEditable]);
+
+  const albumIsLoading = useMemo(() => {
+    return modalMetaData?.album?.some(ad => !ad?.src);
+  }, [modalMetaData]);
 
   return (
     <SlidingSidebar
@@ -198,7 +203,9 @@ const AddOrEditJaunt = ({
         {/* Albums Row */}
 
         <div className="d-flex justify-content-between align-items-center">
-          <h6 className="xxlarge font-weight-bold">Albums</h6>
+          <h6 className="xxlarge font-weight-bold">
+            Albums {albumIsLoading && <span className="smallFont"> (Loading Album...)</span>}
+          </h6>
           {isFileUploadingInProcess(numberOfFiles) && (
             <h6 className="xxlarge font-weight-bold m-0">
               {`(${numberOfFiles?.alreadyUploaded} / ${numberOfFiles?.toBeUploaded}) Completed`}
@@ -216,6 +223,7 @@ const AddOrEditJaunt = ({
               fileNotSuitableError={'Only Images Can Be Uploaded'}
             />
           )}
+       
 
           <div className="d-flex justify-content-start ml-4">
             {modalMetaData?.album &&
@@ -239,12 +247,25 @@ const AddOrEditJaunt = ({
                         )}
                       </>
                     ) : (
-                      <div className="rectangular-skeleton-small" />
+                      <div className="rectangular-skeleton-small mt-2" />
                     )}
                   </div>
                 );
               })}
           </div>
+          {isFileUploadingInProcess(numberOfFiles) && (
+            <>
+              {Array(numberOfFiles?.toBeUploaded - numberOfFiles?.alreadyUploaded)
+                .fill(0)
+                .map(() => {
+                  return (
+                    <div className="d-flex justify-content-center mx-2">
+                      <div className="rectangular-skeleton-small mt-2" />
+                    </div>
+                  );
+                })}
+            </>
+          )}
         </div>
         <hr />
 
@@ -343,6 +364,7 @@ const AddOrEditJaunt = ({
             </Button>
           </div>
         )}
+        {inProgress && <HorizontalProgress text={modalMetaData?.id ? 'Editing' : 'Adding'} />}
       </Container>
     </SlidingSidebar>
   );
