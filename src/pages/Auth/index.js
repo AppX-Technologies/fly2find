@@ -250,7 +250,7 @@ const Auth = () => {
               <Col xs={10} md={6} className="align-self-center">
                 <div className="text-center mb-2">
                   <h1 className="logo mb-4 text-light">
-                    F<span className="underline ">ly2Find</span>
+                    <span className="underline ">RatherFly</span>
                   </h1>
                 </div>
                 <Card className="">
