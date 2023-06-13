@@ -95,3 +95,7 @@ export const convertBase64ToImage = response => {
   let blob = new Blob(byteArrays, { type: 'image/png' }); // Adjust the type according to the image format
   return URL.createObjectURL(blob);
 };
+
+const convertBlobToUrl = blobObj => {
+  return URL.createObjectURL(blobObj);
+};

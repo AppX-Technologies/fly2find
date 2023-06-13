@@ -1,7 +1,7 @@
 import { API_KEY, SCRIPT_URL } from './constants';
 
 export const makeApiRequests = async ({ requestType, requestBody = {} }) => {
-  const accessToken = localStorage.getItem('user-token');
+  const accessToken = JSON.parse(localStorage.getItem('user'))?.token;
   try {
     const response = await (await fetch(SCRIPT_URL, {
       method: 'POST',

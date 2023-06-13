@@ -4,11 +4,10 @@ import NotFound from '../components/NotFound';
 import Dashboard from '../components/dashboard';
 import PrimaryHeader from '../components/dashboard/PrimaryHeader';
 import Profile from '../components/profile/Profile';
-import { useContext } from 'react';
-import { UserContext } from '../components/context/userContext';
+import useAuth from '../hooks/useAuth';
 
 const AuthenticatedApp = () => {
-  const { user, onUserChange } = useContext(UserContext);
+  const { user, onUserChange } = useAuth();
 
   const { pathname } = useLocation();
 

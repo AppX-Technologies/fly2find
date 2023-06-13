@@ -2,7 +2,6 @@ import { cloneDeep } from 'lodash';
 import React, { useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { JAUNT_RELATED_FILTERS } from '../../helpers/constants';
-import CircularProgressBar from '../circular-progress';
 
 const Filter = ({ onGlobalFilterValueChange, globalFilterValues, executeGlobalSearch, onHide }) => {
   const findFilterValuesByParent = parentKey => {

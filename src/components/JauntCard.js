@@ -1,24 +1,19 @@
 import React from 'react';
-import { Badge, Button, Card, Dropdown, Image } from 'react-bootstrap';
+import { Badge, Button, Card, Dropdown } from 'react-bootstrap';
 import { PenFill, TrashFill } from 'react-bootstrap-icons/dist';
 import { STATUSES } from '../helpers/constants';
+import CachedImage from './CachedImage';
 
 const JauntCard = ({ jaunt, onDelete, onEdit, editJauntStatus, isDeletable, isEditable, statusUpdateInProcess }) => {
   return (
     <Card className="p-0 mx-auto jaunt-card h-100" onClick={onEdit}>
       <Card.Body className="p-0 position-relative">
-        {/* Thumbnail ,Descriptiona and Brief Row */}
-        {/* Use jaunt?.thumbnail */}
-
-        {!jaunt?.thumbnail?.src ? (
-          <div class="rectangular-skeleton-large"></div>
-        ) : (
-          <Image
-            src={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
-            className="thumbnail-images mb-1"
-            id={jaunt?.thumbnail?.src || jaunt?.thumbnail?.tempSrc}
-          />
-        )}
+        <CachedImage
+          fileId={jaunt?.thumbnail?.fileId}
+          className={'thumbnail-images mb-1'}
+          renderImageOnClick={false}
+          rectangleClassName="rectangular-skeleton-large"
+        />
 
         {/* Action Buttons */}
 

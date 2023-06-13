@@ -3,7 +3,7 @@ import { Card, Col, Container, ProgressBar, Row } from 'react-bootstrap';
 import { PersonBadge } from 'react-bootstrap-icons/dist';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { toast } from 'react-toastify';
-import { highlightError, removeHighlightedError } from '../../form-generator/helpers/utility';
+import { removeHighlightedError } from '../../form-generator/helpers/utility';
 import { makeApiRequests } from '../../helpers/api';
 import { ADMIN_ROLE, LOGIN_MODE, REGISTER_MODE } from '../../helpers/constants';
 import {
@@ -12,14 +12,14 @@ import {
   RESET_PASSWORD_FIELDS,
   VERIFY_EMAIL_FORM_FIELDS
 } from '../../helpers/forms';
+import useAuth from '../../hooks/useAuth';
 import ForgotPassword from './ForgotPassword';
 import LoginOrRegister from './LoginOrRegister';
 import ResetPassword from './ResetPassword';
-import { useContext } from 'react';
-import { UserContext } from '../../components/context/userContext';
+import { saveUserToLocal } from '../../helpers/session';
 
 const Auth = () => {
-  const { onUserChange } = useContext(UserContext);
+  const { user, onUserChange } = useAuth();
 
   const [mode, setMode] = useState(LOGIN_MODE); // Login or Register Mode
   const [formSubmitting, setFormSubmitting] = useState(false);
@@ -84,8 +84,7 @@ const Auth = () => {
 
       localStorage.setItem('user', JSON.stringify({ role: ADMIN_ROLE, token: authResult?.accessToken?.jwt }));
 
-      localStorage.setItem('user-token', authResult?.accessToken?.jwt);
-      localStorage.setItem('user-role', ADMIN_ROLE);
+      // saveUserToLocal(response)
 
       onUserChange({ token: authResult?.accessToken?.jwt, role: ADMIN_ROLE });
       history.push('/');
@@ -97,10 +96,7 @@ const Auth = () => {
       const emptyField = VERIFY_EMAIL_FORM_FIELDS.find(field => !formInfo[(field?.key)]);
 
       if (emptyField) {
-        return highlightError(
-          document.getElementById(`${mode}-form-${emptyField?.key}`),
-          `${emptyField?.label} Is Empty`
-        );
+        return toast.error(`${emptyField?.label} Is Empty`);
       }
 
       setFormSubmitting(true);
@@ -113,7 +109,7 @@ const Auth = () => {
         setFormSubmitting(false);
         return toast.error(error);
       }
-      toast.success('OTP Is Successfully Sent To Your Email Address.');
+      toast.success('OTP is successfully sent to your email address.');
       setIsEmailVerified(true);
       setFormSubmitting(false);
     }
@@ -123,10 +119,7 @@ const Auth = () => {
     const emptyField = LOGIN_FORM_FIELDS.find(field => !formInfo[(field?.key)]);
 
     if (emptyField) {
-      return highlightError(
-        document.getElementById(`${mode}-form-${emptyField?.key}`),
-        `${emptyField?.label} Is Empty`
-      );
+      return toast.error(`${emptyField?.label} is empty`);
     }
     setFormSubmitting(true);
 
@@ -145,14 +138,11 @@ const Auth = () => {
     const emptyField = REGISTER_FORM_FIELDS.find(field => !formInfo[(field?.key)]);
 
     if (emptyField) {
-      return highlightError(
-        document.getElementById(`${mode}-form-${emptyField?.key}`),
-        `${emptyField?.label} Is Empty`
-      );
+      return toast.error(`${emptyField?.label} is empty`);
     }
 
     if (password !== confirmPassword) {
-      return highlightError(document.getElementById(`${mode}-form-confirmPassword`), 'Password Didnot Match.');
+      return toast.error("Password didn't match");
     }
 
     setFormSubmitting(true);
@@ -167,7 +157,7 @@ const Auth = () => {
 
   const onForgotPasswordFormSubmit = async () => {
     if (!forgotPassModalMetadata?.email) {
-      return highlightError(document.getElementById(`fp-form-email`), `Email Is Empty`);
+      return toast.error(`Email is empty`);
     }
 
     setSendingMail(true);
@@ -181,7 +171,7 @@ const Auth = () => {
       return toast.error(error);
     }
 
-    toast.success('Email Reset Link Sent Successfully.');
+    toast.success('Email reset link is sent successfully.');
     setSendingMail(false);
     setResetPasswordFormMetadata({});
   };
@@ -193,11 +183,11 @@ const Auth = () => {
     const emptyField = RESET_PASSWORD_FIELDS.find(field => !resetPasswordFormMetadata[(field?.key)]);
 
     if (emptyField) {
-      return highlightError(document.getElementById(`rp-form-${emptyField?.key}`), `${emptyField?.label} Is Empty`);
+      return toast.error(`${emptyField?.label} Is Empty`);
     }
 
     if (newPassword !== confirmPassword) {
-      return highlightError(document.getElementById(`rp-form-confirmPassword`), 'Password Didnot Match.');
+      return toast.error("Passwords didn't match");
     }
     setResettingPaasword(true);
     const { response: authResult, error } = await makeApiRequests({
@@ -209,14 +199,14 @@ const Auth = () => {
       setResettingPaasword(false);
       return toast.error(error);
     }
-    toast.success('Password Reset Is Successfully Complete.');
+    toast.success('Password reset is successfully complete');
 
     setResetPasswordFormMetadata(null);
     setForgotPassModalMetadata(null);
     setResettingPaasword(false);
   };
 
-  if (userToken) {
+  if (user?.token) {
     return <Redirect from="/login" to={'/admin/jaunts'} />;
   }
 

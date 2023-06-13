@@ -1,16 +1,16 @@
 import { cloneDeep } from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlusCircleFill } from 'react-bootstrap-icons/dist';
 import { toast } from 'react-toastify';
 import { makeApiRequests } from '../../helpers/api';
 import { ADMIN_ROLE, DRAFT_STATUS, PILOT_ROLE } from '../../helpers/constants';
 import { ADD_JAUNT_FIELDS, EDIT_JAUNT_FIELD } from '../../helpers/forms';
-import { convertBase64ToImage, createFilterObj, findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
+import { createFilterObj, findSpecificJaunt, generateRandomUUID } from '../../helpers/global';
+import useAuth from '../../hooks/useAuth';
 import AlertModal from '../AlertModal';
 import FloatingButton from '../FloatingButton';
 import HorizontalProgress from '../HorizontalProgress';
 import SlidingSideBar from '../SlidingSideBar/SlidingSideBar';
-import { UserContext } from '../context/userContext';
 import AddOrEditJaunt from './AddOrEditJaunt';
 import Filter from './Filter';
 import Jaunts from './Jaunts';
@@ -29,7 +29,8 @@ const generateRandomUUIDForAllJauntSteps = jaunts => {
 };
 
 const Index = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
+
   const [addOrEditJauntMetadata, setAddOrEditJauntMetadata] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [allJaunts, setAllJaunts] = useState([]);
@@ -42,7 +43,6 @@ const Index = () => {
     alreadyUploaded: 0
   });
 
-  const [globalizedJaunts, setGlobalizedJaunts] = useState(null); // stores allJaunts values in order to provide cached value when search API is called
   const [globalFilterValues, setGlobalFilterValues] = useState({
     showing: 'All',
     sortBy: 'createdDate',
@@ -170,7 +170,6 @@ const Index = () => {
 
     // Updating GLobalized Jaunts
 
-    setGlobalizedJaunts([...globalizedJaunts, { ...response?.jaunt, thumbnail: addOrEditJauntMetadata?.thumbnail }]);
     onAddOrEditJauntModalClose();
     setJauntAddOrUpdateInProgress(false);
     toast.success('Jaunt Successfully Created');
@@ -217,11 +216,6 @@ const Index = () => {
     const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === addOrEditJauntMetadata?.id); // replace addOrEditJauntMetadata with response?.jaunt?.id
     allJaunts[toEditJauntIndex] = addOrEditJauntMetadata; // replace addOrEditJauntMetadata with response?.jaunt?.id
     setAllJaunts([...allJaunts]);
-
-    //  Updating Globalized Jaunts
-    globalizedJaunts[toEditJauntIndex] = addOrEditJauntMetadata; // replace addOrEditJauntMetadata with response?.jaunt?.id
-
-    setGlobalizedJaunts([...globalizedJaunts]);
 
     onAddOrEditJauntModalClose();
     setJauntAddOrUpdateInProgress(false);
@@ -307,93 +301,7 @@ const Index = () => {
 
     setAllJaunts([...response.jaunts]);
 
-    if (response?.jaunts?.length) {
-      response.jaunts.forEach(async jaunt => {
-        if (!jaunt?.thumbnail?.src) {
-          const jauntIndex = response?.jaunts.findIndex(j => j?.id === jaunt?.id);
-
-          // If allJaunts alreay contains the jaunts form search request there is no need to refetch the image again
-
-          const jauntAlreadyExists = (globalizedJaunts || allJaunts)?.find(
-            j => j?.thumbnail?.fileId === jaunt?.thumbnail?.fileId
-          );
-
-          if (!jauntAlreadyExists) {
-            // For Thumbnail
-
-            let thumbnailData = await onFetchingFiles({
-              fileId: jaunt?.thumbnail?.fileId
-            });
-
-            if (thumbnailData) {
-              response.jaunts[jauntIndex].thumbnail.src = convertBase64ToImage(thumbnailData);
-            }
-            setAllJaunts([...response?.jaunts]);
-
-            // For Album
-
-            if (jaunt?.album?.length) {
-              jaunt.album.forEach(async albumFile => {
-                let albumData = await onFetchingFiles({
-                  fileId: albumFile?.fileId
-                });
-
-                const indexOfAlbum = response.jaunts[jauntIndex].album.findIndex(f => f?.fileId === albumFile?.fileId);
-                if (indexOfAlbum !== -1) {
-                  response.jaunts[jauntIndex].album[indexOfAlbum].src = convertBase64ToImage(albumData);
-                }
-                setAllJaunts([...response?.jaunts]);
-              });
-            }
-          } else {
-            // setting Thumbnail
-            response.jaunts[jauntIndex].thumbnail = jauntAlreadyExists?.thumbnail;
-
-            // setting Album
-            response.jaunts[jauntIndex].album = jauntAlreadyExists?.album;
-            setAllJaunts([...response?.jaunts]);
-          }
-        }
-      });
-    }
-
-    if (!globalizedJaunts?.length) {
-      setGlobalizedJaunts([...response?.jaunts]);
-    }
     setGlobalSearchInProgress(false);
-  };
-
-  // Get Images
-
-  const getFileChunk = async (fileId, chunkIndex) => {
-    const fileInfoObject = {
-      fileId,
-      chunkIndex
-    };
-
-    const { error, response } = await makeApiRequests({
-      requestType: 'read-file',
-      requestBody: fileInfoObject
-    });
-
-    return await response;
-  };
-
-  const onFetchingFiles = async file => {
-    let completeChunkData = '';
-    let chunkIndex = 0;
-    let totalChunks = 1;
-
-    while (chunkIndex < totalChunks) {
-      const response = await getFileChunk(file?.fileId, chunkIndex);
-      if (response) {
-        completeChunkData += response?.chunkData;
-      }
-      totalChunks = response?.totalChunks;
-      chunkIndex += 1;
-    }
-
-    return completeChunkData;
   };
 
   useEffect(() => {
@@ -409,13 +317,6 @@ const Index = () => {
   }, [globalFilterValues?.showing, globalFilterValues?.sortBy, globalFilterValues?.isAssessending]);
 
   // Syncing the allJaunts state and addOrEditJauntMeta State
-
-  useEffect(() => {
-    if (addOrEditJauntMetadata) {
-      const jauntInfo = allJaunts.find(jaunt => jaunt?.id === addOrEditJauntMetadata?.id);
-      setAddOrEditJauntMetadata({ ...jauntInfo });
-    }
-  }, [allJaunts]);
 
   return (
     <>

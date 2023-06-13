@@ -1,15 +1,13 @@
-export const saveUserToLocal = (user, saveToken) => {
-  user['role'] = user['role'];
+export const saveUserToLocal = user => {
+  const updatedUser = {
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    token: user?.token,
+    email: user?.email,
+    role: user?.role
+  };
 
-  localStorage.setItem('user-email', user['email']);
-  if (saveToken) localStorage.setItem('user-token', user['token']);
-  localStorage.setItem('user-name', user['name']);
-  localStorage.setItem('user-role', user['role']);
-
-  const requiredFields = ['name', 'email', 'phone', 'role', 'token', '_id'];
-  const userJSON = {};
-  requiredFields.forEach(f => (userJSON[f] = user[f]));
-  localStorage.setItem('user', JSON.stringify(userJSON));
+  localStorage.setItem(user, JSON.stringify(updatedUser));
 };
 
 export const getProfileFromLocalStorage = () => {

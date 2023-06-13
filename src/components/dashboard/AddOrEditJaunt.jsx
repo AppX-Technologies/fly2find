@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Alert, Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { GripHorizontal, TrashFill, X } from 'react-bootstrap-icons';
 import { ADMIN_ROLE, acceptedImageTypes } from '../../helpers/constants';
+import { isFileUploadingInProcess } from '../../helpers/global';
+import useAuth from '../../hooks/useAuth';
+import CachedImage from '../CachedImage';
+import HorizontalProgress from '../HorizontalProgress';
 import SlidingSidebar from '../SlidingSideBar/SlidingSideBar';
 import DriveFileUploader from '../drive-file-uploader';
-import { isFileUploadingInProcess } from '../../helpers/global';
-import { useContext } from 'react';
-import { UserContext } from '../context/userContext';
-import HorizontalProgress from '../HorizontalProgress';
 
 const AddOrEditJaunt = ({
   modalMetaData,
@@ -26,7 +26,7 @@ const AddOrEditJaunt = ({
   numberOfFiles,
   isEditable
 }) => {
-  const { user, onUserChange } = useContext(UserContext);
+  const { user } = useAuth();
   const [showNotEditableInfo, setShowNonEditableInfo] = useState();
 
   function handleOnDragEnd(result) {
@@ -49,10 +49,6 @@ const AddOrEditJaunt = ({
   useEffect(() => {
     setShowNonEditableInfo(!isEditable);
   }, [isEditable]);
-
-  const albumIsLoading = useMemo(() => {
-    return modalMetaData?.album?.some(ad => !ad?.src);
-  }, [modalMetaData]);
 
   return (
     <SlidingSidebar
@@ -95,27 +91,14 @@ const AddOrEditJaunt = ({
                 </>
               ) : (
                 <>
-                  {!modalMetaData?.thumbnail?.src ? (
-                    <div className="rectangular-skeleton-small"></div>
-                  ) : (
-                    <div className="d-flex justify-content-center">
-                      <Image
-                        src={modalMetaData?.thumbnail?.src || modalMetaData?.thumbnail?.tempSrc} // use modalMetadata?.thumbnail?.fileId
-                        className="internal-thumbnail-images mt-2 pointer"
-                        onClick={() =>
-                          window.open(modalMetaData?.thumbnail?.src || modalMetaData?.thumbnail?.tempSrc, '_blank')
-                        }
-                      />
-                      {isEditable && !inProgress && (
-                        <TrashFill
-                          className="text-primary pointer "
-                          size={17}
-                          title="Delete This Thumbnail"
-                          onClick={() => onThumbnailChange('')}
-                        />
-                      )}
-                    </div>
-                  )}
+                  <div className="d-flex justify-content-center">
+                    <CachedImage
+                      fileId={modalMetaData?.thumbnail?.fileId}
+                      className={'internal-thumbnail-images mt-2'}
+                      deletable={isEditable && !inProgress}
+                      onDelete={() => onThumbnailChange('')}
+                    />
+                  </div>
                 </>
               )}
             </div>
@@ -203,9 +186,6 @@ const AddOrEditJaunt = ({
         {/* Albums Row */}
 
         <div className="d-flex justify-content-between align-items-center">
-          <h6 className="xxlarge font-weight-bold">
-            Albums {albumIsLoading && <span className="smallFont"> (Loading Album...)</span>}
-          </h6>
           {isFileUploadingInProcess(numberOfFiles) && (
             <h6 className="xxlarge font-weight-bold m-0">
               {`(${numberOfFiles?.alreadyUploaded} / ${numberOfFiles?.toBeUploaded}) Completed`}
@@ -223,32 +203,21 @@ const AddOrEditJaunt = ({
               fileNotSuitableError={'Only Images Can Be Uploaded'}
             />
           )}
-       
 
           <div className="d-flex justify-content-start ml-4">
             {modalMetaData?.album &&
               modalMetaData?.album?.map(file => {
                 return (
                   <div className="d-flex justify-content-center mx-2" key={file?.src}>
-                    {file?.src ? (
-                      <>
-                        <Image
-                          src={file?.src}
-                          className="internal-thumbnail-images mt-2 pointer"
-                          onClick={() => window.open(file?.src, '_blank')}
-                        />
-                        {isEditable && !inProgress && (
-                          <TrashFill
-                            className="text-primary pointer "
-                            size={17}
-                            title="Delete This Image"
-                            onClick={() => onAlbumChange(file, false)}
-                          />
-                        )}
-                      </>
-                    ) : (
-                      <div className="rectangular-skeleton-small mt-2" />
-                    )}
+                    <>
+                      <CachedImage
+                        fileId={file?.fileId}
+                        className={'internal-thumbnail-images mt-2'}
+                        deletable={isEditable && !inProgress}
+                        deleteIconSize={17}
+                        onDelete={() => onAlbumChange(file, false)}
+                      />
+                    </>
                   </div>
                 );
               })}

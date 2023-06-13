@@ -11,7 +11,8 @@ import Heading from '../Heading';
 import HorizontalProgress from '../HorizontalProgress';
 import Loader from '../Loader';
 import OverViewColumns from '../OverViewColumns';
-import { UserContext } from '../context/userContext';
+import { UserContext } from '../../context/UserContext';
+import useAuth from '../../hooks/useAuth';
 
 const ChangePasswordForm = ({ showProgress, error }) => {
   return (
@@ -37,7 +38,7 @@ const commonFields = [
 const commonEditFields = [{ label: 'First Name', key: 'firstName' }, { label: 'Last Name', key: 'lastName' }];
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, onUserChange } = useAuth();
 
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [editingProfile, setEditingProfile] = useState();
@@ -45,30 +46,9 @@ const Profile = () => {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [savingProfile, setSubmittingProfile] = useState(false);
 
-  const getProfile = async () => {
-    setLoadingProfile(true);
-    try {
-      const { error, response } = await makeApiRequests({
-        requestType: 'getMe'
-      });
-
-      setLoadingProfile(false);
-
-      if (error) {
-        toast.error(error);
-        return;
-      }
-
-      setEditingProfile(response);
-    } catch (e) {
-      setLoadingProfile(false);
-      toast.error('Something went wrong! Please try again');
-    }
-  };
-
   useEffect(() => {
-    getProfile();
-  }, []);
+    setEditingProfile({ ...user });
+  }, [user]);
 
   const onChangePasswordFormSubmit = async form => {
     const oldPassword = form['Old Password'];
@@ -110,7 +90,7 @@ const Profile = () => {
   window['onChangePasswordFormSubmit'] = onChangePasswordFormSubmit;
 
   const onCancelProfileEdit = () => {
-    setEditingProfile(getProfileFromLocalStorage());
+    setEditingProfile({ ...user });
     setEditMode(false);
   };
 
@@ -141,7 +121,8 @@ const Profile = () => {
       }
 
       saveUserToLocal(response);
-      setEditingProfile(getProfileFromLocalStorage());
+      setEditingProfile(response);
+      onUserChange(response);
       setEditMode(false);
       toast.success('Profile updated successfully!');
     } catch (e) {

@@ -1,39 +1,39 @@
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import React from 'react';
 import { Dropdown, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons/dist';
 import { useHistory, useLocation } from 'react-router';
-import { UserContext } from '../context/userContext';
 import { isActiveParthname } from '../../helpers/global';
+import useAuth from '../../hooks/useAuth';
 
 const logout = history => {
   localStorage.clear();
   history.push('/login');
 };
 
-const DropDownItems = ({ history, onUserChange }) => (
-  <>
-    <Dropdown.Toggle size="sm" variant="outline-dark rounded">
-      <PersonCircle size={18} className="mr-2 align-text-center" />
-      Rajat
-    </Dropdown.Toggle>
-    <Dropdown.Menu>
-      <Dropdown.Item onClick={() => history.push('/profile')}>View Profile</Dropdown.Item>
-      <Dropdown.Item
-        onClick={() => {
-          logout(history);
-          onUserChange(null, true); // Clearing User State By Setting Clear Param To (true)
-        }}
-      >
-        Logout
-      </Dropdown.Item>
-    </Dropdown.Menu>
-  </>
-);
+const DropDownItems = ({ history }) => {
+  const { user, onUserLogout } = useAuth();
+  return (
+    <>
+      <Dropdown.Toggle size="sm" variant="outline-dark rounded">
+        <PersonCircle size={18} className="mr-2 align-text-center" />
+        {user?.name || 'Rajat'}
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => history.push('/profile')}>View Profile</Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            logout(history);
+            onUserLogout();
+          }}
+        >
+          Logout
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  );
+};
 
 const PrimaryHeader = () => {
-  const { user, onUserChange } = useContext(UserContext);
-
   const history = useHistory();
   const location = useLocation();
 
@@ -71,10 +71,10 @@ const PrimaryHeader = () => {
           </Nav>
 
           <Dropdown className="d-none d-md-inline-block" drop="left">
-            <DropDownItems history={history} onUserChange={onUserChange} />
+            <DropDownItems history={history} />
           </Dropdown>
           <Dropdown className="d-inline-block d-md-none ml-3 mt-1">
-            <DropDownItems history={history} onUserChange={onUserChange} />
+            <DropDownItems history={history} />
           </Dropdown>
         </Navbar.Collapse>
       </Navbar>
