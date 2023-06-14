@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Card, Col, Container, FormControl, Row } from 'react-bootstrap';
 import { PersonCircle } from 'react-bootstrap-icons';
 import { toast } from 'react-toastify';
@@ -6,13 +6,12 @@ import FormGenerator from '../../form-generator/FormGenerator';
 import { getFormattedDate, highlightError } from '../../form-generator/helpers/utility';
 import { makeApiRequests } from '../../helpers/api';
 import { changePasswordForm } from '../../helpers/forms';
-import { getProfileFromLocalStorage, saveUserToLocal } from '../../helpers/session';
+import { saveUserToLocal } from '../../helpers/session';
+import useAuth from '../../hooks/useAuth';
 import Heading from '../Heading';
 import HorizontalProgress from '../HorizontalProgress';
 import Loader from '../Loader';
 import OverViewColumns from '../OverViewColumns';
-import { UserContext } from '../../context/UserContext';
-import useAuth from '../../hooks/useAuth';
 
 const ChangePasswordForm = ({ showProgress, error }) => {
   return (
@@ -31,11 +30,15 @@ const ChangePasswordForm = ({ showProgress, error }) => {
 const commonFields = [
   { label: 'First Name', key: 'firstName' },
   { label: 'Last Name', key: 'lastName' },
-  { label: 'Birth Date', jey: 'birthDate' },
+  { label: 'Birth Date', key: 'birthDate', type: 'date' },
   { label: 'Email', key: 'email' }
 ];
 
-const commonEditFields = [{ label: 'First Name', key: 'firstName' }, { label: 'Last Name', key: 'lastName' }];
+const commonEditFields = [
+  { label: 'First Name', key: 'firstName' },
+  { label: 'Last Name', key: 'lastName' },
+  { label: 'Birth Date', key: 'birthDate', type: 'date' }
+];
 
 const Profile = () => {
   const { user, onUserChange } = useAuth();
@@ -95,7 +98,7 @@ const Profile = () => {
   };
 
   const onSaveProfileClick = async () => {
-    const isSomeFieldEmpty = commonFields.some(f => !editingProfile[f.key]);
+    const isSomeFieldEmpty = commonEditFields.some(f => !editingProfile[f.key]);
 
     if (isSomeFieldEmpty) {
       return toast.error('Please fill all the fields!');
@@ -109,8 +112,8 @@ const Profile = () => {
     setSubmittingProfile(true);
     try {
       const { error, response } = await makeApiRequests({
-        requestType: 'updateUser',
-        requestBody
+        requestType: 'update-user-details',
+        requestBody: { ...editingProfile }
       });
 
       setSubmittingProfile(false);

@@ -82,11 +82,9 @@ const Auth = () => {
 
       // Saving Overall User Object In Local Storage
 
-      localStorage.setItem('user', JSON.stringify({ role: ADMIN_ROLE, token: authResult?.accessToken?.jwt }));
+      saveUserToLocal({ ...authResult?.accessToken?.user, token: authResult?.accessToken?.jwt });
 
-      // saveUserToLocal(response)
-
-      onUserChange({ token: authResult?.accessToken?.jwt, role: ADMIN_ROLE });
+      onUserChange({ ...authResult?.accessToken?.user, token: authResult?.accessToken?.jwt });
       history.push('/');
     }
   };

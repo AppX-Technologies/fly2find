@@ -99,9 +99,10 @@ function validateEmail(email) {
 }
 
 export const getFormattedDate = date => {
-  var dd = date.getDate();
-  var mm = date.getMonth() + 1; //January is 0!
-  var yyyy = date.getFullYear();
+  date = new Date(date);
+  var dd = date?.getDate();
+  var mm = date?.getMonth() + 1; //January is 0!
+  var yyyy = date?.getFullYear();
   if (dd < 10) {
     dd = '0' + dd;
   }

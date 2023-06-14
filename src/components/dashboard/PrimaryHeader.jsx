@@ -10,13 +10,12 @@ const logout = history => {
   history.push('/login');
 };
 
-const DropDownItems = ({ history }) => {
-  const { user, onUserLogout } = useAuth();
+const DropDownItems = ({ history, user, onUserLogout }) => {
   return (
     <>
       <Dropdown.Toggle size="sm" variant="outline-dark rounded">
         <PersonCircle size={18} className="mr-2 align-text-center" />
-        {user?.name || 'Rajat'}
+        {user?.firstName}
       </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item onClick={() => history.push('/profile')}>View Profile</Dropdown.Item>
@@ -36,6 +35,7 @@ const DropDownItems = ({ history }) => {
 const PrimaryHeader = () => {
   const history = useHistory();
   const location = useLocation();
+  const { user, onUserLogout } = useAuth();
 
   const LinkItem = ({ dropdown = false, title, path, otherActivePaths = [] }) => {
     return dropdown ? (
@@ -71,10 +71,7 @@ const PrimaryHeader = () => {
           </Nav>
 
           <Dropdown className="d-none d-md-inline-block" drop="left">
-            <DropDownItems history={history} />
-          </Dropdown>
-          <Dropdown className="d-inline-block d-md-none ml-3 mt-1">
-            <DropDownItems history={history} />
+            <DropDownItems history={history} user={user} onUserLogout={onUserLogout} />
           </Dropdown>
         </Navbar.Collapse>
       </Navbar>

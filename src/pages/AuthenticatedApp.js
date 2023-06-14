@@ -11,7 +11,7 @@ const AuthenticatedApp = () => {
 
   const { pathname } = useLocation();
 
-  if (!user?.token) {
+  if (!user) {
     return <Redirect from={pathname} to={'/login'} />;
   }
 

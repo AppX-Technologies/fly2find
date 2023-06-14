@@ -20,10 +20,11 @@ export const UserProvider = ({ children }) => {
       return toast.error(error);
     }
 
-    setUser(response);
+    setUser({ ...response, success: undefined });
   };
 
   const onUserChange = (userObj = {}) => {
+    console.log(userObj, 'userObj');
     setUser({ ...user, ...userObj });
   };
 

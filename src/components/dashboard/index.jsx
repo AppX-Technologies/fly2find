@@ -31,6 +31,8 @@ const generateRandomUUIDForAllJauntSteps = jaunts => {
 const Index = () => {
   const { user } = useAuth();
 
+  console.log(user, 'useruseruser');
+
   const [addOrEditJauntMetadata, setAddOrEditJauntMetadata] = useState(null);
   const [showFilter, setShowFilter] = useState(false);
   const [allJaunts, setAllJaunts] = useState([]);
@@ -213,8 +215,8 @@ const Index = () => {
       return toast.error(error);
     }
 
-    const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === addOrEditJauntMetadata?.id); // replace addOrEditJauntMetadata with response?.jaunt?.id
-    allJaunts[toEditJauntIndex] = addOrEditJauntMetadata; // replace addOrEditJauntMetadata with response?.jaunt?.id
+    const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === response?.jaunt?.id);
+    allJaunts[toEditJauntIndex] = response?.jaunt;
     setAllJaunts([...allJaunts]);
 
     onAddOrEditJauntModalClose();
@@ -259,7 +261,7 @@ const Index = () => {
       toast.error(error);
     } else {
       const toEditJauntIndex = allJaunts.findIndex(jaunt => jaunt?.id === jauntId);
-      allJaunts[toEditJauntIndex] = { ...allJaunts[toEditJauntIndex], status };
+      allJaunts[toEditJauntIndex] = { ...allJaunts[toEditJauntIndex], status: response?.jaunt?.status };
       setAllJaunts([...allJaunts]);
       toast.success('Status Updated Successfully');
     }
@@ -315,8 +317,6 @@ const Index = () => {
       executeGlobalSearch();
     }
   }, [globalFilterValues?.showing, globalFilterValues?.sortBy, globalFilterValues?.isAssessending]);
-
-  // Syncing the allJaunts state and addOrEditJauntMeta State
 
   return (
     <>

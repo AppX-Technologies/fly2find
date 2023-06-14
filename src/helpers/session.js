@@ -7,7 +7,7 @@ export const saveUserToLocal = user => {
     role: user?.role
   };
 
-  localStorage.setItem(user, JSON.stringify(updatedUser));
+  localStorage.setItem('user', JSON.stringify(updatedUser));
 };
 
 export const getProfileFromLocalStorage = () => {
