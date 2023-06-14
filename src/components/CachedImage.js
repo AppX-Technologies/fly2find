@@ -18,7 +18,7 @@ const CachedImage = ({
     <div>
       {image ? (
         <div className="d-flex justify-content-center">
-          <Image
+          <Image 
             src={image}
             className={`${className} pointer`}
             onClick={() => renderImageOnClick && window.open(image, '_blank')}

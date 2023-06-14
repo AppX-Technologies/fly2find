@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import localforage from 'localforage';
 import { makeApiRequests } from '../helpers/api';
+import { toast } from 'react-toastify';
 
 const MAX_CACHE_SIZE = 50;
 
@@ -14,6 +15,10 @@ const getFileChunk = async (fileId, chunkIndex) => {
     requestType: 'read-file',
     requestBody: fileInfoObject
   });
+
+  if (error) {
+    return toast.error(error);
+  }
 
   return await response;
 };
