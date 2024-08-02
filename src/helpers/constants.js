@@ -5,15 +5,10 @@ export const LOGIN_PATH =
   process.env.NODE_ENV === 'development' ? 'http://localhost:3000/login' : 'https://abraham-immobilien.web.app/login';
 export const TOKEN_INFO_PATH = 'https://oauth2.googleapis.com/tokeninfo?id_token=';
 export const API_KEY = 'fkajshd^*@#&$(ajshdfuaiwe#(@)*$&@(*faksdjfiwekajdsfwaj8923288(*8HF(H*fa273HF&^';
-export const SCRIPT_PROD_URL =
-  'https://script.google.com/macros/s/AKfycbzOKqZEPn2RVjMPulS-rliMOdmkKfk0YIsK5XkfQvh2Znh3RBZD_5iHWNerjg66VysoqA/exec';
-export const BRAND_NAME = 'Fly2Find';
-
-// export const SCRIPT_URL =
-//   'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
+export const BRAND_NAME = 'RatherFly';
 
 export const SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbyF0VB4MgRsptXI7aCvIbN9294kk2exBEI_zzDb7_ZEzufq_0lmGQswAVTTZSPeEH4N/exec';
+  'https://script.google.com/macros/s/AKfycby0AfloLlrqrMGdv6lhDsNTHK5JBQUa-TATZlxaVJLQgAljC89PKTX66CKdUOdHMJfmxQ/exec';
 
 export const labelToKeyMap = {
   'Organization ID': 'organizationId',

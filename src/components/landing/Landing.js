@@ -10,9 +10,9 @@ const section1Texts = [
 
   `Pilots that are  regularly flying become more skilled and add to their own skills. They become safer pilots through the experiences they have in flying.  This is the reason a Private Pilot Certificate is known as a “License to Learn” and we want to encourage that behavior by providing known-good destinations for you to fly to, based on some simple criteria you enter.`,
 
-  `Think of Fly2Find as a reason to put fuel in the tanks, check the weather and to get into the air… <b>RIGHT NOW!</b>`,
+  `Think of RatherFly as a reason to put fuel in the tanks, check the weather and to get into the air… <b>RIGHT NOW!</b>`,
 
-  `Fly2find calls this a <b class='text-primary2'>Jaunt</b>.`
+  `RatherFly calls this a <b class='text-primary2'>Jaunt</b>.`
 ];
 
 const section2Texts = [

@@ -38,7 +38,6 @@ const Pilot = () => {
       delete form[key];
     });
 
-
     toast.info('Please wait, your request is being submitted!');
 
     const { error, response } = await makeApiRequests({
@@ -75,14 +74,14 @@ const Pilot = () => {
                   Your first Jaunt will arrive shortly!
                 </h5>
                 <hr />
-                <div>
+                {/* <div>
                   See the latest Jaunts your fellow pilots have completed
                   <Link to={'/jaunt/recent'}>
                     <Button size="sm" variant="dark" className="ml-2 rounded">
                       HERE <ArrowRightCircle className="ml-2" />
                     </Button>
                   </Link>
-                </div>
+                </div> */}
               </div>
             ) : (
               <FormGenerator formJson={pilotForm} />
