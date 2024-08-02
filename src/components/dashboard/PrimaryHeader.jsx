@@ -43,7 +43,7 @@ const PrimaryHeader = () => {
       <Navbar bg="light" expand="lg" className="px-2 py-0">
         <Navbar.Brand href="/">
           <h3 className="logo">
-            F<span className="underline">ly2Find</span>
+            R<span className="underline">atherFly</span>
           </h3>{' '}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
