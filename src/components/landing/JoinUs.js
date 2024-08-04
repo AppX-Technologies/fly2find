@@ -7,12 +7,13 @@ const finalPoints = [
   `You are moments away from planning your next flight!`,
   `Subscribe for free to get started.`,
   `Expect your first Jaunt in minutes!`,
-  `Continue to get new Jaunts by completing the previous Jaunt.`
+  `Continue to get new Jaunts by completing the previous Jaunt.`,
+  `Currently In beta.`
 ];
 
 const JoinUs = () => {
   return (
-    <Row id='joinUsSection'>
+    <Row id="joinUsSection">
       <Col xs={12} md={8} className="align-self-center p-4">
         <Alert variant="primary" className="mb-0 text-white">
           <ul className="mb-0" style={{ listStyleType: 'none' }}>
@@ -41,7 +42,7 @@ const JoinUs = () => {
           <Link to={'/join/jaunt'}>
             <Button variant="dark" className="px-5 py-2">
               <h5 className="mb-0">
-                Add a JAUNT <ArrowRightCircle className="ml-2" size={20} />
+                Create a JAUNT <ArrowRightCircle className="ml-2" size={20} />
               </h5>
             </Button>
           </Link>

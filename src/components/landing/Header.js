@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import { ArrowDownCircle, CheckCircle } from 'react-bootstrap-icons';
+import { ArrowDownCircle, ArrowDownCircleFill, CheckCircle, ChevronDown } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
 const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
@@ -24,7 +24,7 @@ const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
           <Col xs={12} md={7} className="mt-2">
             <Link to="/jaunt/finish">
               <Button block variant="dark" className="ml-0" onClick={onLearnMoreClick}>
-                I finished a Jaunt
+                I finished a Mission
                 <CheckCircle className="ml-2" size={16} />
               </Button>
             </Link>
@@ -37,6 +37,15 @@ const Header = ({ headerTitle, headerSubtitle, onLearnMoreClick }) => {
       </Col>
       <Col xs={12} md={6} lg={7} className="px-md-0 mt-4 mt-md-0 text-center text-md-right align-self-center">
         <img loading="eager" src={process.env.PUBLIC_URL + '/airplane.png'} height={'100%'} width={'100%'} />
+      </Col>
+      <Col xs={12} className="text-center mt-2 hover">
+        <ArrowDownCircleFill
+          onClick={() => {
+            document.getElementById('section1').scrollIntoView({ behavior: 'smooth' });
+          }}
+          size={35}
+          className="chevron-animation"
+        />
       </Col>
     </Row>
   );
