@@ -21,7 +21,7 @@ const section2Texts = [
   `<ul>${['A place to fly', 'An action to take or trinket to find', 'And a special code']
     .map(t => `<li>${t}</li>`)
     .join('')}</ul>`,
-  `For those competing for the prizes and promotions, you may additionally have time-based restrictions to accomplish your jaunt. Those not competing can fly their next <b class='text-primary2'>JAUNT</b> whenever their schedule and the weather allows.`
+  `For those competing for the prizes and promotions, you may additionally have time-based restrictions to accomplish your <b class='text-primary2'>JAUNT</b>. Those not competing can fly their next <b class='text-primary2'>JAUNT</b> whenever their schedule and the weather allows.`
 ];
 
 const LandingPage = () => {
