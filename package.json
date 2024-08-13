@@ -1,6 +1,6 @@
 {
-  "name": "google-login",
-  "version": "0.1.0",
+  "name": "ratherfly",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.6.0",
