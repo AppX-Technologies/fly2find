@@ -73,7 +73,7 @@ const RadioInputGroup = ({
             defaultChecked={defaultValue ? defaultValue == value : index === 0}
             value={value}
             onChange={internalOnChange}
-            className="ml-3"
+            className="ms-3"
             showLabel
             inline
           />

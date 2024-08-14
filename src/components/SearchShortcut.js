@@ -33,7 +33,7 @@ const SearchShortcut = () => {
           />
           <div className="input-group-append">
             <Button size="sm" variant="outline-info" onClick={goToSearch} disabled={query.length === 0}>
-              <Search className="align-text-top mr-2" size={16} />
+              <Search className="align-text-top me-2" size={16} />
               Search
             </Button>
           </div>

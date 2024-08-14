@@ -16,52 +16,51 @@ const CheckBoxGroup = ({
   boxWidth = 6,
   required = false,
   dependentElem,
-  showDependentOn = '',
+  showDependentOn = ''
 }) => {
   if (preValue) defaultValues = preValue;
   const groupId = groupName || id;
 
+  //called after render only once
+  useEffect(() => {
+    internalOnChange();
+  }, []);
 
-    //called after render only once
-    useEffect(() => {
-      internalOnChange();
-    }, []);
-  
-    const showHideDependentElement = element => {
-      let showElem = false;
-  
-      const radios = [...document.getElementsByName(groupId)];
-      for (let index = 0; index < radios.length; index++) {
-        const radio = radios[index];
-        if (radio.checked && radio.value === showDependentOn) {
-          showElem = true;
-          break;
-        }
+  const showHideDependentElement = element => {
+    let showElem = false;
+
+    const radios = [...document.getElementsByName(groupId)];
+    for (let index = 0; index < radios.length; index++) {
+      const radio = radios[index];
+      if (radio.checked && radio.value === showDependentOn) {
+        showElem = true;
+        break;
       }
-  
-      if (showElem) {
-        element.classList.remove('d-none');
-        element.required = true;
-      } else {
-        element.classList.add('d-none');
-        element.required = null;
-      }
-    };
-  
-    const internalOnChange = () => {
-      //run internal functions here
-      if (dependentElem) {
-        const dependentElement = document.getElementById(dependentElem);
-        dependentElement && showHideDependentElement(dependentElement);
-      }
-  
-      if (onChange && window[onChange]) {
-        window[onChange]();
-      }
-    };
+    }
+
+    if (showElem) {
+      element.classList.remove('d-none');
+      element.required = true;
+    } else {
+      element.classList.add('d-none');
+      element.required = null;
+    }
+  };
+
+  const internalOnChange = () => {
+    //run internal functions here
+    if (dependentElem) {
+      const dependentElement = document.getElementById(dependentElem);
+      dependentElement && showHideDependentElement(dependentElement);
+    }
+
+    if (onChange && window[onChange]) {
+      window[onChange]();
+    }
+  };
 
   return (
-    <Row className={"mb-4 " + (required ? 'fg-checkbox-group' : '')} id={normalizeId(groupId)}>
+    <Row className={'mb-4 ' + (required ? 'fg-checkbox-group' : '')} id={normalizeId(groupId)}>
       {options.map((option, index) => {
         const { option: label, value } = option;
         return (
@@ -75,7 +74,7 @@ const CheckBoxGroup = ({
               defaultChecked={defaultValues.includes(value)}
               value={value}
               onChangeFunction={internalOnChange}
-              className="ml-3"
+              className="ms-3"
               disabled={disabled}
             />
           </Col>

@@ -39,7 +39,7 @@ const ServicePicker = ({ show, onServicePickerClose, submitting = false, onSubmi
             )}
             <Col xs={12} className="text-right">
               <Button
-                className="mr-3"
+                className="me-3"
                 size="lg"
                 variant="secondary"
                 onClick={onServicePickerClose}

@@ -334,7 +334,7 @@ const FormGenerator = ({
                     {col.field.folderLink && (
                       <a
                         style={{ fontSize: '14px', textDecoration: 'underline' }}
-                        className="ml-2"
+                        className="ms-2"
                         target="_blank"
                         href={col.field.folderLink}
                       >

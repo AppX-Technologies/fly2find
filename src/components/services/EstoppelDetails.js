@@ -11,7 +11,13 @@ import { isStaff } from '../../helpers/global';
 import IndividualServiceTasks from '../tasks/IndividualServiceTasks';
 import IndividualServiceNotes from '../notes/IndividualServiceNotes';
 
-export const commonEstoppelFields = ['Assigned Processor', 'Hard Cost', 'Turnaround Time', 'Needed Date', 'Processing Fee'];
+export const commonEstoppelFields = [
+  'Assigned Processor',
+  'Hard Cost',
+  'Turnaround Time',
+  'Needed Date',
+  'Processing Fee'
+];
 const commonRowsClient = ['Assigned Processor', 'Total Cost', 'Turnaround Time', 'Needed Date'];
 const priceFields = ['Hard Cost', 'Total Cost', 'Processing Fee'];
 const hoaS = ['HOA 1 Info', 'HOA 2 Info', 'HOA 3 Info'];
@@ -67,8 +73,8 @@ const EstoppelDetails = ({
           <div className="flex-grow-1">
             {isStaff(role) && (
               <>
-                <h6 className="d-inline-block mb-0 mr-2">Status: </h6>
-                <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block mr-1">
+                <h6 className="d-inline-block mb-0 me-2">Status: </h6>
+                <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block me-1">
                   <Dropdown.Toggle
                     variant={getVariantFromStatus(status)}
                     disabled={updatingStatus}
@@ -99,7 +105,7 @@ const EstoppelDetails = ({
             )}
 
             {estoppel['Cancellation Requested'] && (
-              <Badge variant="danger" className="mr-1">
+              <Badge variant="danger" className="me-1">
                 Cancellation Requested
               </Badge>
             )}

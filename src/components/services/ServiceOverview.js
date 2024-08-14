@@ -119,11 +119,11 @@ const ServiceOverview = ({
           <GearFill size={30} />
         </div>
       )}
-      <div className={`flex-grow-1 ${fromDetails ? '' : 'pl-4'}`}>
+      <div className={`flex-grow-1 ${fromDetails ? '' : 'ps-4'}`}>
         {service['New Closing Date'] && (
           <Row className="">
             <Col xs={12}>
-              <Badge variant="danger" className="mr-1 p-2">
+              <Badge variant="danger" className="me-1 p-2">
                 Closing Change Requested: {moment(service['New Closing Date']).format('MMM DD, yyyy')}
               </Badge>
               {!isClient(role) && (
@@ -134,7 +134,7 @@ const ServiceOverview = ({
         )}
         <div className="d-flex mt-3">
           <div className="flex-grow-1">
-            <h5 className="mr-3">
+            <h5 className="me-3">
               {addressFields
                 .map(field => service[field])
                 .filter(value => (value ? value.trim() : false))
@@ -146,7 +146,7 @@ const ServiceOverview = ({
               <Badge variant={getVariantFromStatus(status)}>{service['Status'] || 'Active'}</Badge>
             ) : (
               <>
-                <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block mr-1">
+                <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block me-1">
                   <Dropdown.Toggle
                     variant={getVariantFromStatus(status)}
                     disabled={updatingStatus}
@@ -159,9 +159,9 @@ const ServiceOverview = ({
                   <Dropdown.Menu>
                     {statuses.map((s, index) => (
                       <Dropdown.Item
-                      className={`bg-${getVariantFromStatus(s)} text-${
-                        getVariantFromStatus(s) === 'primary' ? 'dark' : 'white'
-                      }`}
+                        className={`bg-${getVariantFromStatus(s)} text-${
+                          getVariantFromStatus(s) === 'primary' ? 'dark' : 'white'
+                        }`}
                         key={`s-${Math.random()}`}
                         onClick={() => {
                           updateStatus(s);
@@ -177,17 +177,17 @@ const ServiceOverview = ({
             )}
 
             {service['lienSearch'] && (
-              <Badge variant="dark" className="ml-1">
+              <Badge variant="dark" className="ms-1">
                 Lien Search
               </Badge>
             )}
             {service['estoppel'] && (
-              <Badge variant="dark" className="ml-1">
+              <Badge variant="dark" className="ms-1">
                 Estoppel
               </Badge>
             )}
             {service['survey'] && (
-              <Badge variant="dark" className="ml-1">
+              <Badge variant="dark" className="ms-1">
                 Survey
               </Badge>
             )}
@@ -198,14 +198,14 @@ const ServiceOverview = ({
               (isClient(role) ? (
                 <>
                   {showChangeRequestButton && (
-                    <Button variant="outline-dark" size="sm" className="py-1 ml-2" onClick={onChangeRequestClick}>
-                      <Pen className="align-text-top mr-2" />
+                    <Button variant="outline-dark" size="sm" className="py-1 ms-2" onClick={onChangeRequestClick}>
+                      <Pen className="align-text-top me-2" />
                       Request Change
                     </Button>
                   )}
                   {showCancelRequestButton && (
-                    <Button variant="outline-danger" size="sm" className="py-1 ml-2" onClick={onCancellationClick}>
-                      <SlashCircle className="align-text-top mr-2" />
+                    <Button variant="outline-danger" size="sm" className="py-1 ms-2" onClick={onCancellationClick}>
+                      <SlashCircle className="align-text-top me-2" />
                       Request Cancellation
                     </Button>
                   )}
@@ -214,19 +214,19 @@ const ServiceOverview = ({
                 <>
                   {service['Drive Folder'] && (
                     <a target="_blank" href={`https://drive.google.com/drive/folders/${service['Drive Folder']}`}>
-                      <Button variant="outline-dark" size="sm" className="py-1 ml-2">
-                        <Folder2Open className="align-text-top mr-md-2" />
+                      <Button variant="outline-dark" size="sm" className="py-1 ms-2">
+                        <Folder2Open className="align-text-top me-md-2" />
                         <span className="d-none d-md-inline-block">All Attachments</span>
                       </Button>
                     </a>
                   )}
-                  <Button variant="outline-dark" size="sm" className="py-1 ml-2" onClick={onChangeRequestClick}>
-                    <FilePost className="align-text-top mr-2" />
+                  <Button variant="outline-dark" size="sm" className="py-1 ms-2" onClick={onChangeRequestClick}>
+                    <FilePost className="align-text-top me-2" />
                     Comment
                   </Button>
                   <Link to={`${service['serviceId']}/edit`}>
-                    <Button variant="outline-dark" size="sm" className="py-1 ml-2">
-                      <Pen className="align-text-top mr-md-2" />
+                    <Button variant="outline-dark" size="sm" className="py-1 ms-2">
+                      <Pen className="align-text-top me-md-2" />
                       <span className="d-none d-md-inline-block">Edit</span>
                     </Button>
                   </Link>
@@ -236,9 +236,9 @@ const ServiceOverview = ({
                       onClick={onDeleteClick}
                       variant="outline-danger"
                       size="sm"
-                      className="py-1 ml-2"
+                      className="py-1 ms-2"
                     >
-                      <Trash className="align-text-top mr-md-2" />
+                      <Trash className="align-text-top me-md-2" />
                       <span className="d-none d-md-inline-block">Delete</span>
                     </Button>
                   )}

@@ -447,7 +447,7 @@ const ServiceDetails = ({ appChoices }) => {
       <div className="d-flex">
         <div className="flex-grow-1">
           <h5>
-            <FileText size={20} className="align-text-top mr-2" />
+            <FileText size={20} className="align-text-top me-2" />
             {label}
           </h5>
         </div>
@@ -463,14 +463,14 @@ const ServiceDetails = ({ appChoices }) => {
                     onReset={(service, serviceType) => onCancellationReset(serviceType)}
                   />
                 )}
-                <Button className="ml-1" variant="info" size="sm" onClick={() => onEditClick(label, serviceType)}>
+                <Button className="ms-1" variant="info" size="sm" onClick={() => onEditClick(label, serviceType)}>
                   Edit
                 </Button>
               </>
             )}
             {isAdmin(role) && (
               <Button
-                className="ml-1"
+                className="ms-1"
                 variant="danger"
                 size="sm"
                 onClick={() => setActiveDeletingServiceType({ name: label, key: serviceType })}
@@ -977,7 +977,7 @@ const ServiceDetails = ({ appChoices }) => {
       <Card.Body>
         <div className="d-flex mb-4">
           <BackButton backPath={historyState && historyState.fromPath ? historyState.fromPath : '/services/search'} />
-          <div className="flex-grow-1 ml-3">
+          <div className="flex-grow-1 ms-3">
             <SearchShortcut />
           </div>
         </div>

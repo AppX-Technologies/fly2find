@@ -20,7 +20,7 @@ const JauntCard = ({
     <Card className="mb-3">
       <Card.Body className="px-2 py-1">
         <div className="d-flex">
-          <div className={`flex-grow-1 pl-2`}>
+          <div className={`flex-grow-1 ps-2`}>
             {/* Title an Action Buttons */}
 
             <div className="d-flex align-items-center">
@@ -33,7 +33,7 @@ const JauntCard = ({
 
               <div className="d-flex justify-content-evenly align-items-center">
                 {isEditable ? (
-                  <Dropdown style={styles.smallerFont} className="ml-2">
+                  <Dropdown style={styles.smallerFont} className="ms-2">
                     <Dropdown.Toggle variant="success" className="px-1 py-0 " style={{ fontSize: '12px' }}>
                       {jaunt?.status}
                     </Dropdown.Toggle>
@@ -54,11 +54,11 @@ const JauntCard = ({
                   <Badge variant="success">{jaunt?.status}</Badge>
                 )}
 
-                <Button size="sm" variant="info" className="ml-2 py-0 px-1" onClick={onEdit}>
+                <Button size="sm" variant="info" className="ms-2 py-0 px-1" onClick={onEdit}>
                   <Pen style={{ verticalAlign: 'baseline' }} size={10} />
                 </Button>
                 {isDeletable(jaunt?.id) && (
-                  <Button size="sm" variant="danger" className="ml-1 py-0 px-1" onClick={onDelete}>
+                  <Button size="sm" variant="danger" className="ms-1 py-0 px-1" onClick={onDelete}>
                     <Trash style={{ verticalAlign: 'baseline' }} size={10} />
                   </Button>
                 )}
@@ -80,7 +80,7 @@ const JauntCard = ({
                 <div>
                   <h5 className="font-weight-bold xlarge">Brief</h5>
 
-                  <Alert variant="muted ml-3">
+                  <Alert variant="muted ms-3">
                     <h5 className="large text-dark">{jaunt?.brief}</h5>
                   </Alert>
                 </div>
@@ -89,7 +89,7 @@ const JauntCard = ({
                 <div>
                   <h5 className="font-weight-bold xlarge">Description</h5>
 
-                  <Alert variant="muted ml-3">
+                  <Alert variant="muted ms-3">
                     <h6 className="large  text-dark">{jaunt?.description}</h6>
                   </Alert>
                 </div>
@@ -101,21 +101,21 @@ const JauntCard = ({
               <h6 className="font-weight-bold xlarge">
                 Steps
                 {showSteps?.includes(jaunt?.id) ? (
-                  <ChevronUp className="pointer ml-2" onClick={() => onShowStepsChange(jaunt?.id)} title="Show Less" />
+                  <ChevronUp className="pointer ms-2" onClick={() => onShowStepsChange(jaunt?.id)} title="Show Less" />
                 ) : (
                   <ChevronDown
-                    className="pointer ml-2"
+                    className="pointer ms-2"
                     onClick={() => onShowStepsChange(jaunt?.id)}
                     title="Show More"
                   />
                 )}
               </h6>
               {showSteps.includes(jaunt?.id) && jaunt?.steps?.length === 0 && (
-                <span className="large ml-3">No Steps Added Yet.</span>
+                <span className="large ms-3">No Steps Added Yet.</span>
               )}
 
               {showSteps.includes(jaunt?.id) && jaunt?.steps?.length ? (
-                <Alert variant="muted ml-3">
+                <Alert variant="muted ms-3">
                   {jaunt?.steps.map((step, idx) => {
                     return (
                       <h6 className="large text-dark">

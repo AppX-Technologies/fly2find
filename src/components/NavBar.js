@@ -1,14 +1,12 @@
 import React from 'react';
-import { Button, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 
-import { Link } from 'react-router-dom';
-import { BRAND_NAME } from '../helpers/constants';
 import Logo from './Logo';
 
 const NavBar = () => {
   return (
     <>
-      <Navbar sticky='top' bg="whiteTrans" expand="lg">
+      <Navbar sticky="top" bg="white" expand="lg" className="bg-opacity-50 px-3">
         <Navbar.Brand href="/">
           <Logo />
         </Navbar.Brand>

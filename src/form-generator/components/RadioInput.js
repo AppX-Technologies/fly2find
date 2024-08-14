@@ -27,7 +27,7 @@ const RadioInput = ({
         value={value}
       />
       {showLabel && (
-        <label htmlFor={inputId} className="ml-2 my-auto">
+        <label htmlFor={inputId} className="ms-2 my-auto">
           {label || title}
         </label>
       )}

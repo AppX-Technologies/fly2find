@@ -91,10 +91,10 @@ const ServiceSearchItem = ({ service, onServiceClick, selected, statuses = [], o
               <GearFill size={30} />
             </div>
 
-            <div className={`flex-grow-1 pl-4`}>
+            <div className={`flex-grow-1 ps-4`}>
               <div className="d-flex">
                 <div className=" flex-grow-1">
-                  <h6 className="d-inline-block mr-3 mb-0">
+                  <h6 className="d-inline-block me-3 mb-0">
                     {addressFields
                       .map(field => service[field])
                       .filter(value => (value ? value.trim() : false))
@@ -107,7 +107,7 @@ const ServiceSearchItem = ({ service, onServiceClick, selected, statuses = [], o
                     </Badge>
                   ) : (
                     <>
-                      <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block mr-1">
+                      <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block me-1">
                         <Dropdown.Toggle
                           variant={getVariantFromStatus(status)}
                           disabled={updatingStatus}
@@ -120,9 +120,9 @@ const ServiceSearchItem = ({ service, onServiceClick, selected, statuses = [], o
                         <Dropdown.Menu>
                           {statuses.map((s, index) => (
                             <Dropdown.Item
-                            className={`bg-${getVariantFromStatus(s)} text-${
-                              getVariantFromStatus(s) === 'primary' ? 'dark' : 'white'
-                            }`}
+                              className={`bg-${getVariantFromStatus(s)} text-${
+                                getVariantFromStatus(s) === 'primary' ? 'dark' : 'white'
+                              }`}
                               key={`s-${Math.random()}`}
                               onClick={() => {
                                 updateStatus(s);
@@ -137,17 +137,17 @@ const ServiceSearchItem = ({ service, onServiceClick, selected, statuses = [], o
                     </>
                   )}
                   {service['lienSearch'] && (
-                    <Badge style={styles.smallerFont} variant="dark" className="ml-1">
+                    <Badge style={styles.smallerFont} variant="dark" className="ms-1">
                       Lien Search
                     </Badge>
                   )}
                   {service['estoppel'] && (
-                    <Badge style={styles.smallerFont} variant="dark" className="ml-1">
+                    <Badge style={styles.smallerFont} variant="dark" className="ms-1">
                       Estoppel
                     </Badge>
                   )}
                   {service['survey'] && (
-                    <Badge style={styles.smallerFont} variant="dark" className="ml-1">
+                    <Badge style={styles.smallerFont} variant="dark" className="ms-1">
                       Survey
                     </Badge>
                   )}

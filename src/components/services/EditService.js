@@ -133,7 +133,7 @@ const EditService = ({ appChoices = {} }) => {
             formJson={form}
             formValues={{ 'Update Service Request': preFillData }}
             headerIcons={{
-              'Update Service Request': () => <PersonSquare size={24} className="text-dark align-text-bottom mr-3" />
+              'Update Service Request': () => <PersonSquare size={24} className="text-dark align-text-bottom me-3" />
             }}
           />
         )}

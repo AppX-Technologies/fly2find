@@ -73,7 +73,7 @@ const ResetChangeButton = ({ service, indServiceType, onReset, onApply }) => {
             <Button variant="secondary" onClick={onHide}>
               No
             </Button>
-            <Button className="ml-2" variant="danger" onClick={applyAction}>
+            <Button className="ms-2" variant="danger" onClick={applyAction}>
               Yes
             </Button>
           </Col>
@@ -84,12 +84,12 @@ const ResetChangeButton = ({ service, indServiceType, onReset, onApply }) => {
 
   return (
     <>
-      <Button variant="outline-info ml-1" size="sm" onClick={() => setConfirmationModalType('reset')}>
-        <X className="align-text-bottom mr-1" />
+      <Button variant="outline-info ms-1" size="sm" onClick={() => setConfirmationModalType('reset')}>
+        <X className="align-text-bottom me-1" />
         Reset
       </Button>
-      <Button variant="outline-info ml-1" size="sm" onClick={() => setConfirmationModalType('apply')}>
-        <Check className="align-text-bottom mr-1" />
+      <Button variant="outline-info ms-1" size="sm" onClick={() => setConfirmationModalType('apply')}>
+        <Check className="align-text-bottom me-1" />
         Apply
       </Button>
       {confirmationModal()}

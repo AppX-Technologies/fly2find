@@ -61,12 +61,12 @@ const Filter = ({ onGlobalFilterValueChange, globalFilterValues }) => {
               checked={parentFilter?.children?.length === findFilterValuesByParent(parentFilter?.key)?.children?.length}
             />
             <hr className="my-1" />
-            <div className="d-flex ml-3 flex-wrap justify-content-start w-100">
+            <div className="d-flex ms-3 flex-wrap justify-content-start w-100">
               {parentFilter?.children.map(subFilter => {
                 return (
                   <Form.Check
                     type="checkbox"
-                    className="xlarge ml-3"
+                    className="xlarge ms-3"
                     label={subFilter}
                     size="sm"
                     checked={findFilterValuesByParent(parentFilter?.key)?.children.includes(subFilter)}

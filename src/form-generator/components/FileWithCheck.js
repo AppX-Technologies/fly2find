@@ -67,7 +67,7 @@ const FileWithCheck = ({
               {selectedFiles.length > 0 && (
                 <div className="mb-2">
                   {selectedFiles.map((file, index) => (
-                    <div className="d-inline-block p-2 border border-muted rounded py-1 mr-1 mb-1">
+                    <div className="d-inline-block p-2 border border-muted rounded py-1 me-1 mb-1">
                       <Button
                         block
                         key={index}
@@ -82,7 +82,7 @@ const FileWithCheck = ({
                         onClick={() => removeFile(index)}
                       >
                         <span>{file.fileName}</span>
-                        <span className="ml-3 float-right">X</span>
+                        <span className="ms-3 float-right">X</span>
                       </Button>
                       <CheckBoxInput
                         className=" mt-2 mx-1"

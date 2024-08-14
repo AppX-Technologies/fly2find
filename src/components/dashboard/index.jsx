@@ -262,7 +262,7 @@ const Index = () => {
 
       <FloatingButton
         text="Add Jaunt"
-        icon={<PlusCircleFill size={15} className="mr-1" />}
+        icon={<PlusCircleFill size={15} className="me-1" />}
         onClick={() => setAddOrEditJauntMetadata({ steps: [], album: [] })}
         variant="dark"
       />

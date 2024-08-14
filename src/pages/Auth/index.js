@@ -198,7 +198,7 @@ const Auth = () => {
                   <Card.Body>
                     <div className="d-flex justify-content-center">
                       <h5 className="text-dark my-1">
-                        <PersonBadge className="mr-2 " />
+                        <PersonBadge className="me-2 " />
                         {mode === LOGIN_MODE ? 'Login' : 'Register'}
                       </h5>
                     </div>

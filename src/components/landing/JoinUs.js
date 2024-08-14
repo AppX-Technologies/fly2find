@@ -20,7 +20,7 @@ const JoinUs = () => {
             {finalPoints.map(p => (
               <li>
                 <h5 className="my-2 text-dark">
-                  <StarFill className="mr-2 mb-1 text-primary2Light" size={18} />
+                  <StarFill className="me-2 mb-1 text-primary2Light" size={18} />
                   {p}
                 </h5>
               </li>
@@ -33,7 +33,7 @@ const JoinUs = () => {
           <Link to={'/join/pilot'}>
             <Button variant="outline-dark" className="px-5 py-2">
               <h5 className="mb-0">
-                Join as a PILOT <ArrowRightCircle className="ml-2" size={20} />
+                Join as a PILOT <ArrowRightCircle className="ms-2" size={20} />
               </h5>
             </Button>
           </Link>
@@ -42,7 +42,7 @@ const JoinUs = () => {
           <Link to={'/join/jaunt'}>
             <Button variant="dark" className="px-5 py-2">
               <h5 className="mb-0">
-                Create a JAUNT <ArrowRightCircle className="ml-2" size={20} />
+                Create a JAUNT <ArrowRightCircle className="ms-2" size={20} />
               </h5>
             </Button>
           </Link>

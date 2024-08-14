@@ -44,8 +44,8 @@ const FinishJaunt = () => {
                 <hr />
                 <div>
                   <Link to={'/'}>
-                    <Button size="sm" variant="dark" className="ml-2 rounded">
-                      <ArrowLeftCircle className="mr-2" /> Back to Home
+                    <Button size="sm" variant="dark" className="ms-2 rounded">
+                      <ArrowLeftCircle className="me-2" /> Back to Home
                     </Button>
                   </Link>
                 </div>

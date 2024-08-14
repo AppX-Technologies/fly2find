@@ -63,7 +63,7 @@ const ResetCancellationButton = ({ service, indServiceType, onReset }) => {
             <Button variant="secondary" onClick={onHide}>
               No
             </Button>
-            <Button className="ml-2" variant="danger" onClick={resetCancellation}>
+            <Button className="ms-2" variant="danger" onClick={resetCancellation}>
               Yes
             </Button>
           </Col>
@@ -74,9 +74,9 @@ const ResetCancellationButton = ({ service, indServiceType, onReset }) => {
 
   return (
     <>
-      <Button variant="outline-danger ml-1" size="sm" onClick={() => setShowConfirmationModal(true)}>
+      <Button variant="outline-danger ms-1" size="sm" onClick={() => setShowConfirmationModal(true)}>
         Reset Cancellation
-        <ArrowRepeat className="align-text-bottom ml-1" />
+        <ArrowRepeat className="align-text-bottom ms-1" />
       </Button>
       {confirmationModal()}
     </>

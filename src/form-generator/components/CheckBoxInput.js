@@ -54,7 +54,7 @@ const CheckBoxInput = ({
         <label
           style={size === 'sm' ? { fontSize: 15 } : undefined}
           htmlFor={inputId}
-          className="ml-2 form-check-label my-1"
+          className="ms-2 form-check-label my-1"
         >
           {boldLabel ? <b>{label || title}</b> : label || title}
         </label>

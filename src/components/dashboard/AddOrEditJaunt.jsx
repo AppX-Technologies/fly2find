@@ -57,10 +57,10 @@ const AddOrEditJaunt = ({
       {showNotEditableInfo && (
         <Alert variant="danger" className="p-1 w-100 mt-1 mb-3">
           <div className="d-flex ">
-            <p className="ml-1 text-center flex-grow-1 align-items-center m-auto">
+            <p className="ms-1 text-center flex-grow-1 align-items-center m-auto">
               As This Jaunt Is Not In Draft Phase So It Cannot Be Edited By You.
             </p>
-            <X size={30} className="mr-1 pointer" onClick={() => setShowNonEditableInfo(false)} />
+            <X size={30} className="me-1 pointer" onClick={() => setShowNonEditableInfo(false)} />
           </div>
         </Alert>
       )}
@@ -181,7 +181,7 @@ const AddOrEditJaunt = ({
             />
           )}
 
-          <div className="d-flex justify-content-start ml-4">
+          <div className="d-flex justify-content-start ms-4">
             {modalMetaData?.album &&
               modalMetaData?.album?.map(file => {
                 return (
@@ -212,7 +212,7 @@ const AddOrEditJaunt = ({
         </div>
 
         {/* Draggable Steps */}
-        {modalMetaData?.steps?.length === 0 && <h6 className="my-2 ml-2 small">No Steps Added Yet</h6>}
+        {modalMetaData?.steps?.length === 0 && <h6 className="my-2 ms-2 small">No Steps Added Yet</h6>}
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="droppable">
             {provided => {
@@ -235,7 +235,7 @@ const AddOrEditJaunt = ({
                             {...provided.dragHandleProps}
                           >
                             <h6>
-                              {isEditable && <GripHorizontal size={20} className="mr-2" />}
+                              {isEditable && <GripHorizontal size={20} className="me-2" />}
                               {index + 1}.{'  '}
                               {step?.text}
                             </h6>
@@ -268,7 +268,7 @@ const AddOrEditJaunt = ({
                   onChange={e => onAddOrEditJauntFieldValueChange('stepToBeCompleted', e.target.value)}
                 />
               </Form.Group>
-              <Button variant="primary ml-2" onClick={handleStepToBeCompletedAddition} disabled={inProgress}>
+              <Button variant="primary ms-2" onClick={handleStepToBeCompletedAddition} disabled={inProgress}>
                 Add
               </Button>
             </div>

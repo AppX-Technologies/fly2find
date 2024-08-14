@@ -12,7 +12,7 @@ const FileDetails = ({ files = [] }) => {
           <div>
             <Alert.Link target="_blank" href={`https://drive.google.com/file/d/${file.file.id}/view`}>
               {file.file.fileName}
-              <ArrowUpRightCircle className="ml-2" size={20} />
+              <ArrowUpRightCircle className="ms-2" size={20} />
             </Alert.Link>
           </div>
         </Alert>

@@ -36,7 +36,7 @@ const AlertModal = ({
     <Modal.Footer>
       <Button
         size="sm"
-        className="ml-2 px-2"
+        className="ms-2 px-2"
         variant={dismissButtonVariant}
         onClick={onDismissClick}
         disabled={showProgress}
@@ -45,7 +45,7 @@ const AlertModal = ({
       </Button>
       <Button
         size="sm"
-        className="ml-2 px-2"
+        className="ms-2 px-2"
         variant={continueButtonVariant}
         onClick={onContinueClick}
         disabled={showProgress}

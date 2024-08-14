@@ -4,7 +4,15 @@ import { mapFieldToElement } from '../helpers/TypeToElemMapper';
 import { DashCircleFill, PlusCircleFill } from 'react-bootstrap-icons';
 import { normalizeId } from '../helpers/utility';
 
-const TableInput = ({ id, title, tableFields: fields, initialRowCount = 1, className = '', preValue, onFormChange }) => {
+const TableInput = ({
+  id,
+  title,
+  tableFields: fields,
+  initialRowCount = 1,
+  className = '',
+  preValue,
+  onFormChange
+}) => {
   const [rowCount, setRowCount] = useState(preValue ? preValue.length : initialRowCount);
 
   const tableId = id;
@@ -84,7 +92,7 @@ const TableInput = ({ id, title, tableFields: fields, initialRowCount = 1, class
           </Button>{' '}
           {rowCount > 1 && (
             <Button
-              className="ml-md-3 mt-0"
+              className="ms-md-3 mt-0"
               variant="outline-danger"
               onClick={() => {
                 removeRow();

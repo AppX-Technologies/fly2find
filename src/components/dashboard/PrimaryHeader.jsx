@@ -11,7 +11,7 @@ const logout = history => {
 const DropDownItems = ({ history }) => (
   <>
     <Dropdown.Toggle size="sm" variant="outline-dark rounded">
-      <PersonCircle size={18} className="mr-2 align-text-top" />
+      <PersonCircle size={18} className="me-2 align-text-top" />
       Rajat
     </Dropdown.Toggle>
     <Dropdown.Menu>
@@ -48,14 +48,14 @@ const PrimaryHeader = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-3 mr-auto">
+          <Nav className="ms-3 me-auto">
             <LinkItem path="/admin/jaunts" title="Jaunts" />
           </Nav>
 
           <Dropdown className="d-none d-md-inline-block" drop="left">
             <DropDownItems history={history} />
           </Dropdown>
-          <Dropdown className="d-inline-block d-md-none ml-3 mt-1">
+          <Dropdown className="d-inline-block d-md-none ms-3 mt-1">
             <DropDownItems history={history} />
           </Dropdown>
         </Navbar.Collapse>

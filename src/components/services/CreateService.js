@@ -139,7 +139,7 @@ const CreateService = ({ appChoices = {} }) => {
 
             <FormGenerator
               headerIcons={{
-                'New Service Request': () => <Gear size={24} className="text-dark align-text-bottom mr-3" />
+                'New Service Request': () => <Gear size={24} className="text-dark align-text-bottom me-3" />
               }}
               formJson={form}
             />

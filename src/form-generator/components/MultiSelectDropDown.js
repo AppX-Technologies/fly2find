@@ -71,7 +71,7 @@ const MultiSelectDropDown = ({
                       disabled={disabled}
                     />
 
-                    <label htmlFor={inputId} className="ml-2 form-check-label my-1">
+                    <label htmlFor={inputId} className="ms-2 form-check-label my-1">
                       {label}
                     </label>
                   </div>

@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&family=Satisfy&display=swap');
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
 $theme-colors: (
   primary: #dc2424,
   info: #4a569d,
@@ -6,7 +9,6 @@ $theme-colors: (
   primary2: #4a569d,
   primary2Light: #0327fd59,
   dark: #000,
-  whiteTrans: rgba(255, 255, 255, 0.411),
   muted: #d3d3d3
 );
 
@@ -201,7 +203,7 @@ body,
   height: 100vh;
 }
 
-.bg-gradient {
+.bg-gradient-dark {
   background: map-get($map: $theme-colors, $key: primary); /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -260,5 +262,4 @@ body,
 }
 
 @import './components/SlidingSideBar/bar';
-
 @import '~bootstrap/scss/bootstrap';

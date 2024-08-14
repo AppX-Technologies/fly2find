@@ -1,5 +1,4 @@
-import crypto from 'crypto';
-import { JAUNTS } from './constants';
+import { v4 as uuid } from 'uuid';
 
 const firebaseErrors = {
   'auth/email-already-exists': 'The provided email is already in use by an existing user.',
@@ -41,5 +40,5 @@ export const findSpecificJaunt = (allJaunts, jauntId) => {
 };
 
 export const generateRandomUUID = () => {
-  return crypto.randomBytes(20).toString('hex');
+  return uuid();
 };

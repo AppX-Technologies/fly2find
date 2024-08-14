@@ -77,8 +77,8 @@ const Pilot = () => {
                 {/* <div>
                   See the latest Jaunts your fellow pilots have completed
                   <Link to={'/jaunt/recent'}>
-                    <Button size="sm" variant="dark" className="ml-2 rounded">
-                      HERE <ArrowRightCircle className="ml-2" />
+                    <Button size="sm" variant="dark" className="ms-2 rounded">
+                      HERE <ArrowRightCircle className="ms-2" />
                     </Button>
                   </Link>
                 </div> */}

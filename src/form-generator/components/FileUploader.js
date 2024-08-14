@@ -63,11 +63,11 @@ const FileUploader = ({
                       data-name={file.fileName}
                       data-mimetype={file.mimeType}
                       data-value={file.data}
-                      className="px-2 py-1 mr-1 mb-1"
+                      className="px-2 py-1 me-1 mb-1"
                       variant="primary"
                       onClick={() => removeFile(index)}
                     >
-                      {file.fileName} <span className="ml-2"> x</span>
+                      {file.fileName} <span className="ms-2"> x</span>
                     </Button>
                   ))}
                 </div>

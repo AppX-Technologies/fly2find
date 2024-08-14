@@ -6,7 +6,7 @@ const Title = ({ title }) => {
       <h3 className="mb-0">
         <b>{title}</b>
       </h3>
-      <div style={{ height: 6, width: 20 }} className="bg-gradient mx-auto rounded"></div>
+      <div style={{ height: 6, width: 20 }} className="bg-gradient-dark mx-auto rounded"></div>
     </div>
   );
 };

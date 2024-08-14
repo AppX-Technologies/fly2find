@@ -54,7 +54,7 @@ const MultiTextInput = ({ preValue, initialRowCount = 1, mutable = true, ...rest
             </Button>{' '}
             {rowCount > 1 && (
               <Button
-                className="ml-md-3 mt-0"
+                className="ms-md-3 mt-0"
                 variant="outline-danger"
                 onClick={() => {
                   removeRow();

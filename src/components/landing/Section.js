@@ -12,11 +12,11 @@ const Section = ({ texts, flip, id }) => {
                 <h6 className="py-1" dangerouslySetInnerHTML={{ __html: t }}></h6>
               ))}
             </Col>
-            <Col xs={1} className="bg-primaryLight"></Col>
+            <Col xs={1} className="bg-primary bg-opacity-75"></Col>
           </>
         ) : (
           <>
-            <Col xs={1} className="bg-primary2Light"></Col>
+            <Col xs={1} className="bg-info bg-opacity-75"></Col>
             <Col xs={11} className="p-5">
               {texts.map(t => (
                 <h6 className="py-1" dangerouslySetInnerHTML={{ __html: t }}></h6>

@@ -185,7 +185,7 @@ const SearchBox = ({
         <CheckBoxInput
           showLabel
           id={`${groupName}All`}
-          className="ml-3"
+          className="ms-3"
           title={title}
           boldLabel={true}
           defaultChecked={true}
@@ -245,7 +245,7 @@ const SearchBox = ({
             />
             <div className="input-group-append">
               <Button size="sm" variant="dark" disabled={loading} onClick={fetchServices}>
-                <Search className="align-text-top mr-2" size={16} />
+                <Search className="align-text-top me-2" size={16} />
                 Search
               </Button>
             </div>
@@ -255,7 +255,7 @@ const SearchBox = ({
           xs={12}
           md={{ span: isStaff(role) ? 4 : 3, offset: isStaff(role) ? 2 : 4 }}
           lg={{ span: 2, offset: 0 }}
-          className="pl-md-0"
+          className="ps-md-0"
         >
           <Dropdown className="mb-1 mb-md-0">
             <Dropdown.Toggle size="sm" disabled={loading} block variant="outline-dark" id="dropdown-basic">
@@ -273,7 +273,7 @@ const SearchBox = ({
           xs={isStaff(role) ? 8 : 10}
           md={4}
           lg={{ span: 1, offset: 0 }}
-          className={`${isStaff(role) ? 'pr-0 pr-md-0' : ''}  pl-md-0`}
+          className={`${isStaff(role) ? 'pe-0 pe-md-0' : ''}  ps-md-0`}
         >
           <Dropdown className="mb-1 mb-md-0">
             <Dropdown.Toggle size="sm" disabled={loading} block variant="outline-dark" id="dropdown-basic">
@@ -290,7 +290,7 @@ const SearchBox = ({
             </Dropdown.Menu>
           </Dropdown>
         </Col>
-        <Col xs={2} md={1} lg={{ span: 1, offset: 0 }} className="pl-1">
+        <Col xs={2} md={1} lg={{ span: 1, offset: 0 }} className="ps-1">
           <Button variant="dark" block size="sm" disabled={loading} onClick={handleSortDirectionChange}>
             {descSort ? <ArrowDown className="text-align-top" /> : <ArrowUp className="text-align-top" />}
           </Button>
@@ -316,7 +316,7 @@ const SearchBox = ({
         <Col xs={12}>
           <p style={{ fontSize: '14px' }} className="text-right my-1">
             <b>Showing: </b>
-            <span className="text-secondary mr-3">{maxLimit} items</span>
+            <span className="text-secondary me-3">{maxLimit} items</span>
 
             <b>Sorting by: </b>
             <span className="text-secondary">{sortBy}</span>
@@ -331,7 +331,7 @@ const SearchBox = ({
 
                   setActiveStatus(status);
                 }}
-                className={`mt-1 mr-2 p-2 ${loading || activeStatus === status ? '' : 'hover-dark'}`}
+                className={`mt-1 me-2 p-2 ${loading || activeStatus === status ? '' : 'hover-dark'}`}
                 variant={activeStatus === status ? getVariantFromStatus(status) : 'dark'}
               >
                 {status}

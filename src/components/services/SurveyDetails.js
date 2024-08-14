@@ -59,7 +59,6 @@ const SurveyDetails = ({
   const [status, setStatus] = useState(survey['Status'] || 'New Order');
   const [updatingStatus, setUpdatingStatus] = useState(false);
 
-
   const updateStatus = async s => {
     if (status === s) return;
     setUpdatingStatus(true);
@@ -94,8 +93,8 @@ const SurveyDetails = ({
           <div className="flex-grow-1">
             {isStaff(role) && (
               <>
-                <h6 className="d-inline-block mb-0 mr-2">Status: </h6>
-                <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block mr-1">
+                <h6 className="d-inline-block mb-0 me-2">Status: </h6>
+                <Dropdown onClick={e => e.stopPropagation()} className="mb-1 mb-md-0 d-inline-block me-1">
                   <Dropdown.Toggle
                     variant={getVariantFromStatus(status)}
                     disabled={updatingStatus}
@@ -108,9 +107,9 @@ const SurveyDetails = ({
                   <Dropdown.Menu>
                     {statuses.map((s, index) => (
                       <Dropdown.Item
-                      className={`bg-${getVariantFromStatus(s)} text-${
-                        getVariantFromStatus(s) === 'primary' ? 'dark' : 'white'
-                      }`}
+                        className={`bg-${getVariantFromStatus(s)} text-${
+                          getVariantFromStatus(s) === 'primary' ? 'dark' : 'white'
+                        }`}
                         key={`s-${Math.random()}`}
                         onClick={() => {
                           updateStatus(s);
@@ -126,7 +125,7 @@ const SurveyDetails = ({
             )}
 
             {survey['Cancellation Requested'] && (
-              <Badge variant="danger" className="mr-1">
+              <Badge variant="danger" className="me-1">
                 Cancellation Requested
               </Badge>
             )}

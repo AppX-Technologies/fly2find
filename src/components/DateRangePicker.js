@@ -88,7 +88,7 @@ const DateRangePicker = ({ label, id, onDateChange, defaultDisabled = false }) =
     <>
       <CheckBoxInput
         showLabel
-        className="ml-3"
+        className="ms-3"
         title={label}
         boldLabel={true}
         defaultChecked={!defaultDisabled}
