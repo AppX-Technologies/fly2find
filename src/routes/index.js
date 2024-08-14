@@ -1,17 +1,17 @@
 import React from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import NotFound from '../components/NotFound';
+import Login from '../components/auth/Login';
 import Dashboard from '../components/dashboard';
 import FinishJaunt from '../components/jaunt/FinishJaunt';
 import RecentJaunts from '../components/jaunt/Recent';
+import LandingPage from '../components/landing/Landing';
 import Jaunt from '../components/registration/Jaunt';
 import Pilot from '../components/registration/Pilot';
 import ProtectedRouteLayout from '../layouts/ProtectedRouteLayout';
 import PublicRouteLayout from '../layouts/PublicRouteLayout';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
-import NotFound from '../components/NotFound';
-import Login from '../components/auth/Login';
-import LandingPage from '../components/landing/Landing';
 
 const AppRoutes = () => {
   return (
