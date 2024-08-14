@@ -1,9 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'react-bootstrap';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import App from './App';
 
-ReactDOM.render(
-  <App />,
-
-  document.getElementById('root')
+createRoot(document.getElementById('root')).render(
+  <ThemeProvider>
+    <ToastContainer autoClose={1500} />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ThemeProvider>
 );

@@ -4,10 +4,9 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "date-fns": "^2.25.0",
     "firebase": "^9.0.2",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
+    "moment": "^2.30.1",
     "multiselect-react-dropdown": "^2.0.5",
     "prettier": "^1.18.2",
     "qs": "^6.5.2",
@@ -20,10 +19,10 @@
     "react-dom": "^18.2.0",
     "react-multi-select-component": "^4.0.6",
     "react-native-svg": "^12.1.1",
-    "react-router-dom": "^5.2.0",
-    "react-toastify": "^7.0.4",
-    "sass": "^1.62.1",
-    "uuid": "^3.4.0"
+    "react-router-dom": "^6.26.0",
+    "react-toastify": "^10.0.5",
+    "sass": "^1.77.8",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "react-scripts": "^5.0.1"

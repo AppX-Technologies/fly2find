@@ -1,38 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { PersonCircle } from 'react-bootstrap-icons/dist';
-import { useHistory, useLocation } from 'react-router';
+import { PersonCircle } from 'react-bootstrap-icons';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const logout = history => {
+const logout = navigate => {
   localStorage.clear();
-  history.push('/login');
+  navigate('/login');
 };
 
-const DropDownItems = ({ history }) => (
-  <>
-    <Dropdown.Toggle size="sm" variant="outline-dark rounded">
-      <PersonCircle size={18} className="me-2 align-text-top" />
-      Rajat
-    </Dropdown.Toggle>
-    <Dropdown.Menu>
-      <Dropdown.Item onClick={() => history.push('/profile')}>View Profile</Dropdown.Item>
-      <Dropdown.Item onClick={() => logout(history)}>Logout</Dropdown.Item>
-    </Dropdown.Menu>
-  </>
-);
+const DropDownItems = () => {
+  const navigate = useNavigate();
+
+  return (
+    <>
+      <Dropdown.Toggle size="sm" variant="outline-dark rounded">
+        <PersonCircle size={18} className="me-2 align-text-top" />
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => navigate('/profile')}>View Profile</Dropdown.Item>
+        <Dropdown.Item onClick={() => logout(navigate)}>Logout</Dropdown.Item>
+      </Dropdown.Menu>
+    </>
+  );
+};
 
 const PrimaryHeader = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
-  const [role] = useState(localStorage.getItem('user-role'));
 
-  const LinkItem = ({ dropdown = false, title, path, otherActivePaths = [] }) => {
+  const LinkItem = ({ dropdown = false, title, path }) => {
     return dropdown ? (
-      <NavDropdown.Item style={{ color: 'black' }} href={path} active={`${location.pathname}` === path}>
-        {title}
+      <NavDropdown.Item as="span" style={{ color: 'black' }}>
+        <Nav.Link as="span" onClick={() => navigate(path)} className={location.pathname === path ? 'active' : ''}>
+          {title}
+        </Nav.Link>
       </NavDropdown.Item>
     ) : (
-      <Nav.Link href={path} active={`${location.pathname}` === path}>
+      <Nav.Link as="span" onClick={() => navigate(path)} className={location.pathname === path ? 'active' : ''}>
         {title}
       </Nav.Link>
     );
@@ -44,7 +48,7 @@ const PrimaryHeader = () => {
         <Navbar.Brand href="/">
           <h3 className="logo">
             R<span className="underline">atherFly</span>
-          </h3>{' '}
+          </h3>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -53,10 +57,10 @@ const PrimaryHeader = () => {
           </Nav>
 
           <Dropdown className="d-none d-md-inline-block" drop="left">
-            <DropDownItems history={history} />
+            <DropDownItems />
           </Dropdown>
           <Dropdown className="d-inline-block d-md-none ms-3 mt-1">
-            <DropDownItems history={history} />
+            <DropDownItems />
           </Dropdown>
         </Navbar.Collapse>
       </Navbar>

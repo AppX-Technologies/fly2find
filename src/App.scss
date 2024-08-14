@@ -217,13 +217,8 @@ body,
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+/* Ensure that the gradient covers the entire height of the page */
 .bg-gradient-light {
-  background: map-get($map: $theme-colors, $key: primaryLight); /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    map-get($map: $theme-colors, $key: primary2Light),
-    map-get($map: $theme-colors, $key: primaryLight)
-  ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
     map-get($map: $theme-colors, $key: primary2Light),
