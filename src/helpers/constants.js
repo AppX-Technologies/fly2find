@@ -323,3 +323,5 @@ export const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
 export const ADMIN_ROLE = 'Admin';
 export const PILOT_ROLE = 'Pilot';
+
+

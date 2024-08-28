@@ -7,6 +7,7 @@ import FormGenerator from '../../form-generator/FormGenerator';
 import { highlightError } from '../../form-generator/helpers/utility';
 import { makeApiRequests } from '../../helpers/api';
 import { pilotForm } from './form';
+import PilotForm from '../Form/PilotForm';
 
 const clientServerKey = {
   'How many flight ops would you like to see each week?': 'Flights per Week',
@@ -22,11 +23,13 @@ const Pilot = () => {
   const [requestSubmitted, setRequestSubmitted] = useState(false);
 
   const onRegisterPilotFormSubmit = async form => {
-    if (form['Tail Number'].length != 6) {
+    console.log('form', form);
+
+    if (form['Tail Number'] && form['Tail Number'].length != 6) {
       return highlightError(document.getElementById('tailNumber'), 'Please provide a 6 character tail number');
     }
 
-    if (form['Home Airport Code'].length != 3 && form['Home Airport Code'].length != 4) {
+    if (form['Home Airport Code'] && (form['Home Airport Code'].length != 3 && form['Home Airport Code'].length != 4)) {
       return highlightError(
         document.getElementById('homeAirportCode'),
         'Please provide a 3 or 4 character home airport code'
@@ -84,7 +87,7 @@ const Pilot = () => {
                 </div> */}
               </div>
             ) : (
-              <FormGenerator formJson={pilotForm} />
+              <PilotForm onFormSubmit={onRegisterPilotFormSubmit} />
             )}
           </Card.Body>
         </Card>

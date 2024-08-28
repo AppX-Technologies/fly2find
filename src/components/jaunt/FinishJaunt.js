@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button } from 'react-bootstrap';
+import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { ArrowLeftCircle, ArrowRightCircle, CheckCircleFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormGenerator from '../../form-generator/FormGenerator';
 import { makeApiRequests } from '../../helpers/api';
 import { finishJauntForm } from '../../helpers/forms';
+import { FinishJauntForm, formLayout } from '../Form/FinishJauntForm';
+import { validationSchema } from '../../helpers/forms';
 
 const FinishJaunt = () => {
   const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const onFinishJaunFormSubmit = async form => {
+  const [formState, setFormState] = useState({
+    callsign: '',
+    code: '',
+    experience: ''
+  });
+
+  const onFinishJaunFormSubmit = async e => {
+    e.preventDefault();
+
     toast.info('Please wait, your request is being submitted!');
 
     const { error, response } = await makeApiRequests({
       requestType: 'finishJaunt',
-      requestBody: { formData: form }
+      requestBody: { formData: formState }
     });
 
     if (error) {
@@ -26,7 +37,9 @@ const FinishJaunt = () => {
     toast.success('Request Submitted successfully');
   };
 
-  window['onFinishJaunFormSubmit'] = onFinishJaunFormSubmit;
+  const handleFormChange = newFormValues => {
+    setFormState(newFormValues);
+  };
 
   return (
     <Row className={`${requestSubmitted ? 'vh-100' : 'h-100'} justify-content-center`}>
@@ -51,7 +64,12 @@ const FinishJaunt = () => {
                 </div>
               </div>
             ) : (
-              <FormGenerator formJson={finishJauntForm} />
+              <FinishJauntForm
+                formState={formState}
+                handleSubmit={onFinishJaunFormSubmit}
+                errors={errors}
+                onFormChange={handleFormChange}
+              />
             )}
           </Card.Body>
         </Card>

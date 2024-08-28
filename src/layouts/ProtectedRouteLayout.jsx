@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+import { Outlet } from 'react-router-dom';
 import PrimaryHeader from '../components/dashboard/PrimaryHeader';
 
 const ProtectedRouteLayout = ({ headerVisible = true }) => {

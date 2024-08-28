@@ -1,6 +1,6 @@
 import { STATUSES } from './constants';
 
-const loginFormRows = [
+export const loginFormRows = [
   {
     columns: [
       {
@@ -454,3 +454,176 @@ export const resetPasswordForm = {
     }
   ]
 };
+
+export const formFields = [
+  {
+    id: 'callsign',
+    label: 'Call Sign',
+    type: 'text',
+    required: true,
+    placeholder: ''
+  },
+  {
+    id: 'code',
+    label: 'Code',
+    type: 'text',
+    required: true,
+    placeholder: ''
+  },
+  {
+    id: 'experience',
+    label: 'Experience',
+    type: 'textarea',
+    required: true,
+    placeholder: '',
+    rows: 2
+  }
+];
+
+export const pilotFormFields = [
+  {
+    id: 'callsign',
+    label: 'Call Sign',
+    type: 'text',
+    required: true,
+    placeholder: ''
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    type: 'text',
+    required: true,
+    placeholder: ''
+  },
+  {
+    id: 'flightOptions',
+    label: 'How many flight ops would you like to see each week?',
+    type: 'block-select',
+    required: true,
+    options: [0, 1, 2, 3],
+    multiple: false,
+    blockWidth: 2
+  },
+  {
+    id: 'onlyFlyWeekends',
+    label: 'Only fly Jaunts on Weekends?',
+    type: 'block-select',
+    required: true,
+    options: ['Yes', 'No'],
+    multiple: false,
+    blockWidth: 3
+  },
+  {
+    id: 'flightTypes',
+    label: 'Type of flights',
+    type: 'block-select',
+    required: true,
+    options: ['Low & Slow', 'The very next interesting Airspace', 'Fast and Far', 'Top Jaunts'],
+    multiple: true,
+    blockWidth: 6
+  },
+  {
+    id: 'destinationType',
+    label: 'Destination Type',
+    type: 'block-select',
+    required: true,
+    options: ['Meals', 'Deals', 'Secrets', 'Views', 'Events', 'Pimp my Plane', 'Go with others'],
+    multiple: true,
+    blockWidth: 3
+  },
+  {
+    id: 'whereToSend',
+    label: 'How would you like to get notified?',
+    type: 'block-select',
+    required: true,
+    options: ['Text', 'Email', 'Voice Call'],
+    multiple: true,
+    blockWidth: 4
+  },
+  {
+    id: 'homeAirportCode',
+    label: 'Home Airport Code',
+    type: 'text',
+    required: true,
+    maxLength: 4,
+    onChange: 'capitalizeText'
+  },
+  {
+    id: 'favDest',
+    label: 'Your favorite destination',
+    type: 'text',
+    required: true,
+    onChange: 'capitalizeText'
+  },
+  {
+    id: 'bestDestinationReason',
+    label: 'Why was the destination the best so far?',
+    type: 'textarea',
+    required: true
+  },
+  {
+    id: 'tailNumber',
+    label: 'Tail Number',
+    type: 'text',
+    required: true,
+    maxLength: '6'
+  },
+  {
+    id: 'cellNumber',
+    label: 'TXT Cell Number (Required for Beta Testers)',
+    type: 'text',
+    required: true,
+    maxLength: '6'
+  },
+  {
+    id: 'heard',
+    label: 'How did you hear of us?',
+    type: 'textarea',
+    required: true
+  }
+];
+
+import * as yup from 'yup';
+
+export const pilotFormSchema = yup.object().shape({
+  callsign: yup.string().required('Call Sign is required'),
+  email: yup
+    .string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  flightOptions: yup.number().required('Flight options are required'),
+  onlyFlyWeekends: yup.string().required('This field is required'),
+  flightTypes: yup
+    .array()
+    .min(1, 'At least one flight type must be selected')
+    .required('Flight types are required'),
+  destinationType: yup
+    .array()
+    .min(1, 'At least one destination type must be selected')
+    .required('Destination type is required'),
+  whereToSend: yup
+    .array()
+    .min(1, 'At least one notification channel must be selected')
+    .required('Notification method is required'),
+  homeAirportCode: yup
+    .string()
+    .matches(/^[A-Z0-9]{3,4}$/, '3 or 4 character airport code required')
+    .required('Home Airport Code is required'),
+  favDest: yup.string().required('Favorite destination is required'),
+  bestDestinationReason: yup.string().required('Reason for best destination is required'),
+  tailNumber: yup
+    .string()
+    .matches(/^[A-Z0-9]{6}$/, '6 character tail number required')
+    .required('Tail Number is required'),
+  cellNumber: yup
+    .string()
+    .matches(/^\d{6}$/, '6 digit cell number required')
+    .required('Cell Number is required'),
+  heard: yup.string().required('This field is required')
+});
+
+export const validationSchema = yup.object().shape({
+  callsign: yup.string().required('Call Sign is required'),
+  code: yup.string().required('Code is required'),
+  experience: yup.string().required('Experience is required')
+});
