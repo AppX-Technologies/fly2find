@@ -3,7 +3,6 @@ import { Row, Col, Form } from 'react-bootstrap';
 
 export default function ControlInput({
   id,
-  label,
   options,
   required = false,
   multiple = false,

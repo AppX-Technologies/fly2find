@@ -37,6 +37,8 @@ export default function PilotForm({ onFormSubmit }) {
     }
   };
 
+  console.log('errors', error);
+
   return (
     <>
       <Container className="pt-2 pb-2 px-4">
@@ -50,7 +52,7 @@ export default function PilotForm({ onFormSubmit }) {
                   {field.required && <span style={{ color: 'red', marginLeft: '2px' }}>*</span>}
                 </FormLabel>
                 {field.type === 'block-select' ? (
-                  <ControlInput
+                  <BlockSelectInput
                     id={field.id}
                     options={field.options}
                     multiple={field.multiple}
