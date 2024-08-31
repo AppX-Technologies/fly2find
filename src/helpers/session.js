@@ -1,3 +1,19 @@
+import { ADMIN_ROLE } from './constants';
+
+export const getIsUserLoggedInFromLocal = () => {
+  return Boolean(localStorage.getItem('user-is-loggedin'));
+};
+
+export const setIsUserLoggedInToLocal = isLoggedIn => {
+  if (isLoggedIn) {
+    localStorage.setItem('user-is-loggedin', isLoggedIn);
+  } else {
+    localStorage.clear();
+  }
+};
+
+export const isAdmin = role => [ADMIN_ROLE].includes(role);
+
 export const saveUserToLocal = (user, saveToken) => {
   user['role'] = user['role'];
 

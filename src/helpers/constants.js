@@ -16,8 +16,24 @@ export const labelToKeyMap = {
   'Phone Number': 'phoneNumber'
 };
 
-export const ENDPOINTS = {};
-
+export const ENDPOINTS = {
+  //Users
+  LOGIN: '/users/login',
+  REGISTER: '/users/register',
+  LOGOUT: '/users/logout',
+  FORGOT_PASSWORD: '/users/send-password-reset-link',
+  RESET_PASSWORD: '/users/reset-password',
+  CHANGE_PASSWORD: '/users/change-password',
+  GENERATE_REGISTRATION_OTP: '/users/generate-registration-otp',
+  GET_ME: '/users/me',
+  GET_USER_BY_ID: id => `/users/${id}`,
+  GET_USER_BY_USER_ID: id => `/users/user/${id}`,
+  UPDATE_USER_DETAILS: '/users/update-user-details',
+  CREATE_USER: '/users',
+  DELETE_USER: '/users',
+  UPDATE_MULTIPLE_USERS: '/users',
+  USERS_LIST: '/users/search'
+};
 export const datefields = [];
 
 export const countyCity = {
@@ -323,5 +339,3 @@ export const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
 export const ADMIN_ROLE = 'Admin';
 export const PILOT_ROLE = 'Pilot';
-
-

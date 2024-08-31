@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { loginFormRows } from '../../helpers/forms';
+import useAuth from '../../hooks/useAuth';
 
 export default function Login() {
+  const { login, isLoggingIn, loginError } = useAuth();
+
+  const [showForgotPassModal, setShowForgotPassModal] = useState(null);
+
+  const onSubmit = async ({ email, password }) => {
+    login(email, password);
+  };
+
+  const onForgotPasswordSubmit = async data => {
+    try {
+      setShowForgotPassModal({ showProgress: true });
+      const { response, error } = await userService.forgotPassword(data);
+      if (response) {
+        toast.success('Password reset link has been sent');
+        setShowForgotPassModal(null);
+      }
+      if (error) {
+        setShowForgotPassModal({ showProgress: false, errorMessage: error });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Container fluid className="vh-100 d-flex justify-content-center align-items-center p-0">
       <Row className="w-100 justify-content-center m-0">
