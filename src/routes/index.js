@@ -12,6 +12,7 @@ import ProtectedRouteLayout from '../layouts/ProtectedRouteLayout';
 import PublicRouteLayout from '../layouts/PublicRouteLayout';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
+import Users from '../components/admin/users/Users';
 
 const AppRoutes = () => {
   return (
@@ -43,6 +44,7 @@ const AppRoutes = () => {
           <Route element={<ProtectedRouteLayout />}>
             <Route path="admin">
               <Route path="jaunts" element={<Dashboard />} />
+              <Route path="users" element={<Users />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Route>

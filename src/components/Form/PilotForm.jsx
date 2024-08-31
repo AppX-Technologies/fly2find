@@ -37,8 +37,6 @@ export default function PilotForm({ onFormSubmit }) {
     }
   };
 
-  console.log('errors', error);
-
   return (
     <>
       <Container className="pt-2 pb-2 px-4">

@@ -272,7 +272,12 @@ export const REGISTER_MODE = 'register';
 export const DASHBOARD_SORT_BY_OPTIONS = ['Created Date', 'Updated Date'];
 
 export const SHOWING_OPTIONS = ['10', '20', '50', '100', 'All'];
+export const DEFAULT_PAGE_SIZE = 50;
 
+export const DEFAULT_DATE_FORMAT = 'DD/MM/YYYY';
+export const DEFAULT_DATE_TIME_FORMAT = 'DD/MM/YYYY, HH:mm';
+export const DEFAULT_DATE_TIME_FORMAT_NON_MOMENT = 'dd/MM/yyyy, HH:mm';
+export const DEFAULT_TIME_FORMAT = 'HH:mm';
 export const JAUNTS = [
   {
     id: 1,
@@ -339,3 +344,6 @@ export const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
 export const ADMIN_ROLE = 'Admin';
 export const PILOT_ROLE = 'Pilot';
+export const ROLE_FINDER = 'Finder';
+
+export const ALL_ROLES = [ADMIN_ROLE, ROLE_FINDER, PILOT_ROLE];

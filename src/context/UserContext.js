@@ -55,6 +55,7 @@ export const UserProvider = ({ children }) => {
       }
       setUserLoggedIn(true);
       setIsUserLoggedInToLocal(true);
+      navigate('/admin/jaunts');
     } catch (e) {
       setIsLoggingIn(false);
       setLoginError('Something went wrong! Please try again');
@@ -97,7 +98,7 @@ export const UserProvider = ({ children }) => {
   return !isUserLoggedIn || (user && !fetchingUser) ? (
     <UserContext.Provider value={contextObj}>{children}</UserContext.Provider>
   ) : (
-    <div>
+    <div className="vh-100 w-100 d-flex justify-content-center align-items-center">
       <CircularProgressBar size={100} />
     </div>
   );

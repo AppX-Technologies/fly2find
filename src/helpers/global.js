@@ -42,3 +42,30 @@ export const findSpecificJaunt = (allJaunts, jauntId) => {
 export const generateRandomUUID = () => {
   return uuid();
 };
+
+export const getValidUrl = link => {
+  if (!link.startsWith('https://') && !link.startsWith('http://')) {
+    link = 'https://' + link;
+  }
+
+  return link;
+};
+
+export const updateItemsInArray = (originalData, updatedData, key = '_id') => {
+  const returnData = [...originalData];
+
+  if (!Array.isArray(updatedData)) {
+    updatedData = [updatedData];
+  }
+
+  updatedData.forEach(newData => {
+    const existingIndex = returnData.findIndex(d => d[key] === newData[key]);
+    if (existingIndex !== -1) {
+      returnData[existingIndex] = newData;
+    } else {
+      returnData.unshift(newData);
+    }
+  });
+
+  return returnData;
+};

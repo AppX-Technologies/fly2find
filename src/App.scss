@@ -9,7 +9,10 @@ $theme-colors: (
   primary2: #4a569d,
   primary2Light: #0327fd59,
   dark: #000,
-  muted: #d3d3d3
+  danger: red,
+  muted: #d3d3d3,
+  light: #ffffff,
+  success: rgb(33, 115, 33)
 );
 
 $dark-color: #000;
