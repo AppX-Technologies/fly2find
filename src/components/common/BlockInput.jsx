@@ -8,7 +8,7 @@ const BlockSelectInput = ({
   disabled = false,
   multiple = false,
   required = false,
-  blockWidth = 2,
+  blockWidth = 2
 }) => {
   const onBlockClick = (e, option) => {
     if (disabled) return;
@@ -28,7 +28,7 @@ const BlockSelectInput = ({
   };
 
   const isSelected = option => {
-    return multiple ? value.includes(option) : value === option;
+    return multiple ? Array.isArray(value) && value.includes(option) : value === option;
   };
 
   return (

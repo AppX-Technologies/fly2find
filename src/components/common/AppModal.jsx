@@ -14,7 +14,7 @@ const AppModal = ({
   footerContent,
 }) => (
   <Modal
-    size={size}
+size={size    }
     fullscreen={fullscreen}
     show={show}
     onHide={onHide}

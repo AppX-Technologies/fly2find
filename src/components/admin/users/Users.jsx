@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { PlusCircleFill } from 'react-bootstrap-icons';
 import { toast } from 'react-toastify';
-import { ABORT_ERROR } from '../../../helpers/api';
-import { DEFAULT_PAGE_SIZE } from '../../../helpers/constants';
+import { ABORT_ERROR, makeRESTApiRequests } from '../../../helpers/api';
+import { DEFAULT_PAGE_SIZE, ENDPOINTS } from '../../../helpers/constants';
 import { getUserTableColumns } from '../../../helpers/dataSheetConstants';
 import { updateItemsInArray } from '../../../helpers/global';
 import { userService } from '../../../services/userService';
@@ -11,6 +11,7 @@ import AlertModal from '../../common/AlertModal';
 import DataTable from '../../common/data-table/DataTable';
 import FloatingButton from '../../common/FloatingButton';
 import AddEditUserModal from './AddEditUserModal';
+import PilotProfileModal from '../../common/PilotProfileModal';
 
 const initialPageInfo = {
   pageNumber: 1,
@@ -31,6 +32,7 @@ const Users = () => {
 
   const [userAddEditModalMeta, setUserAddEditModalMeta] = useState(null);
   const [userDeleteModalMeta, setUserDeleteModalMeta] = useState(null);
+  const [userProfileModalMeta, setUserProfileModalMeta] = useState(null);
 
   const onAddNewUserClick = () => {
     setUserAddEditModalMeta({});
@@ -43,6 +45,12 @@ const Users = () => {
       },
       editMode: true,
       editingUser: user
+    });
+  };
+
+  const onViewProfileClick = user => {
+    setUserProfileModalMeta({
+      user
     });
   };
 
@@ -68,8 +76,8 @@ const Users = () => {
   };
 
   const tableColumns = useMemo(
-    () => getUserTableColumns({ onUserDeleteClick, sendPasswordResetLink, onEditUserClick }),
-    [onUserDeleteClick, sendPasswordResetLink]
+    () => getUserTableColumns({ onUserDeleteClick, sendPasswordResetLink, onEditUserClick, onViewProfileClick }),
+    [onUserDeleteClick, sendPasswordResetLink, onViewProfileClick]
   );
 
   const fetchUsers = async () => {
@@ -183,6 +191,26 @@ const Users = () => {
     }
   };
 
+  const handleFormSubmit = async formData => {
+    const requestBody = {
+      _id: userProfileModalMeta.user._id,
+      pilotProfile: formData
+    };
+
+    const { response, error } = await makeRESTApiRequests({
+      endpoint: ENDPOINTS.UPDATE_USER,
+      // requestBody: formData
+      requestBody
+    });
+
+    if (error) {
+      toast.error(`Failed to update user: ${error}`);
+    } else {
+      toast.success('User details updated successfully');
+      setUserProfileModalMeta(null);
+    }
+  };
+
   return (
     <>
       <Container fluid className={'px-2 py-3'}>
@@ -225,6 +253,12 @@ const Users = () => {
         onContinueClick={deleteUser}
         onDismissClick={() => setUserDeleteModalMeta(null)}
         showProgress={userDeleteModalMeta?.showProgress}
+      />
+      <PilotProfileModal
+        show={Boolean(userProfileModalMeta)}
+        onHide={() => setUserProfileModalMeta(null)}
+        initialValue={userProfileModalMeta?.user?.pilotProfile}
+        onSubmit={handleFormSubmit}
       />
     </>
   );

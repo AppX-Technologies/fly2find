@@ -32,7 +32,8 @@ export const ENDPOINTS = {
   CREATE_USER: '/users',
   DELETE_USER: '/users',
   UPDATE_MULTIPLE_USERS: '/users',
-  USERS_LIST: '/users/search'
+  USERS_LIST: '/users/search',
+  UPDATE_USER: '/users/update-user-details'
 };
 export const datefields = [];
 
