@@ -1,8 +1,8 @@
 import { Badge } from 'react-bootstrap';
-import { EnvelopeAt, Trash } from 'react-bootstrap-icons';
+import { EnvelopeAt, Pencil, Trash } from 'react-bootstrap-icons';
 import { ADMIN_ROLE } from './constants';
 
-export const getUserTableColumns = (onUserDeleteClick, sendPasswordResetLink) => {
+export const getUserTableColumns = ({ onUserDeleteClick, sendPasswordResetLink, onEditUserClick }) => {
   const allLabels = [
     {
       key: 'name',
@@ -39,6 +39,15 @@ export const getUserTableColumns = (onUserDeleteClick, sendPasswordResetLink) =>
       label: 'Action',
       cellRenderer: user => (
         <div className="d-flex justify-content-center align-items-center">
+          {' '}
+          <Pencil
+            className="text-dark hover hover-light mx-1"
+            size={12}
+            onClick={e => {
+              onEditUserClick(user);
+              e.stopPropagation();
+            }}
+          />
           <Trash
             className="text-dark hover hover-light mx-1"
             size={12}

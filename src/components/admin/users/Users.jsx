@@ -67,10 +67,10 @@ const Users = () => {
     }
   };
 
-  const tableColumns = useMemo(() => getUserTableColumns(onUserDeleteClick, sendPasswordResetLink), [
-    onUserDeleteClick,
-    sendPasswordResetLink
-  ]);
+  const tableColumns = useMemo(
+    () => getUserTableColumns({ onUserDeleteClick, sendPasswordResetLink, onEditUserClick }),
+    [onUserDeleteClick, sendPasswordResetLink]
+  );
 
   const fetchUsers = async () => {
     if (!toLoadPageInfo) return;
@@ -196,7 +196,6 @@ const Users = () => {
             data={users}
             onBottomReached={loadMoreData}
             loadingMoreData={fetchingMoreUsers}
-            onRowClick={onEditUserClick}
             loadingFirstPageData={fetchingFirstPageUsers}
             allowFilter={false}
             allowSort={false}
