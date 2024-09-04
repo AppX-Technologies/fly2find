@@ -21,6 +21,7 @@ $border-radius: 1.5rem;
 $border-radius-lg: 1.5rem;
 $border-radius-sm: 1.5rem;
 
+
 html,
 body,
 #root {
@@ -77,6 +78,10 @@ body,
 }
 .pointer {
   cursor: pointer;
+}
+
+.borderC {
+  border: 2px solid gray;
 }
 
 .uploading-image {
@@ -204,6 +209,14 @@ body,
 
 .vh-100 {
   height: 100vh;
+}
+
+.background-button{
+  background-color: red;
+  border: 1px solid red;
+  color: #ffffff;
+  font-size: 1rem;
+
 }
 
 .bg-gradient-dark {

@@ -8,16 +8,15 @@ import { pilotFormSchema } from '../../helpers/forms';
 import { Check, Pen, Pencil, X } from 'react-bootstrap-icons';
 import BlockInput from '../common/BlockInput';
 
-export default function PilotForm({ onFormSubmit, editableStatus, isEditing }) {
-  const [formData, setFormData] = useState(editableStatus || {});
+export default function PilotForm({ onFormSubmit, initialValue }) {
+  const [formData, setFormData] = useState(initialValue || {});
   const [error, setError] = useState({});
-  const [editMode, setEditMode] = useState(isEditing);
 
   useEffect(() => {
-    if (editableStatus) {
-      setFormData(editableStatus);
+    if (initialValue) {
+      setFormData(initialValue);
     }
-  }, [editableStatus]);
+  }, [initialValue]);
 
   const handleChange = (id, value) => {
     setFormData(prev => {
@@ -34,7 +33,7 @@ export default function PilotForm({ onFormSubmit, editableStatus, isEditing }) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (editableStatus !== null) {
+    if (initialValue !== null) {
       await onFormSubmit(formData);
     } else {
       try {
@@ -50,17 +49,10 @@ export default function PilotForm({ onFormSubmit, editableStatus, isEditing }) {
     }
   };
 
-  console.log('user', editableStatus);
-
   return (
     <>
       <Container className="pt-2 pb-2 px-4">
-        {isEditing && (
-          <Button variant="primary mb-3 mr-auto" onClick={() => setEditMode(!editMode)}>
-            <Pencil size={12} />
-          </Button>
-        )}
-        {!isEditing && <h5 className="mb-3 pb-3 border-bottom fs-8">Pilot Profile</h5>}
+        {!initialValue && <h5 className="mb-3 pb-3 border-bottom fs-8">Pilot Profile</h5>}
         <Row className="">
           {pilotFormFields.map((field, index) => (
             <Col md={(field.type === 'block-select' && field.multiple) || field.type === 'textarea' ? 12 : 6}>
@@ -70,64 +62,27 @@ export default function PilotForm({ onFormSubmit, editableStatus, isEditing }) {
                   {field.required && <span style={{ color: 'red', marginLeft: '2px' }}>*</span>}
                 </FormLabel>
                 {field.type === 'block-select' ? (
-                  editMode ? (
-                    formData[field.id] &&
-                    formData[field.id].length > 0 && (
-                      <BlockSelectInput
-                        id={field.id}
-                        options={field.options.filter(option =>
-                          field.multiple ? formData[field.id].includes(option) : formData[field.id] === option
-                        )}
-                        multiple={field.multiple}
-                        blockWidth={field.blockWidth}
-                        required={field.required}
-                        onChangeFunction={value => handleChange(field.id, value)}
-                        errorMessage={error[field.id]}
-                        value={formData[field.id]}
-                        disabled={!editMode}
-                        className={!editMode ? 'non-selectable' : ''}
-                      />
-                    )
-                  ) : (
-                    <BlockSelectInput
-                      id={field.id}
-                      options={field.options}
-                      multiple={field.multiple}
-                      blockWidth={field.blockWidth}
-                      required={field.required}
-                      // onChange={value => handleChange(field.id, value)}
-                      onChangeFunction={value => handleChange(field.id, value)}
-                      errorMessage={error[field.id]}
-                      value={formData[field.id]}
-                    />
-                  )
+                  <BlockSelectInput
+                    id={field.id}
+                    options={field.options}
+                    multiple={field.multiple}
+                    blockWidth={field.blockWidth}
+                    required={field.required}
+                    onChangeFunction={value => handleChange(field.id, value)}
+                    errorMessage={error[field.id]}
+                    value={formData[field.id]}
+                  />
                 ) : field.type === 'textarea' || field.type === 'text' ? (
-                  !editMode ? (
-                    <FormControl
-                      id={field.id}
-                      as={field.type === 'textarea' ? 'textarea' : 'input'}
-                      rows={field.type === 'textarea' ? 3 : undefined}
-                      required={field.required}
-                      placeholder={field.placeholder || ''}
-                      onChange={e => handleChange(field.id, e.target.value)}
-                      isInvalid={!!error[field.id]}
-                      value={formData[field.id]}
-                    />
-                  ) : formData[field.id] ? (
-                    <div
-                      style={{ border: '1px solid #ffeec9', background: '#ffeec9' }}
-                      className="px-2 py-1 border-rounded"
-                    >
-                      {formData[field.id]}
-                    </div>
-                  ) : (
-                    <div
-                      style={{ border: '1px solid #ffeec9', background: '#ffeec9' }}
-                      className="px-2 py-1 border-rounded"
-                    >
-                      N/A
-                    </div>
-                  )
+                  <FormControl
+                    id={field.id}
+                    as={field.type === 'textarea' ? 'textarea' : 'input'}
+                    rows={field.type === 'textarea' ? 3 : undefined}
+                    required={field.required}
+                    placeholder={field.placeholder || ''}
+                    onChange={e => handleChange(field.id, e.target.value)}
+                    isInvalid={!!error[field.id]}
+                    value={formData[field.id]}
+                  />
                 ) : null}
                 {error[field.id] && <Form.Control.Feedback type="invalid">{error[field.id]}</Form.Control.Feedback>}
               </FormGroup>
@@ -138,7 +93,7 @@ export default function PilotForm({ onFormSubmit, editableStatus, isEditing }) {
         <Row>
           <Col xs={12} className="text-end">
             <Button type="submit" variant="primary" className="pl-0" onClick={handleSubmit}>
-              {isEditing ? 'Save' : 'Register'}
+              Save
             </Button>
           </Col>
         </Row>

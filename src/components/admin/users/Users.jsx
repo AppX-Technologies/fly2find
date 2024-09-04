@@ -259,6 +259,8 @@ const Users = () => {
         onHide={() => setUserProfileModalMeta(null)}
         initialValue={userProfileModalMeta?.user?.pilotProfile}
         onSubmit={handleFormSubmit}
+        isEditing={false}
+        userDetails={userProfileModalMeta?.user}
       />
     </>
   );
