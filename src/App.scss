@@ -219,6 +219,11 @@ body,
 
 }
 
+.table-no-side-borders td {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+
 .bg-gradient-dark {
   background: map-get($map: $theme-colors, $key: primary); /* fallback for old browsers */
   background: -webkit-linear-gradient(

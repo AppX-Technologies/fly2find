@@ -348,3 +348,19 @@ export const PILOT_ROLE = 'Pilot';
 export const ROLE_FINDER = 'Finder';
 
 export const ALL_ROLES = [ADMIN_ROLE, ROLE_FINDER, PILOT_ROLE];
+
+export const pilotFields = [
+  { key: 'callsign', label: 'Call Sign' },
+  { key: 'email', label: 'Email' },
+  { key: 'heard', label: 'Heard' },
+  { key: 'bestDestinationReason', label: 'Best Destination Reason' },
+  { key: 'homeAirportCode', label: 'Home Airport Code' },
+  { key: 'favDest', label: 'Favorite Destination' },
+  { key: 'tailNumber', label: 'Tail Number' },
+  { key: 'cellNumber', label: 'Cell Number' },
+  { key: 'flightOptions', label: 'Flight Options' },
+  { key: 'whereToSend', label: 'Where to Send' },
+  { key: 'onlyFlyWeekends', label: 'Only Fly Weekends' },
+  { key: 'flightTypes', label: 'Flight Types' },
+  { key: 'destinationType', label: 'Destination Type' }
+];
