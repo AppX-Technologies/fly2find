@@ -11,10 +11,12 @@ import BlockInput from '../common/BlockInput';
 export default function PilotForm({ onFormSubmit, initialValue }) {
   const [formData, setFormData] = useState(initialValue || {});
   const [error, setError] = useState({});
+  const [isEditing, setIsEditing] = useState(initialValue !== null);
 
   useEffect(() => {
     if (initialValue) {
       setFormData(initialValue);
+      setIsEditing(true);
     }
   }, [initialValue]);
 
@@ -31,14 +33,33 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
     }
   };
 
+  // const handleSubmit = async e => {
+  //   e.preventDefault();
+  //   if (initialValue !== null) {
+  //     await onFormSubmit(formData);
+  //   } else {
+  //     try {
+  //       await pilotFormSchema.validate(formData, { abortEarly: false });
+  //       await onFormSubmit(formData);
+  //       setIsEditing(false);
+  //     } catch (error) {
+  //       const newErrors = {};
+  //       error.inner.forEach(error => {
+  //         newErrors[error.path] = error.message;
+  //       });
+  //       setError(newErrors);
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async e => {
     e.preventDefault();
-    if (initialValue !== null) {
-      await onFormSubmit(formData);
-    } else {
+
+    if (pilotFormSchema) {
       try {
         await pilotFormSchema.validate(formData, { abortEarly: false });
         await onFormSubmit(formData);
+        setIsEditing(false);
       } catch (error) {
         const newErrors = {};
         error.inner.forEach(error => {
@@ -46,6 +67,9 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
         });
         setError(newErrors);
       }
+    } else {
+      await onFormSubmit(formData);
+      setIsEditing(false);
     }
   };
 

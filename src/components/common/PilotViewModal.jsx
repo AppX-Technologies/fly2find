@@ -23,7 +23,7 @@ export default function PilotViewModal({ userDetails, onEdit }) {
                 <td>
                   <div className="d-flex flex-wrap">
                     {value.map((item, index) => (
-                      <Badge key={index} className="badge-custom m-1 px-3 py-2">
+                      <Badge key={index} className=" px-2 py-2 m-1">
                         {item}
                       </Badge>
                     ))}
@@ -32,10 +32,9 @@ export default function PilotViewModal({ userDetails, onEdit }) {
               </tr>
             );
           } else {
-            // Handling non-array values
             return (
-              <tr key={key}>
-                <td>{label}</td>
+              <tr key={key} className="py-0">
+                <td>{label}:</td>
                 <td>{value}</td>
               </tr>
             );

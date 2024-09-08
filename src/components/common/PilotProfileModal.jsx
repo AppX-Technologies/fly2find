@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Image, Modal, Row } from 'react-bootstrap';
 import PilotForm from '../Form/PilotForm';
 import { makeApiRequests, makeRESTApiRequests } from '../../helpers/api';
@@ -17,6 +17,12 @@ export default function PilotProfileModal({
   isEditing
 }) {
   const [editMode, setEditMode] = useState(isEditing);
+
+  useEffect(() => {
+    if (!show) {
+      setEditMode(false);
+    }
+  }, [show]);
 
   const handleEditToggle = () => {
     {
@@ -38,6 +44,7 @@ export default function PilotProfileModal({
           </button>
         </div>
       </div>
+      <hr />
       {!editMode ? (
         <PilotViewModal userDetails={userDetails} isEditing={isEditing} onEdit={handleEditToggle} />
       ) : (
