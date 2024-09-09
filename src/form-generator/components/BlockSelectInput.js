@@ -16,6 +16,10 @@ const BlockSelectInput = ({
   );
 
   useEffect(() => {
+    setSelectedBlocks(Array.isArray(defaultValue) ? defaultValue : multiple ? [] : [defaultValue]);
+  }, [defaultValue, multiple]);
+
+  useEffect(() => {
     if (onChangeFunction) {
       onChangeFunction(selectedBlocks);
     }

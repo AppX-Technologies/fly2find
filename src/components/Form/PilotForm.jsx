@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Col, FormCheck, FormControl, FormGroup, FormLabel, Row, Button, Container, Form } from 'react-bootstrap';
-import { pilotForm } from '../registration/form';
-import { pilotFormFields } from '../../helpers/forms';
+import { Button, Col, Container, Form, FormControl, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import BlockSelectInput from '../../form-generator/components/BlockSelectInput';
-import ControlInput from '../../form-generator/components/ControlBlockSelect';
-import { pilotFormSchema } from '../../helpers/forms';
-import { Check, Pen, Pencil, X } from 'react-bootstrap-icons';
-import BlockInput from '../common/BlockInput';
+import { pilotFormFields, pilotFormSchema } from '../../helpers/forms';
 
 export default function PilotForm({ onFormSubmit, initialValue }) {
   const [formData, setFormData] = useState(initialValue || {});
@@ -17,6 +12,8 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
     if (initialValue) {
       setFormData(initialValue);
       setIsEditing(true);
+    } else {
+      setFormData({});
     }
   }, [initialValue]);
 
@@ -33,43 +30,32 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
     }
   };
 
-  // const handleSubmit = async e => {
-  //   e.preventDefault();
-  //   if (initialValue !== null) {
-  //     await onFormSubmit(formData);
-  //   } else {
-  //     try {
-  //       await pilotFormSchema.validate(formData, { abortEarly: false });
-  //       await onFormSubmit(formData);
-  //       setIsEditing(false);
-  //     } catch (error) {
-  //       const newErrors = {};
-  //       error.inner.forEach(error => {
-  //         newErrors[error.path] = error.message;
-  //       });
-  //       setError(newErrors);
-  //     }
-  //   }
-  // };
-
   const handleSubmit = async e => {
     e.preventDefault();
 
     if (pilotFormSchema) {
       try {
-        await pilotFormSchema.validate(formData, { abortEarly: false });
+        // await pilotFormSchema.validate(formData, { abortEarly: false });
         await onFormSubmit(formData);
         setIsEditing(false);
-      } catch (error) {
+        setFormData({});
+      } catch (validationError) {
         const newErrors = {};
-        error.inner.forEach(error => {
-          newErrors[error.path] = error.message;
-        });
+
+        if (validationError.inner && Array.isArray(validationError.inner)) {
+          validationError.inner.forEach(err => {
+            newErrors[err.path] = err.message;
+          });
+        } else {
+          newErrors.general = validationError.message;
+        }
+
         setError(newErrors);
       }
     } else {
       await onFormSubmit(formData);
       setIsEditing(false);
+      setFormData({});
     }
   };
 
@@ -94,7 +80,7 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
                     required={field.required}
                     onChangeFunction={value => handleChange(field.id, value)}
                     errorMessage={error[field.id]}
-                    value={formData[field.id]}
+                    value={formData[field.id] || []}
                   />
                 ) : field.type === 'textarea' || field.type === 'text' ? (
                   <FormControl
@@ -105,7 +91,7 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
                     placeholder={field.placeholder || ''}
                     onChange={e => handleChange(field.id, e.target.value)}
                     isInvalid={!!error[field.id]}
-                    value={formData[field.id]}
+                    value={formData[field.id] || ''}
                   />
                 ) : null}
                 {error[field.id] && <Form.Control.Feedback type="invalid">{error[field.id]}</Form.Control.Feedback>}

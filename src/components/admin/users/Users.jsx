@@ -11,7 +11,7 @@ import AlertModal from '../../common/AlertModal';
 import DataTable from '../../common/data-table/DataTable';
 import FloatingButton from '../../common/FloatingButton';
 import AddEditUserModal from './AddEditUserModal';
-import PilotProfileModal from '../../common/PilotProfileModal';
+import PilotProfileModal from './PilotProfileModal';
 
 const initialPageInfo = {
   pageNumber: 1,
@@ -191,22 +191,30 @@ const Users = () => {
     }
   };
 
-  const handleFormSubmit = async formData => {
+  const updatePilotProfile = async formData => {
     const requestBody = {
       _id: userProfileModalMeta.user._id,
       pilotProfile: formData
     };
-
-    const { response, error } = await makeRESTApiRequests({
-      endpoint: ENDPOINTS.UPDATE_USER,
-      // requestBody: formData
-      requestBody
+    setUserProfileModalMeta({
+      ...userProfileModalMeta,
+      showProgress: true
     });
+
+    const { response, error } = await userService.updateUser(requestBody);
 
     if (error) {
       toast.error(`Failed to update user: ${error}`);
-    } else {
-      toast.success('User details updated successfully');
+      setUserProfileModalMeta({
+        ...userProfileModalMeta,
+        showProgress: false
+      });
+      return;
+    }
+    if (response) {
+      const updatedUser = updateItemsInArray(users, response);
+      setUsers(updatedUser);
+      toast.success('Pilot Profile Updated Successfuly');
       setUserProfileModalMeta(null);
     }
   };
@@ -258,9 +266,10 @@ const Users = () => {
         show={Boolean(userProfileModalMeta)}
         onHide={() => setUserProfileModalMeta(null)}
         initialValue={userProfileModalMeta?.user?.pilotProfile}
-        onSubmit={handleFormSubmit}
+        onSubmit={updatePilotProfile}
         isEditing={false}
         userDetails={userProfileModalMeta?.user}
+        showProgress={userProfileModalMeta?.showProgress}
       />
     </>
   );

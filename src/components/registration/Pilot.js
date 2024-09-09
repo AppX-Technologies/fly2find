@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormGenerator from '../../form-generator/FormGenerator';
 import { highlightError } from '../../form-generator/helpers/utility';
-import { makeApiRequests } from '../../helpers/api';
+import { makeApiRequests, makeRESTApiRequests } from '../../helpers/api';
 import { pilotForm } from './form';
 import PilotForm from '../Form/PilotForm';
+import { ENDPOINTS } from '../../helpers/constants';
 
 const clientServerKey = {
   'How many flight ops would you like to see each week?': 'Flights per Week',
@@ -21,6 +22,7 @@ const clientServerKey = {
 
 const Pilot = () => {
   const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [formData, setFormData] = useState({});
 
   const onRegisterPilotFormSubmit = async form => {
     console.log('form', form);
@@ -63,6 +65,20 @@ const Pilot = () => {
   window['onRegisterPilotFormSubmit'] = onRegisterPilotFormSubmit;
   window['capitalizeText'] = capitalizeText;
 
+  const handleFormSubmit = async formData => {
+    const { response, error } = await makeRESTApiRequests({
+      endpoint: ENDPOINTS.CREATE_PILOT,
+      requestBody: formData
+    });
+
+    if (error) {
+      toast.error(`Failed to Create user: ${error}`);
+    } else {
+      toast.success('Create Created successfully');
+      setFormData({});
+    }
+  };
+
   return (
     <Row className={`${requestSubmitted ? 'vh-100' : 'h-100'} justify-content-center`}>
       <Col xs={11} md={9} className="align-self-center py-5">
@@ -87,7 +103,7 @@ const Pilot = () => {
                 </div> */}
               </div>
             ) : (
-              <PilotForm onFormSubmit={onRegisterPilotFormSubmit} />
+              <PilotForm onFormSubmit={handleFormSubmit} />
             )}
           </Card.Body>
         </Card>

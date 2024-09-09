@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Col, Image, Modal, Row } from 'react-bootstrap';
-import PilotForm from '../Form/PilotForm';
-import { makeApiRequests, makeRESTApiRequests } from '../../helpers/api';
-import { ENDPOINTS } from '../../helpers/constants';
-import { toast } from 'react-toastify';
-import AppModal from './AppModal';
-import PilotViewModal from './PilotViewModal';
+import React, { useEffect, useState } from 'react';
+import { Button, Image } from 'react-bootstrap';
+import { Pencil } from 'react-bootstrap-icons';
+import PilotForm from '../../Form/PilotForm';
+import AppModal from '../../common/AppModal';
+import PilotViewModal from '../../common/PilotDetailCard';
 
 export default function PilotProfileModal({
   show,
@@ -39,9 +37,20 @@ export default function PilotProfileModal({
             <h5 className="mb-1">{userDetails?.name}</h5>
             <p className="mb-1">{userDetails?.email}</p>
           </div>
-          <button className="border-rounded background-button py-1 px-2 " onClick={handleEditToggle}>
-            {!editMode ? 'Edit' : 'View Profile'}
-          </button>
+          <Button
+            className="py-1 px-2 d-flex align-items-center gap-2"
+            variant="success"
+            size="sm"
+            onClick={handleEditToggle}
+          >
+            {!editMode ? (
+              <>
+                <Pencil size={15} /> Edit
+              </>
+            ) : (
+              'View Profile'
+            )}
+          </Button>
         </div>
       </div>
       <hr />
