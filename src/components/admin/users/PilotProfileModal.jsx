@@ -39,7 +39,7 @@ export default function PilotProfileModal({
           </div>
           <Button
             className="py-1 px-2 d-flex align-items-center gap-2"
-            variant="success"
+            variant="info"
             size="sm"
             onClick={handleEditToggle}
           >
@@ -58,7 +58,7 @@ export default function PilotProfileModal({
         <PilotViewModal userDetails={userDetails} isEditing={isEditing} onEdit={handleEditToggle} />
       ) : (
         <div className="mt-4">
-          <PilotForm initialValue={initialValue} onFormSubmit={onSubmit} />
+          <PilotForm initialValue={initialValue} onFormSubmit={onSubmit} showProgress={showProgress} />
         </div>
       )}
     </AppModal>

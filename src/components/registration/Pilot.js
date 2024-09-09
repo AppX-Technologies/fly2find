@@ -66,6 +66,7 @@ const Pilot = () => {
   window['capitalizeText'] = capitalizeText;
 
   const handleFormSubmit = async formData => {
+    setRequestSubmitted(true);
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.CREATE_PILOT,
       requestBody: formData
@@ -73,9 +74,11 @@ const Pilot = () => {
 
     if (error) {
       toast.error(`Failed to Create user: ${error}`);
+      setRequestSubmitted(false);
     } else {
       toast.success('Create Created successfully');
       setFormData({});
+      setRequestSubmitted(false);
     }
   };
 
@@ -93,17 +96,9 @@ const Pilot = () => {
                   Your first Jaunt will arrive shortly!
                 </h5>
                 <hr />
-                {/* <div>
-                  See the latest Jaunts your fellow pilots have completed
-                  <Link to={'/jaunt/recent'}>
-                    <Button size="sm" variant="dark" className="ms-2 rounded">
-                      HERE <ArrowRightCircle className="ms-2" />
-                    </Button>
-                  </Link>
-                </div> */}
               </div>
             ) : (
-              <PilotForm onFormSubmit={handleFormSubmit} />
+              <PilotForm onFormSubmit={handleFormSubmit} showProgress={requestSubmitted} />
             )}
           </Card.Body>
         </Card>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, FormControl, FormGroup, FormLabel, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, FormControl, FormGroup, FormLabel, ProgressBar, Row } from 'react-bootstrap';
 import BlockSelectInput from '../../form-generator/components/BlockSelectInput';
 import { pilotFormFields, pilotFormSchema } from '../../helpers/forms';
 
-export default function PilotForm({ onFormSubmit, initialValue }) {
+export default function PilotForm({ onFormSubmit, initialValue, showProgress }) {
   const [formData, setFormData] = useState(initialValue || {});
   const [error, setError] = useState({});
   const [isEditing, setIsEditing] = useState(initialValue !== null);
@@ -99,6 +99,8 @@ export default function PilotForm({ onFormSubmit, initialValue }) {
             </Col>
           ))}
         </Row>
+
+        {showProgress && <ProgressBar className="mt-1" striped animated now={100} />}
 
         <Row>
           <Col xs={12} className="text-end">
