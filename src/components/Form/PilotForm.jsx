@@ -6,12 +6,10 @@ import { pilotFormFields, pilotFormSchema } from '../../helpers/forms';
 export default function PilotForm({ onFormSubmit, initialValue, showProgress }) {
   const [formData, setFormData] = useState(initialValue || {});
   const [error, setError] = useState({});
-  const [isEditing, setIsEditing] = useState(initialValue !== null);
 
   useEffect(() => {
     if (initialValue) {
       setFormData(initialValue);
-      setIsEditing(true);
     } else {
       setFormData({});
     }
@@ -40,9 +38,8 @@ export default function PilotForm({ onFormSubmit, initialValue, showProgress }) 
       try {
         await pilotFormSchema.validate(formData, { abortEarly: false });
         console.log('Form data is valid, proceeding with submission');
-        await onFormSubmit(formData);
-        setIsEditing(false);
-        setFormData({});
+        const success = await onFormSubmit(formData);
+        if (success) setFormData({});
       } catch (validationError) {
         console.error('Validation failed:', validationError);
         const newErrors = {};
@@ -59,7 +56,7 @@ export default function PilotForm({ onFormSubmit, initialValue, showProgress }) 
       }
     } else {
       await onFormSubmit(formData);
-      setIsEditing(false);
+
       setFormData({});
     }
   };
@@ -105,7 +102,7 @@ export default function PilotForm({ onFormSubmit, initialValue, showProgress }) 
           ))}
         </Row>
 
-        {showProgress && <ProgressBar className="mt-1" striped animated now={100} />}
+        {showProgress && <ProgressBar className="my-1" variant="dark" striped animated now={100} />}
 
         <Row>
           <Col xs={12} className="text-end">

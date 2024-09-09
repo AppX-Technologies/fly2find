@@ -222,7 +222,7 @@ const Users = () => {
   return (
     <>
       <Container fluid className={'px-2 py-3'}>
-        <div className="border rounded p-2 bg-white">
+        <div className="border rounded p-2 bg-white py-3">
           <h6 className="mb-3 xlarge fw-bold">Users ({users.length}):</h6>
 
           <DataTable

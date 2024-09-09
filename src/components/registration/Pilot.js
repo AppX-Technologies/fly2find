@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button } from 'react-bootstrap';
-import { ArrowRightCircle, CheckCircleFill } from 'react-bootstrap-icons';
-import { Link } from 'react-router-dom';
+import { Card, Col, Row } from 'react-bootstrap';
+import { CheckCircleFill } from 'react-bootstrap-icons';
 import { toast } from 'react-toastify';
-import FormGenerator from '../../form-generator/FormGenerator';
 import { highlightError } from '../../form-generator/helpers/utility';
 import { makeApiRequests, makeRESTApiRequests } from '../../helpers/api';
-import { pilotForm } from './form';
-import PilotForm from '../Form/PilotForm';
 import { ENDPOINTS } from '../../helpers/constants';
+import PilotForm from '../Form/PilotForm';
 
 const clientServerKey = {
   'How many flight ops would you like to see each week?': 'Flights per Week',
@@ -22,11 +19,9 @@ const clientServerKey = {
 
 const Pilot = () => {
   const [requestSubmitted, setRequestSubmitted] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
   const onRegisterPilotFormSubmit = async form => {
-    console.log('form', form);
-
     if (form['Tail Number'] && form['Tail Number'].length != 6) {
       return highlightError(document.getElementById('tailNumber'), 'Please provide a 6 character tail number');
     }
@@ -66,20 +61,20 @@ const Pilot = () => {
   window['capitalizeText'] = capitalizeText;
 
   const handleFormSubmit = async formData => {
-    setRequestSubmitted(true);
+    setFormSubmitting(true);
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.CREATE_PILOT,
       requestBody: formData
     });
+    setFormSubmitting(false);
 
     if (error) {
-      toast.error(`Failed to Create user: ${error}`);
-      setRequestSubmitted(false);
-    } else {
-      toast.success('Create Created successfully');
-      setFormData({});
-      setRequestSubmitted(false);
+      toast.error(error);
+      return;
     }
+
+    setRequestSubmitted(true);
+    return true;
   };
 
   return (
@@ -98,7 +93,7 @@ const Pilot = () => {
                 <hr />
               </div>
             ) : (
-              <PilotForm onFormSubmit={handleFormSubmit} showProgress={requestSubmitted} />
+              <PilotForm onFormSubmit={handleFormSubmit} showProgress={formSubmitting} />
             )}
           </Card.Body>
         </Card>

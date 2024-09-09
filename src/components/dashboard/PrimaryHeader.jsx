@@ -14,7 +14,7 @@ const DropDownItems = () => {
   const { user, logout } = useAuth();
   return (
     <>
-      <Dropdown.Toggle size="sm" variant="outline-dark rounded">
+      <Dropdown.Toggle dir="left" size="sm" variant="outline-dark rounded">
         <PersonCircle size={18} className="me-2 align-text-top" /> {user?.name}
       </Dropdown.Toggle>
       <Dropdown.Menu>
@@ -50,7 +50,7 @@ const PrimaryHeader = () => {
 
   return (
     <>
-      <Navbar bg="light" expand="lg" className="px-2 py-0">
+      <Navbar bg="light" expand="lg" className="px-2 py-2 border-bottom border-dark">
         <Navbar.Brand href="/">
           <h3 className="logo">
             R<span className="underline">atherFly</span>
@@ -62,10 +62,10 @@ const PrimaryHeader = () => {
             <LinkItem path="/admin/users" title="Users" /> <LinkItem path="/admin/jaunts" title="Jaunts" />
           </Nav>
 
-          <Dropdown className="d-none d-md-inline-block" drop="left">
+          <Dropdown className="d-none d-md-inline-block" drop="start">
             <DropDownItems />
           </Dropdown>
-          <Dropdown className="d-inline-block d-md-none ms-3 mt-1" drop="left">
+          <Dropdown className="d-inline-block d-md-none ms-3 mt-1" drop="start">
             <DropDownItems />
           </Dropdown>
         </Navbar.Collapse>
