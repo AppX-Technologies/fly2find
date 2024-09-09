@@ -592,7 +592,12 @@ export const pilotFormSchema = yup.object().shape({
     .email('Invalid email address')
     .required('Email is required'),
   flightOptions: yup.number().required('Flight options are required'),
-  onlyFlyWeekends: yup.string().required('This field is required'),
+  // onlyFlyWeekends: yup.string().required('This field is required'),
+  onlyFlyWeekends: yup
+    .array()
+    .of(yup.string())
+    .min(1, 'This field is required')
+    .required('This field is required'),
   flightTypes: yup
     .array()
     .min(1, 'At least one flight type must be selected')
