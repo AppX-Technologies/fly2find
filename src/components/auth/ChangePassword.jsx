@@ -46,7 +46,7 @@ export default function ChangePassword() {
       setResetingPassword(true);
       const { response, error } = await userService.resetPassword({
         email: user?.email,
-        resetPasswordKey: key,
+        resetPasswordKey: user?.resetPasswordKey,
         password
       });
       if (response) {

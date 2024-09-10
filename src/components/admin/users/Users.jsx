@@ -219,7 +219,7 @@ const Users = () => {
     }
   };
 
-  console.log('user', userProfileModalMeta?.user?._id);
+  console.log('user', userProfileModalMeta?.user);
 
   return (
     <>

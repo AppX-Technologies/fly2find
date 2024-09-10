@@ -55,7 +55,7 @@ export const UserProvider = ({ children }) => {
       }
       setUserLoggedIn(true);
       setIsUserLoggedInToLocal(true);
-      navigate('/admin/users');
+      navigate('/admin/jaunts');
     } catch (e) {
       setIsLoggingIn(false);
       setLoginError('Something went wrong! Please try again');
