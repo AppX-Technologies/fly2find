@@ -3,6 +3,8 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { loginFormRows } from '../../helpers/forms';
 import useAuth from '../../hooks/useAuth';
 import LoginForm from '../forms/LoginForm';
+import ForgotPasswordModal from '../admin/users/ForgotPasswordModal';
+import { userService } from '../../services/userService';
 
 export default function Login() {
   const { login, isLoggingIn, loginError } = useAuth();
@@ -36,12 +38,19 @@ export default function Login() {
             <p className="text-center ">Welcome back! Log in to Fly</p>
             <LoginForm isLoggingIn={isLoggingIn} loginError={loginError} onSubmit={onSubmit} />
 
-            <Button variant="link" className="w-100 text-decoration-none">
+            <Button variant="link" className="w-100 text-decoration-none" onClick={() => setShowForgotPassModal(true)}>
               Forgot Password
             </Button>
           </div>
         </Col>
       </Row>
+      <ForgotPasswordModal
+        show={showForgotPassModal}
+        onHide={() => setShowForgotPassModal(false)}
+        showProgress={showForgotPassModal?.showProgress}
+        onSubmit={onForgotPasswordSubmit}
+        forgotPasswordError={showForgotPassModal?.errorMessage}
+      />
     </Container>
   );
 }

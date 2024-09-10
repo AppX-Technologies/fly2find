@@ -1,12 +1,12 @@
-import { makeRESTApiRequests } from "../helpers/api";
-import { ENDPOINTS } from "../helpers/constants";
+import { makeRESTApiRequests } from '../helpers/api';
+import { ENDPOINTS } from '../helpers/constants';
 
 export const userService = {
-  updateMultipleUser: async (requestBody) => {
+  updateMultipleUser: async requestBody => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.UPDATE_MULTIPLE_USERS,
       requestBody,
-      method: "PUT",
+      method: 'PUT'
     });
 
     return { response, error };
@@ -16,7 +16,7 @@ export const userService = {
       endpoint: ENDPOINTS.USERS_LIST,
       requestBody,
       signal,
-      doNotSendUpdatingAs,
+      doNotSendUpdatingAs
     });
 
     return { response, error };
@@ -25,8 +25,8 @@ export const userService = {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.RESET_PASSWORD,
       requestBody,
-      method: "POST",
-      signal,
+      method: 'POST',
+      signal
     });
 
     return { response, error };
@@ -34,8 +34,8 @@ export const userService = {
   getUserByID: async (userId, signal) => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.GET_USER_BY_ID(userId),
-      method: "GET",
-      signal,
+      method: 'GET',
+      signal
     });
 
     return { response, error };
@@ -43,8 +43,8 @@ export const userService = {
   getUserByUserID: async (userId, signal) => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.GET_USER_BY_USER_ID(userId),
-      method: "GET",
-      signal,
+      method: 'GET',
+      signal
     });
 
     return { response, error };
@@ -53,8 +53,8 @@ export const userService = {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.UPDATE_USER_DETAILS,
       requestBody: user,
-      method: "POST",
-      signal,
+      method: 'POST',
+      signal
     });
 
     return { response, error };
@@ -63,8 +63,8 @@ export const userService = {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.CREATE_USER,
       requestBody: user,
-      method: "POST",
-      signal,
+      method: 'POST',
+      signal
     });
 
     return { response, error };
@@ -73,8 +73,8 @@ export const userService = {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.UPDATE_USER_DETAILS,
       requestBody: user,
-      method: "POST",
-      signal,
+      method: 'POST',
+      signal
     });
 
     return { response, error };
@@ -82,9 +82,9 @@ export const userService = {
   deleteUser: async (deleteInfo, signal) => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.DELETE_USER,
-      method: "DELETE",
+      method: 'DELETE',
       requestBody: deleteInfo,
-      signal,
+      signal
     });
 
     return { response, error };
@@ -92,27 +92,27 @@ export const userService = {
   forgotPassword: async (userInfo, signal) => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.FORGOT_PASSWORD,
-      method: "POST",
+      method: 'POST',
       requestBody: userInfo,
-      signal,
+      signal
     });
 
     return { response, error };
   },
-  searchUserFiles: async (reqBody) => {
+  searchUserFiles: async reqBody => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.SEARCH_USER_FILES,
-      method: "POST",
-      requestBody: reqBody,
+      method: 'POST',
+      requestBody: reqBody
     });
 
     return { response, error };
   },
-  createUserFile: async (reqBody) => {
+  createUserFile: async reqBody => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.CREATE_USER_FILES,
-      method: "POST",
-      requestBody: reqBody,
+      method: 'POST',
+      requestBody: reqBody
     });
 
     return { response, error };
@@ -120,27 +120,27 @@ export const userService = {
   updateUserFile: async (fileId, reqBody) => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.USER_FILES_ID(fileId),
-      method: "POST",
-      requestBody: reqBody,
+      method: 'POST',
+      requestBody: reqBody
     });
 
     return { response, error };
   },
-  deleteUserFile: async (fileId) => {
+  deleteUserFile: async fileId => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.USER_FILES_ID(fileId),
-      method: "DELETE",
+      method: 'DELETE'
     });
 
     return { response, error };
   },
-  getUserStats: async (reqBody) => {
+  getUserStats: async reqBody => {
     const { response, error } = await makeRESTApiRequests({
       endpoint: ENDPOINTS.GET_USER_STATS,
-      method: "POST",
-      requestBody: reqBody,
+      method: 'POST',
+      requestBody: reqBody
     });
 
     return { response, error };
-  },
+  }
 };

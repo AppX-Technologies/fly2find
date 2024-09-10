@@ -26,7 +26,7 @@ export const ENDPOINTS = {
   CHANGE_PASSWORD: '/users/change-password',
   GENERATE_REGISTRATION_OTP: '/users/generate-registration-otp',
   GET_ME: '/users/me',
-  GET_USER_BY_ID: id => `/users/${id}`,
+  GET_USER_BY_ID: id => `/users/user/${id}`,
   GET_USER_BY_USER_ID: id => `/users/user/${id}`,
   UPDATE_USER_DETAILS: '/users/update-user-details',
   CREATE_USER: '/users',

@@ -13,6 +13,7 @@ import PublicRouteLayout from '../layouts/PublicRouteLayout';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
 import Users from '../components/admin/users/Users';
+import ChangePassword from '../components/auth/ChangePassword';
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
           <Route element={<PublicRouteLayout />}>
             <Route path="auth">
               <Route path="login" element={<Login />} />
+              <Route path="create-password/:key" element={<ChangePassword />} />
             </Route>
             <Route path="join">
               <Route path="pilot" element={<Pilot />} />

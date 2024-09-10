@@ -219,6 +219,8 @@ const Users = () => {
     }
   };
 
+  console.log('user', userProfileModalMeta?.user?._id);
+
   return (
     <>
       <Container fluid className={'px-2 py-3'}>

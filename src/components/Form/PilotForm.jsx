@@ -32,16 +32,13 @@ export default function PilotForm({ onFormSubmit, initialValue, showProgress }) 
     e.preventDefault();
 
     setError({});
-    console.log('Form Data:', formData);
 
     if (pilotFormSchema) {
       try {
         await pilotFormSchema.validate(formData, { abortEarly: false });
-        console.log('Form data is valid, proceeding with submission');
         const success = await onFormSubmit(formData);
         if (success) setFormData({});
       } catch (validationError) {
-        console.error('Validation failed:', validationError);
         const newErrors = {};
 
         if (validationError.inner && Array.isArray(validationError.inner)) {
