@@ -34,7 +34,8 @@ export const ENDPOINTS = {
   UPDATE_MULTIPLE_USERS: '/users',
   USERS_LIST: '/users/search',
   UPDATE_USER: '/users/update-user-details',
-  CREATE_PILOT: '/users/create-pilot'
+  CREATE_PILOT: '/users/create-pilot',
+  GET_USER_BY_RESET_PASSWORD_LINK: id => `/users/${id}`
 };
 export const datefields = [];
 

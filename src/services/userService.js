@@ -142,5 +142,14 @@ export const userService = {
     });
 
     return { response, error };
+  },
+
+  getUserByResetPassword: async key => {
+    const { response, error } = await makeRESTApiRequests({
+      endpoint: ENDPOINTS.GET_USER_BY_RESET_PASSWORD_LINK(key),
+      method: 'GET'
+    });
+
+    return { response, error };
   }
 };

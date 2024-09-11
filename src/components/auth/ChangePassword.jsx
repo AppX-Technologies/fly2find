@@ -16,8 +16,7 @@ export default function ChangePassword() {
   const findUser = async () => {
     try {
       setTargetedUser(true);
-      const { response, error } = await userService.getUserByID(key);
-      console.log('response', response);
+      const { response, error } = await userService.getUserByResetPassword(key);
 
       if (response) {
         setUser(response);
@@ -71,7 +70,9 @@ export default function ChangePassword() {
       <Row className="w-100 justify-content-center m-0">
         <Col xs={12} sm={8} md={6} lg={4} className="px-4">
           <div className="p-4 shadow bg-white rounded-1">
-            <p className="text-center ">Change Your Password Now!!!!</p>
+            <p className="text-center ">
+              Welocome <strong>{user?.name}</strong>, please change your password
+            </p>
             <ConfirmPasswordForm
               loading={resetingPassword}
               errorMessage={errorMessage?.type === 'createPassword' ? errorMessage?.message : null}
